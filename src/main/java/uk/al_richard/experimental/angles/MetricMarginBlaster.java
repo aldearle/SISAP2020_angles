@@ -3,7 +3,6 @@ package uk.al_richard.experimental.angles;
 import coreConcepts.CountedMetric;
 import coreConcepts.Metric;
 import uk.ac.standrews.cs.utilities.metrics.coreConcepts.DataDistance;
-import uk.al_richard.metricbitblaster.referenceImplementation.*;
 import uk.al_richard.metricbitblaster.util.OpenBitSet;
 
 import java.util.ArrayList;

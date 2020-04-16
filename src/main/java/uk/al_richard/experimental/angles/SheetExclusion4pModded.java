@@ -3,7 +3,6 @@ package uk.al_richard.experimental.angles;
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 import searchStructures.ObjectWithDistance;
 import searchStructures.Quicksort;
-import uk.al_richard.metricbitblaster.referenceImplementation.RefPointSet;
 
 import java.util.ArrayList;
 import java.util.List;

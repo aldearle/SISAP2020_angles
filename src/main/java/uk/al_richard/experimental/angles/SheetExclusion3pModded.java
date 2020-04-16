@@ -2,7 +2,6 @@ package uk.al_richard.experimental.angles;
 
 import searchStructures.ObjectWithDistance;
 import searchStructures.Quicksort;
-import uk.al_richard.metricbitblaster.referenceImplementation.RefPointSet;
 
 import java.util.List;
 

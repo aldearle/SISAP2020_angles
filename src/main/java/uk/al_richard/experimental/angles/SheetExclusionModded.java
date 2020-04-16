@@ -1,7 +1,5 @@
 package uk.al_richard.experimental.angles;
 
-import uk.al_richard.metricbitblaster.referenceImplementation.RefPointSet;
-
 import java.util.List;
 
 public abstract class SheetExclusionModded<T> extends ExclusionZoneModded<T> {
