@@ -1,4 +1,4 @@
-package uk.al_richard.experimental.angles;
+package uk.al_richard.experimental.angles.MarginBlaster;
 
 import coreConcepts.CountedMetric;
 import coreConcepts.Metric;

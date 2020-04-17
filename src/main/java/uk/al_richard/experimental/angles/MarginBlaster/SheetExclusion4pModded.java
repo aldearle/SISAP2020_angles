@@ -1,4 +1,4 @@
-package uk.al_richard.experimental.angles;
+package uk.al_richard.experimental.angles.MarginBlaster;
 
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 import searchStructures.ObjectWithDistance;
