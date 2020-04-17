@@ -1,4 +1,4 @@
-package uk.al_richard.experimental.angles;
+package uk.al_richard.experimental.angles.contexts;
 
 import coreConcepts.Metric;
 import dataPoints.cartesian.CartesianPoint;

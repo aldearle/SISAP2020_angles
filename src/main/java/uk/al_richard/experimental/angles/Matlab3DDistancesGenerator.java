@@ -4,6 +4,7 @@ import coreConcepts.Metric;
 import dataPoints.cartesian.CartesianPoint;
 import sisap_2017_experiments.NdimSimplex;
 import testloads.TestContext;
+import uk.al_richard.experimental.angles.contexts.SiftContext;
 
 import java.util.ArrayList;
 import java.util.Calendar;
