@@ -5,8 +5,11 @@ import dataPoints.cartesian.CartesianPoint;
 import dataPoints.cartesian.Euclidean;
 import javafx.util.Pair;
 
-import java.io.*;
-import java.util.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is something that acts like a context from the Metric Space Framework.
@@ -25,6 +28,7 @@ public class DeCafContext {
     private Metric<CartesianPoint> metric;
     private int num_queries = 0;
     private int num_ref_points = 0;
+    private int num_data_points = 0;
 
     public DeCafContext() {
         this(DECAF_DEFAULT_BASE_DIR);
@@ -38,7 +42,8 @@ public class DeCafContext {
 
     //------- Interface methods
 
-    public void setSizes(int num_queries, int num_ref_points) throws Exception {
+    public void setSizes(int num_data_points, int num_queries, int num_ref_points) throws Exception {
+        this.num_data_points = num_data_points;
         this.num_queries = num_queries;
         this.num_ref_points = num_ref_points;
     }
@@ -112,20 +117,28 @@ public class DeCafContext {
             throws IOException, ClassNotFoundException {
 
         data_list = new ArrayList<>();
+        int size_needed = num_data_points + num_ref_points;
 
         for (int batch = 0; batch < 1000; batch++) {
             FileInputStream fis = new FileInputStream(decaf_base_dir + "data_relu_obj/" + batch + ".obj");
             ObjectInputStream ois = new ObjectInputStream(fis);
 
-            copyToDataList( (List<Pair<Integer, float[]>>) ois.readObject() );
+            copyToDataList( (List<Pair<Integer, float[]>>) ois.readObject(),size_needed );
 
             ois.close();
+            if( data_list.size() == size_needed ) {
+                break;
+            }
         }
         createRosFromData();
     }
 
-    private void copyToDataList(List<Pair<Integer,float[]>> data) {
+    private void copyToDataList(List<Pair<Integer,float[]>> data, int size_needed) {
+
         for( Pair<Integer,float[]> next : data ) {
+            if( data_list.size() == size_needed ) {
+                return;
+            }
             data_list.add( new CartesianPoint( next.getValue() ) );
         }
     }

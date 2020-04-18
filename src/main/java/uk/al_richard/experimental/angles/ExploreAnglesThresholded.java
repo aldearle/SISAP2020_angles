@@ -29,7 +29,7 @@ public class ExploreAnglesThresholded {
      *
      * Exhaustively search a space and measures angles between pivot-query-point for all points within query threshold.
      * @param count - the number of points over which to perform exhaustive search
-     * @param thresh - the query threshold - if -1 uses TestContext.getThreshold()
+     * @param thresh - the query threshold - if -1 uses TestDeCafContext.getThreshold()
      * @param show_all - show the intermediate distances and angles
      * @throws Exception - if something goes wrong.
      */
