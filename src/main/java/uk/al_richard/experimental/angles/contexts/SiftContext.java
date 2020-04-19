@@ -156,7 +156,6 @@ public class SiftContext {
     }
 
 
-
     public static void main(String[] args) throws Exception {
         SiftContext sc = new SiftContext();
         sc.setSizes( 3,5 );

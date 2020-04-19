@@ -2,55 +2,39 @@ package uk.al_richard.experimental.angles;
 
 import coreConcepts.Metric;
 import dataPoints.cartesian.CartesianPoint;
-import dataPoints.cartesian.Euclidean;
 import org.junit.Test;
-import testloads.TestContext;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import static uk.al_richard.experimental.angles.Util.square;
 
-public class SweepyAngleExplorer {
-
-    private static int dim = 20;
+public class SweepyAngleExplorer extends CommonBase {
 
     private boolean debug = false;
 
-    private DecimalFormat df = new DecimalFormat("#.##");
 
     Random rand  = new Random(8796253 );
     double[] centre;
     double[] origin;
     CartesianPoint centre_cartesian;
     CartesianPoint origin_cartesian;
-    Metric<CartesianPoint> metric;
     List<CartesianPoint> samples;
     List<CartesianPoint> pivots;
 
-    public SweepyAngleExplorer() throws Exception {
+    public SweepyAngleExplorer(String dataset_name, int number_samples, int noOfRefPoints) throws Exception {
+        super( dataset_name, number_samples, noOfRefPoints,0  );
+
         this.rand = new Random();
 
-        int number_samples = 1000000;
-        int noOfRefPoints = 200;
+        pivots = super.getRos();
+        samples = super.getData();
 
-        // samples = generateSamples(number_samples);
-
-        TestContext.Context context = TestContext.Context.euc20;
-
-        TestContext tc = new TestContext(context,number_samples );
-
-        tc.setSizes(0, noOfRefPoints);
-        pivots = tc.getRefPoints();
-        samples = tc.getData();
-
-        this.origin = new double[this.dim];
+        this.origin = new double[getDim()];
         this.centre = makePoint( 0.5 );
         this.centre_cartesian = new CartesianPoint(centre);
         this.origin_cartesian = new CartesianPoint(origin);
-        this.metric = new Euclidean<>();
     }
 
     /**
@@ -58,16 +42,16 @@ public class SweepyAngleExplorer {
      * @return a point within radius of the midpoint specified
      */
     double[] getRandomVolumePoint( double[] midpoint, double radius ) {
-        double[] res = new double[this.dim];
-        double[] temp = new double[this.dim + 2];
+        double[] res = new double[getDim()];
+        double[] temp = new double[getDim() + 2];
         double acc = 0;
-        for (int i = 0; i < this.dim + 2; i++) {
+        for (int i = 0; i < getDim() + 2; i++) {
             double d = this.rand.nextGaussian();
             acc += d * d;
             temp[i] = d;
         }
         double magnitude = Math.sqrt(acc);   // the magnitude of the vector
-        for (int i = 0; i < this.dim; i++) {
+        for (int i = 0; i < getDim(); i++) {
             res[i] = ( temp[i] / magnitude * radius ) + midpoint[i];
         }
         return res;
@@ -82,7 +66,7 @@ public class SweepyAngleExplorer {
                 CartesianPoint centre_cartesian = new CartesianPoint(centre);
                 double[] random_point = getRandomVolumePoint(centre, 0.25);
                 CartesianPoint random_cartesian = new CartesianPoint(random_point);
-                assert (metric.distance(centre_cartesian, random_cartesian) < 0.25);
+                assert (getMetric().distance(centre_cartesian, random_cartesian) < 0.25);
             }
         }
     }
@@ -94,7 +78,7 @@ public class SweepyAngleExplorer {
      */
     private double[] getDiagonalPoint(double distance_from_o ) {
 
-        double coordinate = Math.sqrt( Math.pow(distance_from_o,2) / dim );
+        double coordinate = Math.sqrt( Math.pow(distance_from_o,2) / getDim() );
         return makePoint( coordinate );
     }
 
@@ -103,13 +87,13 @@ public class SweepyAngleExplorer {
 
         for( double i = 0.1; i < 1; i += 0.1 ) {
             double[] point = getDiagonalPoint( i );
-            assert(  metric.distance(new CartesianPoint(point), origin_cartesian) < ( i + 0.005 ) ); // close to equal
+            assert(  getMetric().distance(new CartesianPoint(point), origin_cartesian) < ( i + 0.005 ) ); // close to equal
         }
     }
 
     private double[] makePoint( double coordinate ) {
-        double[] point = new double[this.dim];
-        for (int i = 0; i < dim; i++) {
+        double[] point = new double[getDim()];
+        for (int i = 0; i < getDim(); i++) {
             point[i] = coordinate;
         }
         return point;
@@ -123,6 +107,8 @@ public class SweepyAngleExplorer {
      * @return the angle in RADIANS.
      */
     private double calculateAngle( CartesianPoint pivot, CartesianPoint query, CartesianPoint some_point ) {
+
+        Metric<CartesianPoint> metric = getMetric();
 
         double dpq =  metric.distance( pivot,query );
         double dqpi = metric.distance( query,some_point );
@@ -147,7 +133,7 @@ public class SweepyAngleExplorer {
     public void sweep( double query_radius ) {
 
         System.out.println("Checking " + angle_calculation_repetitions + " random points, query radius = " + query_radius );
-        for( double diagonal_distance = 0.01; diagonal_distance < Math.sqrt( dim ) ; diagonal_distance += 0.01 ) {
+        for( double diagonal_distance = 0.01; diagonal_distance < Math.sqrt( getDim() ) ; diagonal_distance += 0.01 ) {
             calculateAngles( diagonal_distance, query_radius );
         }
     }
@@ -203,7 +189,10 @@ public class SweepyAngleExplorer {
 
 
     public static void main(String[] args) throws Exception {
-        SweepyAngleExplorer sae = new SweepyAngleExplorer();
+        int number_samples = 1000000;
+        int noOfRefPoints = 200;
+        SweepyAngleExplorer sae = new SweepyAngleExplorer( EUC20,number_samples,noOfRefPoints );
+
         sae.sweep( 0.25 );
     }
 

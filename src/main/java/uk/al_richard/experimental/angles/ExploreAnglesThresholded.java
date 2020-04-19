@@ -4,18 +4,16 @@ import coreConcepts.Metric;
 import dataPoints.cartesian.CartesianPoint;
 import testloads.TestContext;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import static uk.al_richard.experimental.angles.Util.square;
 
-public class ExploreAnglesThresholded {
+public class ExploreAnglesThresholded extends CommonBase {
 
     static final TestContext.Context context = TestContext.Context.euc30;
     private boolean show_all = false;
-    private Metric<CartesianPoint> metric;
-    private List<CartesianPoint> eucs;
+
     private double thresh;
 
     private List<Double> d_pivot_q_list = new ArrayList<>();
@@ -23,34 +21,32 @@ public class ExploreAnglesThresholded {
     private List<Double> d_q_point_list = new ArrayList<>();
     private List<Double> theta_list = new ArrayList<>();
 
-    private DecimalFormat df = new DecimalFormat("#.##");
 
     /**
      *
      * Exhaustively search a space and measures angles between pivot-query-point for all points within query threshold.
+     * @param dataset_name - the dataset to be explored
      * @param count - the number of points over which to perform exhaustive search
-     * @param thresh - the query threshold - if -1 uses TestDeCafContext.getThreshold()
+     * @param thresh - the query threshold - if -1 uses Context.getThreshold()
      * @param show_all - show the intermediate distances and angles
      * @throws Exception - if something goes wrong.
      */
-    public ExploreAnglesThresholded( int count, double thresh, boolean show_all ) throws Exception {
+    public ExploreAnglesThresholded( String dataset_name, int count, double thresh, boolean show_all ) throws Exception {
 
+        super( dataset_name,count,0,0 );
         this.show_all = show_all;
-        TestContext tc = new TestContext(context);
-        metric = tc.metric();
+
         if( thresh == -1 ) {
-            this.thresh = tc.getThreshold();
+            this.thresh = super.getThreshold();
         } else {
             this.thresh = thresh;
         }
-        tc.setSizes(0, 0);
-        eucs = tc.getData().subList(0,count);
     }
 
 
     private void explore() {
         CartesianPoint[] eucs_array = new CartesianPoint[0];
-        eucs_array = eucs.toArray( eucs_array );
+        eucs_array = getData().toArray( eucs_array );
         int len = eucs_array.length;
         if( show_all ) {
             System.out.println("d_pivot_q" + "\t" + "dd_pivot_point" + "\t" + "d_q_point" + "\t" + "theta");
@@ -59,7 +55,7 @@ public class ExploreAnglesThresholded {
         for( int i = 0; i < len; i++ ) {
             for( int j = 0; j < len; j++ ) {
                 if( i != j ) {
-                    double d_pivot_q = metric.distance( eucs_array[i],eucs_array[j] );
+                    double d_pivot_q = getMetric().distance( eucs_array[i],eucs_array[j] );
                     for( int k = 0; k < len; k++ ) {
                         if (k != i && k != j) {
                             calculateAngle(i,j,k,d_pivot_q,eucs_array);
@@ -76,6 +72,8 @@ public class ExploreAnglesThresholded {
         CartesianPoint pivot = eucs_array[i];
         CartesianPoint query = eucs_array[j];
         CartesianPoint some_point = eucs_array[k];
+
+        Metric<CartesianPoint> metric = getMetric();
 
         double d_q_point = metric.distance( query,some_point );
         double d_pivot_point = metric.distance( pivot,some_point );
@@ -102,7 +100,7 @@ public class ExploreAnglesThresholded {
 
     private void printDists() {
 
-        System.out.println( "Summary for threshold = " + df.format(thresh ) + " n = " + eucs.size() + " context = " + context.name() );
+        System.out.println( "Summary for threshold = " + df.format(thresh ) + " n = " + getData().size() + " context = " + context.name() );
         averages("d_pivot_q",d_pivot_q_list );
         averages("d_pivot_point",d_pivot_point_list);
         averages("d_q_point",d_q_point_list);
@@ -131,7 +129,7 @@ public class ExploreAnglesThresholded {
 
     public static void main( String[] args ) throws Exception {
 
-        ExploreAnglesThresholded ea = new ExploreAnglesThresholded( 1000,  0.8, false ); // 1000
+        ExploreAnglesThresholded ea = new ExploreAnglesThresholded( EUC20, 1000,  0.8, false ); // 1000
         ea.explore();
     }
 }

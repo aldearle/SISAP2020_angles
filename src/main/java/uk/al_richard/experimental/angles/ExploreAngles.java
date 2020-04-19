@@ -2,54 +2,17 @@ package uk.al_richard.experimental.angles;
 
 import coreConcepts.Metric;
 import dataPoints.cartesian.CartesianPoint;
-import testloads.TestContext;
-import uk.al_richard.experimental.angles.contexts.SiftContext;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import static uk.al_richard.experimental.angles.Util.mean;
-import static uk.al_richard.experimental.angles.Util.square;
-import static uk.al_richard.experimental.angles.Util.stddev;
+import static uk.al_richard.experimental.angles.Util.*;
 
-public class ExploreAngles {
-
-    private static final String EUC20 = "Euc20";
-    private static final String SIFT = "SIFT";
-
-    private Metric<CartesianPoint> metric;
-    private List<CartesianPoint> eucs;
-    private final String dataset_name;
-
-    private DecimalFormat df = new DecimalFormat("#.##");
+public class ExploreAngles extends CommonBase {
 
     public ExploreAngles( String dataset_name, int count ) throws Exception {
-        this.dataset_name = dataset_name;
-        if( dataset_name.equals(EUC20) ) {
-            initEuc20(count);
-        } else if( dataset_name.equals(SIFT) ) {
-            initSift(count);
-        }
+        super( dataset_name, count, 0, 0 );
     }
-
-    private void initEuc20(int num_data_points) throws Exception {
-        TestContext.Context context = TestContext.Context.euc20;
-        TestContext tc = new TestContext(context);
-
-        tc.setSizes(0, 0);
-        metric = tc.metric();
-        eucs = tc.getData().subList(0,num_data_points);
-    }
-
-    private void initSift(int num_data_points) throws Exception {
-        SiftContext tc = new SiftContext();
-
-        tc.setSizes(0, 0);
-        metric = tc.metric();
-        eucs = tc.getData().subList(0,num_data_points);
-    }
-
 
     /**
      * Calculate all of the angles from count points drawn from the dataset.
@@ -63,9 +26,9 @@ public class ExploreAngles {
      *         the angle from pivot-query-point.
      **/
     private void explore( boolean print_intermediaries ) {
-        System.out.println( "Dataset: " + dataset_name );
+        System.out.println( "Dataset: " + getDataSetName() );
         CartesianPoint[] eucs_array = new CartesianPoint[0];
-        eucs_array = eucs.toArray( eucs_array );  // an array of Cartesians drawn from the euc 20 space
+        eucs_array = getData().toArray( eucs_array );  // an array of Cartesians drawn from the euc 20 space
         int len = eucs_array.length;
         if( print_intermediaries ) {
             System.out.println("Piv" + "\t" + "d PQ" + "\t" + "D Ppt" + "\t" + "D Qpt" + "\t" + "Angle Degrees");
@@ -77,7 +40,7 @@ public class ExploreAngles {
             for( int j = 0; j < len; j++ ) {
                 if( i != j ) {
 
-                    double d_pivot_q = metric.distance( eucs_array[i],eucs_array[j] );
+                    double d_pivot_q = getMetric().distance( eucs_array[i],eucs_array[j] );
                     for( int k = 0; k < len; k++ ) {
                         if (k != i && k != j) {
                             angles.add( calculateAngle(i,j,k,d_pivot_q,eucs_array, print_intermediaries) );
@@ -103,6 +66,8 @@ public class ExploreAngles {
         CartesianPoint query = eucs_array[j];
         CartesianPoint some_point = eucs_array[k];
 
+        Metric<CartesianPoint> metric = getMetric();
+
         double dqpi = metric.distance( query,some_point );
         double p1pi = metric.distance( pivot,some_point );
 
@@ -117,7 +82,7 @@ public class ExploreAngles {
 
     public static void main( String[] args ) throws Exception {
 
-        ExploreAngles ea = new ExploreAngles( SIFT,500  );
+        ExploreAngles ea = new ExploreAngles( EUC30,500  );
         ea.explore( false );
     }
 

@@ -42,7 +42,7 @@ public class DeCafContext {
 
     //------- Interface methods
 
-    public void setSizes(int num_data_points, int num_queries, int num_ref_points) throws Exception {
+    public void setSizes(int num_data_points, int num_ref_points, int num_queries) throws Exception {
         this.num_data_points = num_data_points;
         this.num_queries = num_queries;
         this.num_ref_points = num_ref_points;

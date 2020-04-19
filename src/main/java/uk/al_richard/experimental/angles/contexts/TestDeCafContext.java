@@ -14,7 +14,7 @@ public class TestDeCafContext {
         @Test
         public void testLoad() throws Exception {
             DeCafContext context = new DeCafContext();
-            context.setSizes( 100,10, 100);
+            context.setSizes( 100, 100, 10);
             List<CartesianPoint> queries = context.getQueries();
             List<CartesianPoint> refs = context.getRefPoints();
             List<CartesianPoint> data = context.getData();
