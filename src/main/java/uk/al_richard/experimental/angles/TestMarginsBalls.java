@@ -1,17 +1,15 @@
 package uk.al_richard.experimental.angles;
 
-import testloads.TestContext;
-
-public class TestMarginsBalls extends TestMargins {
-
-    public TestMarginsBalls() {
-        super();
-        balls = true;
-        sheets = false;
-    }
+public class TestMarginsBalls{
 
     public static void main(String[] args) throws Exception {
-        TestMarginsBalls tmb = new TestMarginsBalls();
-        tmb.doComp( "Just Balls", false, 1000000, 200, 100, TestContext.Context.euc20);
+        boolean balls = true;
+        boolean sheets = false;
+        boolean four_point = true;
+        double factor = 3.0;
+
+        TestMargins tms = new TestMargins(TestMargins.EUC20, 1000000, 200, 100);
+        tms.doComp("Just Balls", balls, sheets, four_point, factor);
     }
+
 }

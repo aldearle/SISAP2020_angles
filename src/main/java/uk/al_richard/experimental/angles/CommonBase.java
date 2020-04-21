@@ -18,17 +18,24 @@ public abstract class CommonBase {
     protected static final String SIFT = "SIFT";
     protected static final String DECAF = "DECAF";
 
+    protected final int num_data_points;
+    protected final int num_ros;
+    protected final int num_queries;
+    protected final String dataset_name;
+
     private Metric<CartesianPoint> metric;
     private List<CartesianPoint> data;
     private List<CartesianPoint> queries;
     private List<CartesianPoint> ros;
     private double threshold = -1;
     private int dim;
-    private final String dataset_name;
 
     protected DecimalFormat df = new DecimalFormat("#.##");
 
     public CommonBase(String dataset_name, int num_data_points, int num_ros, int num_queries) throws Exception {
+        this.num_data_points = num_data_points;
+        this.num_ros = num_ros;
+        this.num_queries = num_queries;
         this.dataset_name = dataset_name;
         if( dataset_name.startsWith(EUC) ) {
             initEuc( dataset_name, num_data_points, num_ros, num_queries );
@@ -39,6 +46,7 @@ public abstract class CommonBase {
         } else {
             throw new Exception( "Dataset not recognised (" + dataset_name + ")" );
         }
+
     }
 
     private void initEuc(String dataset_name, int num_data_points, int num_ros, int num_queries) throws Exception {
@@ -90,10 +98,6 @@ public abstract class CommonBase {
             throw new Exception( "threshold not intialised" );
         }
         return threshold;
-    }
-
-    public String getDataSetName() {
-        return dataset_name;
     }
 
     public int getDim() {

@@ -14,14 +14,17 @@ public class SweepyAngleExplorer extends CommonBase {
 
     private boolean debug = false;
 
+    private final Metric<CartesianPoint> metric;
+    private final List<CartesianPoint> samples;
+    private final List<CartesianPoint> pivots;
+    private final int dim;
 
     Random rand  = new Random(8796253 );
     double[] centre;
     double[] origin;
     CartesianPoint centre_cartesian;
     CartesianPoint origin_cartesian;
-    List<CartesianPoint> samples;
-    List<CartesianPoint> pivots;
+
 
     public SweepyAngleExplorer(String dataset_name, int number_samples, int noOfRefPoints) throws Exception {
         super( dataset_name, number_samples, noOfRefPoints,0  );
@@ -30,6 +33,8 @@ public class SweepyAngleExplorer extends CommonBase {
 
         pivots = super.getRos();
         samples = super.getData();
+        metric = super.getMetric();
+        dim = super.getDim();
 
         this.origin = new double[getDim()];
         this.centre = makePoint( 0.5 );
@@ -66,7 +71,7 @@ public class SweepyAngleExplorer extends CommonBase {
                 CartesianPoint centre_cartesian = new CartesianPoint(centre);
                 double[] random_point = getRandomVolumePoint(centre, 0.25);
                 CartesianPoint random_cartesian = new CartesianPoint(random_point);
-                assert (getMetric().distance(centre_cartesian, random_cartesian) < 0.25);
+                assert metric.distance(centre_cartesian, random_cartesian) < 0.25;
             }
         }
     }
@@ -87,7 +92,7 @@ public class SweepyAngleExplorer extends CommonBase {
 
         for( double i = 0.1; i < 1; i += 0.1 ) {
             double[] point = getDiagonalPoint( i );
-            assert(  getMetric().distance(new CartesianPoint(point), origin_cartesian) < ( i + 0.005 ) ); // close to equal
+            assert(  metric.distance(new CartesianPoint(point), origin_cartesian) < ( i + 0.005 ) ); // close to equal
         }
     }
 

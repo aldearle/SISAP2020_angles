@@ -2,46 +2,40 @@ package uk.al_richard.experimental.angles;
 
 import coreConcepts.Metric;
 import dataPoints.cartesian.CartesianPoint;
-import testloads.TestContext;
 import uk.ac.standrews.cs.utilities.metrics.coreConcepts.DataDistance;
 import uk.al_richard.experimental.angles.MarginBlaster.MetricMarginBlaster;
 
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class TestMargins {
-
-    public boolean balls = true;
-    public boolean sheets = true;
-    public double factor = 3.0;
-
-    public TestMargins() {
-    }
+public class TestMargins extends CommonBase {
 
     private static DecimalFormat df4 = new DecimalFormat("#.####");
 
-    public void doComp(String label, boolean fourPoint, int data_size, int num_pivots, int num_queries, TestContext.Context context) throws Exception {
+    public TestMargins(String dataset_name, int num_data_points, int num_ros, int num_queries) throws Exception {
+        super( dataset_name, num_data_points,num_ros,num_queries );
 
-        System.out.println( label + " Testing Margins(" + balls + "," + sheets + "," + factor + ") data size " + data_size + " data entries " + num_pivots + " pivots " + num_queries + " queries " );
+    }
 
-        TestContext tc = new TestContext(context, data_size);
-        tc.setSizes(num_queries, num_pivots);
+    public void doComp(String label, boolean balls, boolean sheets, boolean four_point, double factor) throws Exception {
 
-        List<CartesianPoint> dat = tc.getData();
-        List<CartesianPoint> queries = tc.getQueries();
-        Metric<CartesianPoint> metric = tc.metric();
-        double thresh = tc.getThreshold();
+        System.out.println( label + " Testing Margins(" + balls + "," + sheets + "," + factor + ") data size " + num_data_points + " data entries " + num_ros + " pivots " + num_queries + " queries " );
 
-        List<CartesianPoint> pivots = dat.subList(0, num_pivots);
-        List<CartesianPoint> data = dat.subList(num_pivots,dat.size());
+        List<CartesianPoint> dat = super.getData();
+        List<CartesianPoint> queries = super.getQueries();
+        Metric<CartesianPoint> metric = super.getMetric();
+        double thresh = super.getThreshold();
+
+        List<CartesianPoint> pivots = dat.subList(0, num_ros);
+        List<CartesianPoint> data = dat.subList(num_ros,dat.size());
 
         System.out.println( "initialising LIDIM Map");
 
-        LIDIMtoAngleMap sae = new LIDIMtoAngleMap(data, pivots);
+        LIDIMtoAngleMap sae = new LIDIMtoAngleMap(dataset_name, num_data_points, num_ros );
 
         System.out.println( "initialising BB");
 
-        MetricMarginBlaster<CartesianPoint> bitblaster = new MetricMarginBlaster<>(metric::distance, pivots, data, balls, sheets,fourPoint );
+        MetricMarginBlaster<CartesianPoint> bitblaster = new MetricMarginBlaster<>(metric::distance, pivots, data, balls, sheets,four_point );
 
         System.out.println( "Running queries");
 
@@ -80,7 +74,13 @@ public class TestMargins {
     }
 
     public static void main( String[] args ) throws Exception {
-        TestMargins tms = new TestMargins();
-        tms.doComp("Balls and 4P Sheets", true, 1000000, 200, 100, TestContext.Context.euc20);
+        boolean balls = true;
+        boolean sheets = true;
+        boolean four_point = true;
+        double factor = 3.0;
+
+
+        TestMargins tms = new TestMargins(EUC20, 1000000, 200, 100);
+        tms.doComp( "EUC20 B+S+4P+f3.0 ", balls, sheets, four_point, factor );
     }
 }

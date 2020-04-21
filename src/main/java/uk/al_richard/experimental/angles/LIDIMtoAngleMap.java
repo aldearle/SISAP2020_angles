@@ -2,8 +2,6 @@ package uk.al_richard.experimental.angles;
 
 import coreConcepts.Metric;
 import dataPoints.cartesian.CartesianPoint;
-import dataPoints.cartesian.Euclidean;
-import testloads.TestContext;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -27,11 +25,15 @@ import static uk.al_richard.experimental.angles.Util.square;
  * The table maps from local idim (using the points within the radius) to the angle and std dev.
  *
  */
-public class LIDIMtoAngleMap {
+public class LIDIMtoAngleMap extends CommonBase {
 
     public final static boolean printing = false;
 
-    private final static int dim = 20;
+    private final Metric<CartesianPoint> metric;
+    private final List<CartesianPoint> samples;
+    private final List<CartesianPoint> pivots;
+    private final int dim;
+
     private final static int angle_calculation_repetitions = 1000000;
     private final static double query_radius = 0.25;
     private final static Random rand  = new Random(8796253 ); // was used for  manual sample generation
@@ -39,25 +41,25 @@ public class LIDIMtoAngleMap {
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     private static DecimalFormat df4 = new DecimalFormat("#.####");
 
-
     double[] centre;
     double[] origin;
     CartesianPoint centre_cartesian;
     CartesianPoint origin_cartesian;
-    Metric<CartesianPoint> metric;
-    List<CartesianPoint> samples;
-    List<CartesianPoint> pivots;
     TreeMap<Double, Angles> map;
 
-    public LIDIMtoAngleMap( List<CartesianPoint> samples, List<CartesianPoint> pivots ) throws Exception {
-        this.pivots = pivots;
-        this.samples = samples;
+    public LIDIMtoAngleMap( String dataset_name, int number_samples, int noOfRefPoints ) throws Exception {
 
-        this.origin = new double[this.dim];
+        super( dataset_name, number_samples, noOfRefPoints,0  );
+
+        this.samples = super.getData();
+        this.pivots = super.getRos();
+        this.metric = super.getMetric();
+        this.dim = super.getDim();
+
+        this.origin = new double[dim];
         this.centre = makePoint( 0.5 );
         this.centre_cartesian = new CartesianPoint(centre);
         this.origin_cartesian = new CartesianPoint(origin);
-        this.metric = new Euclidean<>();
 
         map = createMap();
     }
@@ -355,25 +357,20 @@ public class LIDIMtoAngleMap {
         return bd.doubleValue();
     }
 
-    private static void testMap() throws Exception {
-
-        int number_samples = 1000000;
-        int noOfRefPoints = 200;
-        TestContext.Context context = TestContext.Context.euc20;
-        TestContext tc = new TestContext(context,number_samples );
-        tc.setSizes(0, noOfRefPoints);
-
-        LIDIMtoAngleMap sae = new LIDIMtoAngleMap(tc.getData(),tc.getRefPoints());
+    private void testMap() throws Exception {
 
         System.out.println( "Printing map..." );
-        sae.print();
+        print();
         System.out.println( "Testing map..." );
-        sae.printTestPoints();
+        printTestPoints();
     }
 
     //********************************* Main *********************************
 
     public static void main(String[] args) throws Exception {
-        testMap();
+        int number_samples = 1000000;
+        int noOfRefPoints = 200;
+        LIDIMtoAngleMap lam = new LIDIMtoAngleMap(EUC20, number_samples, noOfRefPoints);
+        lam.testMap();
     }
 }

@@ -2,53 +2,43 @@ package uk.al_richard.experimental.angles;
 
 import coreConcepts.Metric;
 import dataPoints.cartesian.CartesianPoint;
-import dataPoints.cartesian.Euclidean;
 import org.junit.Test;
-import testloads.TestContext;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import static uk.al_richard.experimental.angles.Util.idim;
 
-public class SweepyIDIMExplorer {
-
-    private static int dim = 20;
+public class SweepyIDIMExplorer extends CommonBase {
 
     private boolean debug = false;
-    private DecimalFormat df = new DecimalFormat("#.##");
+
+    private final Metric<CartesianPoint> metric;
+    private final List<CartesianPoint> samples;
+    private final List<CartesianPoint> pivots;
+    private final int dim;
 
     Random rand  = new Random(8796253 );
     double[] centre;
     double[] origin;
     CartesianPoint centre_cartesian;
     CartesianPoint origin_cartesian;
-    Metric<CartesianPoint> metric;
-    List<CartesianPoint> samples;
-    List<CartesianPoint> pivots;
 
-    public SweepyIDIMExplorer() throws Exception {
+    public SweepyIDIMExplorer(String dataset_name, int number_samples, int noOfRefPoints) throws Exception {
+        super( dataset_name, number_samples, noOfRefPoints,0  );
 
-        int number_samples = 1000000;
-        int noOfRefPoints = 200;
+        this.rand = new Random();
 
-        // samples = generateSamples(number_samples);
+        pivots = super.getRos();
+        samples = super.getData();
+        metric = super.getMetric();
+        dim = super.getDim();
 
-        TestContext.Context context = TestContext.Context.euc20;
-
-        TestContext tc = new TestContext(context,number_samples );
-
-        tc.setSizes(0, noOfRefPoints);
-        pivots = tc.getRefPoints();
-        samples = tc.getData();
-
-        this.origin = new double[this.dim];
+        this.origin = new double[dim];
         this.centre = makePoint( 0.5 );
         this.centre_cartesian = new CartesianPoint(centre);
         this.origin_cartesian = new CartesianPoint(origin);
-        this.metric = new Euclidean<>();
     }
 
     // generate sample points in the 0,1 space
@@ -71,16 +61,16 @@ public class SweepyIDIMExplorer {
      * @return a point within radius of the midpoint specified
      */
     double[] getRandomVolumePoint( double[] midpoint, double radius ) {
-        double[] res = new double[this.dim];
-        double[] temp = new double[this.dim + 2];
+        double[] res = new double[dim];
+        double[] temp = new double[dim + 2];
         double acc = 0;
-        for (int i = 0; i < this.dim + 2; i++) {
+        for (int i = 0; i < dim + 2; i++) {
             double d = rand.nextGaussian();
             acc += d * d;
             temp[i] = d;
         }
         double magnitude = Math.sqrt(acc);   // the magnitude of the vector
-        for (int i = 0; i < this.dim; i++) {
+        for (int i = 0; i < dim; i++) {
             res[i] = ( temp[i] / magnitude * radius ) + midpoint[i];
         }
         return res;
@@ -107,7 +97,7 @@ public class SweepyIDIMExplorer {
      */
     private double[] getDiagonalPoint(double distance_from_o ) {
 
-        double coordinate = Math.sqrt( Math.pow(distance_from_o,2) / dim );
+        double coordinate = Math.sqrt( Math.pow(distance_from_o,2) / getDim() );
         return makePoint( coordinate );
     }
 
@@ -208,7 +198,10 @@ public class SweepyIDIMExplorer {
     }
 
     public static void main(String[] args) throws Exception {
-        SweepyIDIMExplorer sie = new SweepyIDIMExplorer();
+        int number_samples = 1000000;
+        int noOfRefPoints = 200;
+
+        SweepyIDIMExplorer sie = new SweepyIDIMExplorer(EUC20,number_samples,noOfRefPoints );
         sie.sweep( 1.5 );
     }
 

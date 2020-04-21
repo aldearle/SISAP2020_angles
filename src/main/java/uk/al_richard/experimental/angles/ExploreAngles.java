@@ -26,7 +26,7 @@ public class ExploreAngles extends CommonBase {
      *         the angle from pivot-query-point.
      **/
     private void explore( boolean print_intermediaries ) {
-        System.out.println( "Dataset: " + getDataSetName() );
+        System.out.println( "Dataset: " + dataset_name );
         CartesianPoint[] eucs_array = new CartesianPoint[0];
         eucs_array = getData().toArray( eucs_array );  // an array of Cartesians drawn from the euc 20 space
         int len = eucs_array.length;
