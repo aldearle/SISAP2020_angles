@@ -2,7 +2,6 @@ package uk.al_richard.experimental.angles;
 
 import coreConcepts.Metric;
 import dataPoints.cartesian.CartesianPoint;
-import testloads.TestContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +10,6 @@ import static uk.al_richard.experimental.angles.Util.square;
 
 public class ExploreAnglesThresholded extends CommonBase {
 
-    static final TestContext.Context context = TestContext.Context.euc30;
     private boolean show_all = false;
 
     private double thresh;
@@ -27,28 +25,26 @@ public class ExploreAnglesThresholded extends CommonBase {
      * Exhaustively search a space and measures angles between pivot-query-point for all points within query threshold.
      * @param dataset_name - the dataset to be explored
      * @param count - the number of points over which to perform exhaustive search
-     * @param thresh - the query threshold - if -1 uses Context.getThreshold()
      * @param show_all - show the intermediate distances and angles
      * @throws Exception - if something goes wrong.
      */
-    public ExploreAnglesThresholded( String dataset_name, int count, double thresh, boolean show_all ) throws Exception {
+    public ExploreAnglesThresholded( String dataset_name, int count, boolean show_all ) throws Exception {
 
         super( dataset_name,count,0,0 );
         this.show_all = show_all;
 
-        if( thresh == -1 ) {
-            this.thresh = super.getThreshold();
-        } else {
-            this.thresh = thresh;
-        }
+        thresh = super.getThreshold();
+
     }
 
 
     private void explore() {
+        System.out.print( dataset_name + ": " );
         CartesianPoint[] eucs_array = new CartesianPoint[0];
         eucs_array = getData().toArray( eucs_array );
         int len = eucs_array.length;
         if( show_all ) {
+            System.out.println();
             System.out.println("d_pivot_q" + "\t" + "dd_pivot_point" + "\t" + "d_q_point" + "\t" + "theta");
         }
 
@@ -100,7 +96,7 @@ public class ExploreAnglesThresholded extends CommonBase {
 
     private void printDists() {
 
-        System.out.println( "Summary for threshold = " + df.format(thresh ) + " n = " + getData().size() + " context = " + context.name() );
+        System.out.println( "Summary for threshold = " + df.format(thresh ) + " n = " + getData().size() );
         averages("d_pivot_q",d_pivot_q_list );
         averages("d_pivot_point",d_pivot_point_list);
         averages("d_q_point",d_q_point_list);
@@ -129,7 +125,15 @@ public class ExploreAnglesThresholded extends CommonBase {
 
     public static void main( String[] args ) throws Exception {
 
-        ExploreAnglesThresholded ea = new ExploreAnglesThresholded( EUC20, 1000,  0.8, false ); // 1000
+        ExploreAnglesThresholded ea = new ExploreAnglesThresholded( EUC10, 1000,  false );
         ea.explore();
+    }
+
+    public static void main1( String[] args ) throws Exception {
+
+        for( String dataset_name : datasets ) {
+            ExploreAnglesThresholded ea = new ExploreAnglesThresholded( dataset_name, 1000, false );
+            ea.explore();
+        }
     }
 }

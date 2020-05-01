@@ -10,7 +10,10 @@ import java.util.Random;
 
 import static uk.al_richard.experimental.angles.Util.square;
 
-public class SweepyAngleExplorer extends CommonBase {
+/**
+ * Expand a ball around the centre and see how angles change
+ */
+public class ExpandingBallAngleExplorer extends CommonBase {
 
     private static final int ORIGIN = 0;
     private static final int CENTRE = 0xC;
@@ -31,7 +34,7 @@ public class SweepyAngleExplorer extends CommonBase {
 
 
 
-    public SweepyAngleExplorer(String dataset_name, int number_samples, int noOfRefPoints, int WHICH_REF) throws Exception {
+    public ExpandingBallAngleExplorer(String dataset_name, int number_samples, int noOfRefPoints, int WHICH_REF) throws Exception {
         super( dataset_name, number_samples, noOfRefPoints,0  );
 
         this.rand = new Random();
@@ -147,28 +150,28 @@ public class SweepyAngleExplorer extends CommonBase {
 
 
     /**
-     * Move a point from 0.4 away from the origin up to 0.7 away up a diagonal
-     * Measure the angles of points within 0.5 of the query point - TODO make this a param
+     * Expand a ball from a point at 1 millionth of space up and see how angles change
+     * Expand ball until the radius of the ball touches the apex of unit cube
      */
-    public void sweep( double query_radius ) {
+    public void expand() {
 
-        System.out.println("Checking " + dataset_name + " " + angle_calculation_repetitions + " random points, query radius = " + query_radius );
+        System.out.println("Expanding sphere Checking " + dataset_name + " " );
         System.out.println("D\tangle(deg)\tstdev\tin range");
-        for( double diagonal_distance = 0.01; diagonal_distance < Math.sqrt( getDim() ) ; diagonal_distance += 0.01 ) {
-            calculateAngles( diagonal_distance, query_radius );
+        for( double query_radius = getThreshold(); query_radius < Math.sqrt( getDim() ) / 2 ; query_radius += 0.01 ) {
+            calculateAngles( query_radius );
         }
     }
 
-    private void calculateAngles(double diagonal_distance, double query_radius)  {
+    private void calculateAngles(double query_radius)  {
         List<Double> list = new ArrayList<>();
 
-        double[] diagonal_point = getDiagonalPoint( diagonal_distance );
-        CartesianPoint diagonal_point_cartesian = new CartesianPoint(diagonal_point);
+        CartesianPoint ball_centre = centre_cartesian;
+        double[] ball_centre_dbls = ball_centre.getPoint();
 
         for( int j = 0; j < angle_calculation_repetitions; j++ ) {
-            CartesianPoint some_point_cartesian = new CartesianPoint( getRandomVolumePoint( diagonal_point, query_radius ) );
+            CartesianPoint some_point_cartesian = new CartesianPoint( getRandomVolumePoint( ball_centre_dbls, query_radius ) );
             if( insideSpace( some_point_cartesian ) ) {
-                double theta = calculateAngle(global_reference_point, diagonal_point_cartesian, some_point_cartesian);
+                double theta = calculateAngle(global_reference_point, ball_centre, some_point_cartesian);
                 list.add(theta);
             }
         }
@@ -176,11 +179,11 @@ public class SweepyAngleExplorer extends CommonBase {
         if( count > 0 ) {
             double mean = (double) Util.mean(list);
             double std_dev = Util.stddev(list, mean);
-            // System.out.println("Distance = " + df.format(diagonal_distance) + " mean angle (degrees) = " + df.format(Math.toDegrees(mean)) + " std_dev = " + df.format(Math.toDegrees(std_dev)) + " n = " + count );
-            System.out.println(df.format(diagonal_distance) + "\t" + df.format(Math.toDegrees(mean)) + "\t" + df.format(Math.toDegrees(std_dev)) + "\t" + count );
+            System.out.println("Radius = " + df.format(query_radius) + " mean angle (degrees) = " + df.format(Math.toDegrees(mean)) + " std_dev = " + df.format(Math.toDegrees(std_dev)) + " n = " + count );
+            //System.out.println(df.format(query_radius) + "\t" + df.format(Math.toDegrees(mean)) + "\t" + df.format(Math.toDegrees(std_dev)) + "\t" + count );
 
         } else {
-            System.out.println( "Distance = " + df.format(diagonal_distance) + " No points in 0-1 range" );
+            System.out.println( "Distance = " + df.format(query_radius) + " No points in 0-1 range" );
         }
     }
 
@@ -213,21 +216,21 @@ public class SweepyAngleExplorer extends CommonBase {
 
     public static void main(String[] args) throws Exception {
 
-        int number_samples =  999800; // 1M less 200
-        int noOfRefPoints = 200;
-        SweepyAngleExplorer sae = new SweepyAngleExplorer( EUC20,number_samples,noOfRefPoints, CENTRE );
-        sae.sweep( sae.getThreshold() );
+        int number_samples =  1000000; // 1M less 200
+        int noOfRefPoints = 0;
+        ExpandingBallAngleExplorer sae = new ExpandingBallAngleExplorer( EUC20,number_samples,noOfRefPoints, ORIGIN );
+        sae.expand();
     }
 
 
     public static void main1(String[] args) throws Exception {
-        int number_samples =  999800; // 1M less 200
-        int noOfRefPoints = 200;
+        int number_samples =  1000000; // 1M less 200
+        int noOfRefPoints = 0;
 
         for( String dataset_name : eucs ) {
 
-            SweepyAngleExplorer sae = new SweepyAngleExplorer( dataset_name,number_samples,noOfRefPoints, CENTRE );
-            sae.sweep( sae.getThreshold() );
+            ExpandingBallAngleExplorer sae = new ExpandingBallAngleExplorer( dataset_name,number_samples,noOfRefPoints, ORIGIN );
+            sae.expand();
 
         }
     }

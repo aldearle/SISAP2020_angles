@@ -25,7 +25,7 @@ public class DeCafContext {
     private List<CartesianPoint> query_list = null;
     private List<CartesianPoint> reference_object_list = null;
 
-    private Metric<CartesianPoint> metric;
+    protected Metric<CartesianPoint> metric;
     private int num_queries = 0;
     private int num_ref_points = 0;
     private int num_data_points = 0;
@@ -77,14 +77,12 @@ public class DeCafContext {
 
 
     public double getThreshold() {
-        // there is no one threshold?
-        throw new RuntimeException( "getThreshold unimplemented" );
+        return 55;  // DECAF 1% is somewhere near here.
     }
 
 
     public double[] getThresholds() {
-        // code for this in the old fc6_stuff project if needed
-        throw new RuntimeException( "getThreshold unimplemented" );
+        return null;
     }
 
     //------- Private methods

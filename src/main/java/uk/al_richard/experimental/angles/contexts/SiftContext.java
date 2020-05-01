@@ -25,7 +25,7 @@ public class SiftContext {
     private List<CartesianPoint> cached_ros = null;
     private double[] cached_thresholds = null;
 
-    private Metric<CartesianPoint> metric;
+    protected Metric<CartesianPoint> metric;
 
     public SiftContext() throws IOException, ClassNotFoundException {
         this( SIFT_DEFAULT_BASE_DIR );
@@ -140,9 +140,11 @@ public class SiftContext {
         return metric;
     }
 
-//    public double getThreshold() {
-//    }
+    public double getThreshold() {
+        return 168.7150 ; // 1 in a million.
+    }
 
+    public Map<Integer, Double> getThresholdMap() { return threshold_map; }
 
     public double[] getThresholds() {
         if( cached_thresholds == null ) {

@@ -18,16 +18,14 @@ import static uk.al_richard.experimental.angles.Util.square;
  * Experiment to see if you can use local IDIM to work out what the angles are for an unseen query.
  * I used 200 reference points (noOfRefPoints) and measured local IDM using them and from this looked up a table of precalculated angles.
  * The calculated angles are compared with those looked up in the table.
- *
- * The table is created from the diagonal points (which we wouldn’t have in a real dataset)
- * and calculates angles to points within some radius (using the volume points)
- * (but which we could do in a real dataset).
+ * The table is created from the pivots                                                          <<<<<<<<<<<<<<<<
+ * and calculates angles to points within some radius using whole data set for now.              <<<<<<<<<<<<<<<<
  * The table maps from local idim (using the points within the radius) to the angle and std dev.
  *
  */
-public class LIDIMtoAngleMap extends CommonBase {
+public class LIDIMtoAngleMapNonEucSIFT extends CommonBase {
 
-    public final static boolean printing = false;
+    public final static boolean printing = true;
 
     private final Metric<CartesianPoint> metric;
     private final List<CartesianPoint> samples;
@@ -48,7 +46,7 @@ public class LIDIMtoAngleMap extends CommonBase {
     CartesianPoint origin_cartesian;
     TreeMap<Double, Angles> map;
 
-    public LIDIMtoAngleMap( String dataset_name, int number_samples, int noOfRefPoints ) throws Exception {
+    public LIDIMtoAngleMapNonEucSIFT(String dataset_name, int number_samples, int noOfRefPoints) throws Exception {
 
         super( dataset_name, number_samples, noOfRefPoints,0  );
 
@@ -56,7 +54,7 @@ public class LIDIMtoAngleMap extends CommonBase {
         this.pivots = super.getRos();
         this.metric = super.getMetric();
         this.dim = super.getDim();
-        query_radius = super.getThreshold();
+        query_radius = 100; // super.getThreshold();  248 is real 1%
 
         this.origin = new double[dim];
         this.centre = makePoint( 0.5 );
@@ -74,8 +72,18 @@ public class LIDIMtoAngleMap extends CommonBase {
 
         TreeMap<Double,Angles> map = new TreeMap<>();
 
-        for( int diagonal_distance = 1; ( diagonal_distance / 100 ) < Math.sqrt( dim ); diagonal_distance++ ) {
-            populateMap( map, round( ((double) diagonal_distance ) / 100,2 ), query_radius );
+        if( printing ) {
+            System.out.println("createMap() QR: " + query_radius + " pivots:" + pivots.size());
+            System.out.println("d(ro,q)" + "\t" + "d(ro,soln)" + "\t" + "d(q,soln)" + "\t" + "theta");
+
+        }
+
+        for( CartesianPoint viewpoint : pivots ) {
+            for( CartesianPoint query : pivots ) {
+                if (viewpoint != query) {       // pntr equality is fine!
+                    populateMap(map, viewpoint, query, query_radius);
+                }
+            }
         }
 
         return map;
@@ -91,8 +99,10 @@ public class LIDIMtoAngleMap extends CommonBase {
 
         for( int i = 1; i < 100; i++ ) {
             CartesianPoint p = samples.get(i);
+            CartesianPoint q = samples.get(i+100);
 
-            List<Double> list = getAngles( 0.25, p.getPoint() );
+
+            List<Double> list = getAngles( query_radius, p, q );
 
             int num_angles = list.size();
 
@@ -158,26 +168,6 @@ public class LIDIMtoAngleMap extends CommonBase {
     }
 
 
-
-    /**
-     * @return a random point within radius of the midpoint specified
-     */
-    private double[] getRandomVolumePoint( double[] midpoint, double radius ) {
-        double[] res = new double[this.dim];
-        double[] temp = new double[this.dim + 2];
-        double acc = 0;
-        for (int i = 0; i < this.dim + 2; i++) {
-            double d = this.rand.nextGaussian();
-            acc += d * d;
-            temp[i] = d;
-        }
-        double magnitude = Math.sqrt(acc);   // the magnitude of the vector
-        for (int i = 0; i < this.dim; i++) {
-            res[i] = ( temp[i] / magnitude * radius ) + midpoint[i];
-        }
-        return res;
-    }
-
     /**
      * @param distance_from_o - this distance from the origin
      * @return a point on the diagonal that distance from the origin
@@ -202,21 +192,20 @@ public class LIDIMtoAngleMap extends CommonBase {
 
     /**
      *
-     * @param pivot
+     * @param ro
      * @param query
      * @param some_point
-     * @return the internal angle (pivot,query,some_point) in RADIANS
+     * @return the internal angle (ro,query,some_point) in RADIANS
      */
-    private double calculateAngle( CartesianPoint pivot, CartesianPoint query, CartesianPoint some_point ) {
+    private double calculateAngle( CartesianPoint ro, CartesianPoint query, CartesianPoint some_point ) {
 
-        double dpq =  metric.distance( pivot,query );
-        double dqpi = metric.distance( query,some_point );
-        double p1pi = metric.distance( pivot,some_point );
-
-        double theta = Math.acos( ( square(dqpi) + square(dpq) - square(p1pi) ) / (2 * dqpi * dpq ) );
+        double d_ro_q =  metric.distance( ro,query );
+        double d_q_soln = metric.distance( query,some_point );
+        double d_ro_soln = metric.distance( ro,some_point );
+        double theta = Math.acos( ( square(d_q_soln) + square(d_ro_q) - square(d_ro_soln) ) / (2 * d_q_soln * d_ro_q ) );
 
         if(printing) {
-            System.out.println(df2.format(dpq) + "\t" + df2.format(p1pi) + "\t" + df2.format(dqpi) + "\t" + df2.format(Math.toDegrees(theta)));
+            System.out.println(df2.format(d_ro_q) + "\t" + df2.format(d_ro_soln) + "\t" + df2.format(d_q_soln) + "\t" + df2.format(Math.toDegrees(theta)));
         }
 
         return theta;
@@ -244,21 +233,19 @@ public class LIDIMtoAngleMap extends CommonBase {
     /**
      * Populates a map mapping from LIDIm to Angles uses points within query_radius to calculate the angles.
      * @param map - the map to be populated
-     * @param diagonal_distance - the distance up the diagonal
+     * @param viewpoint
      * @param query_radius - the query radius used to calculate angles
      * @throws Exception if there are no points found within the query_radius
      */
-    private void populateMap(TreeMap<Double, Angles> map, double diagonal_distance, double query_radius ) throws Exception {
+    private void populateMap(TreeMap<Double, Angles> map, CartesianPoint viewpoint, CartesianPoint query, double query_radius ) throws Exception {
 
-        double[] diagonal_point = getDiagonalPoint( diagonal_distance );
-
-        List<Double> list = getAngles( query_radius, diagonal_point );  // <<<<<<<<<<<<<<<< PROBLEM ....
+        List<Double> list = getAngles( query_radius, viewpoint, query );  // TODO fold into below.
 
         int num_angles = list.size();
 
         // Calculate the local idim based on reference points.
 
-        List<Double> dists = getDists(pivots, diagonal_point);
+        List<Double> dists = getDists(pivots, query.getPoint() );   // TODO look at folding this into above. CHANGED <<<<<<<
         double lidim = round( idim(dists), 2 );
 
         if( num_angles > 0 ) { // can only put entry in table if we have calculated some angles.
@@ -271,38 +258,29 @@ public class LIDIMtoAngleMap extends CommonBase {
     }
 
     /**
-
      * @param query_radius
-     * @param point
+     * @param viewpoint
+     * @param query
      * @return the angles in RADIANS from the origin to a point and then to random points within the query_radius of the point
      */
-    private List<Double> getAngles( double query_radius, double[] point ) {
+    private List<Double> getAngles( double query_radius, CartesianPoint viewpoint, CartesianPoint query ) {
         // Calculate all the angles to angle_calculation_repetitions points in the space within query_radius
         List<Double> list = new ArrayList<>();
-        CartesianPoint diagonal_point_cartesian = new CartesianPoint(point);
-        for( int j = 0; j < angle_calculation_repetitions; j++ ) {
-            CartesianPoint some_point_cartesian = new CartesianPoint( getRandomVolumePoint( point, query_radius ) );
-            if( insideSpace( some_point_cartesian ) ) {
-                double theta = calculateAngle(origin_cartesian, diagonal_point_cartesian, some_point_cartesian);
-                list.add(theta);
-            }
+
+        for( CartesianPoint sample_cartesian : samples ) {
+                if( insideRadius(query,sample_cartesian) ) {
+                    double theta = calculateAngle(viewpoint, query, sample_cartesian);
+                    list.add(theta);
+                }
+        }
+        if( list.size() >= angle_calculation_repetitions ) { // short circuit if we have enough already
+            return list;
         }
         return list;
     }
 
-    /**
-     *
-     * @param some_point_cartesian
-     * @return true if the point is within [0,..0] and [1,..1]
-     */
-    private boolean insideSpace(CartesianPoint some_point_cartesian) {
-        double[] point = some_point_cartesian.getPoint();
-        for( int i = 0; i < point.length; i++ ) {
-            if( point[i] < 0.0 || point[i] > 1.0 ) { // inclusive?
-                return false;
-            }
-        }
-        return true;
+    private boolean insideRadius(CartesianPoint query_point, CartesianPoint sample_cartesian) {
+        return metric.distance( query_point, sample_cartesian ) < query_radius;
     }
 
     /**
@@ -361,30 +339,22 @@ public class LIDIMtoAngleMap extends CommonBase {
 
     private void testMap() throws Exception {
 
-        // System.out.println( "Printing map (" + dataset_name + ") ..." );
-        // print();
+        System.out.println( "Printing map (" + dataset_name + ") ..." );
+        print();
         System.out.println( "Testing map (" + dataset_name + ") ..." );
         printTestPoints();
     }
 
     //********************************* Main *********************************
 
-    public static void main1(String[] args) throws Exception {
-        int number_samples = 998000; // 1M less 200
+    public static void main(String[] args) throws Exception {
+        int number_samples = 999800;       // let's cut this down for brevity -  was 1M less 200
         int noOfRefPoints = 200;
-        LIDIMtoAngleMap lam = new LIDIMtoAngleMap(EUC20, number_samples, noOfRefPoints);
+        LIDIMtoAngleMapNonEucSIFT lam = new LIDIMtoAngleMapNonEucSIFT(SIFT, number_samples, noOfRefPoints);
         lam.testMap();
     }
 
-    public static void main(String[] args) throws Exception {
-        int number_samples =  999800; // 1M less 200
-        int noOfRefPoints = 200;
 
-        for( String dataset_name : eucs ) {
 
-            LIDIMtoAngleMap lam = new LIDIMtoAngleMap(dataset_name, number_samples, noOfRefPoints);
-            lam.testMap();
 
-        }
-    }
 }

@@ -18,6 +18,9 @@ public abstract class CommonBase {
     protected static final String SIFT = "SIFT";
     protected static final String DECAF = "DECAF";
 
+    public static final String[] eucs = new String[] { EUC10,EUC20,EUC30 };
+    public static final String[] datasets = new String[] { EUC10,EUC20,EUC30,SIFT,DECAF };
+
     protected final int num_data_points;
     protected final int num_ros;
     protected final int num_queries;
@@ -68,7 +71,7 @@ public abstract class CommonBase {
         threshold = tc.getThreshold();
         tc.setSizes(num_queries, num_ros);
         metric = tc.metric();
-        data = tc.getData().subList(0,num_data_points);
+        data = tc.getData().subList(0, num_data_points);
         queries = tc.getQueries();
         ros = tc.getRefPoints();
     }
@@ -79,24 +82,24 @@ public abstract class CommonBase {
         tc.setSizes(num_queries, num_ros);
         metric = tc.metric();
         data = tc.getData().subList(0,num_data_points);
+        ros = tc.getRefPoints();
+        threshold = tc.getThreshold();
         dim = 128;
     }
 
     private void initDecaf(int num_data_points, int num_ros, int num_queries) throws Exception {
-        DeCafContext dc = new DeCafContext();
+        DeCafContext tc = new DeCafContext();
 
-        dc.setSizes(num_data_points, num_ros, num_queries);
-        metric = dc.metric();
-        data = dc.getData();
-        queries = dc.getQueries();
-        ros = dc.getRefPoints();
+        tc.setSizes(num_data_points, num_ros, num_queries);
+        metric = tc.metric();
+        data = tc.getData();
+        queries = tc.getQueries();
+        ros = tc.getRefPoints();
+        threshold = tc.getThreshold();
         dim = 4096;
     }
 
-    protected double getThreshold() throws Exception {
-        if( threshold == -1 ) {
-            throw new Exception( "threshold not intialised" );
-        }
+    protected double getThreshold()  {
         return threshold;
     }
 

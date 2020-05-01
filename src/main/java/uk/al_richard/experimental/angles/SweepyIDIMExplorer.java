@@ -129,8 +129,9 @@ public class SweepyIDIMExplorer extends CommonBase {
      */
     public void sweep( double query_radius ) {
 
-        System.out.println("Checking " + idim_calculation_repetitions + " random points, query radius = " + query_radius );
+        System.out.println("Checking " + dataset_name + " " + idim_calculation_repetitions + " random points, query radius = " + query_radius + " pivots = " + pivots.size() );
 
+        System.out.println( "diagonal_distance" + "\t" + "lidim" + "\t" + "count" + "\t" + "piv idim" + "\t" + "count"  );
         for( double diagonal_distance = 0.01; diagonal_distance < Math.sqrt( dim ) ; diagonal_distance += 0.01 ) {
             try {
                 calculateLocalIDIM(samples, diagonal_distance, query_radius);
@@ -146,7 +147,7 @@ public class SweepyIDIMExplorer extends CommonBase {
 
         int count = dists.size();
         double lidim = idim(dists);
-        System.out.print( "Distance = " + df.format( diagonal_distance ) + " LIDIM = " + lidim + " n = " + count );
+        System.out.print( df.format( diagonal_distance ) + "\t" + lidim + "\t" + count );
     }
 
 
@@ -155,7 +156,7 @@ public class SweepyIDIMExplorer extends CommonBase {
 
         int count = dists.size();
         double lidim = idim(dists);
-        System.out.println( " Pivot LIDIM = " + lidim + " n = " + count );
+        System.out.println( "\t" + lidim + "\t" + count );
     }
 
 
@@ -198,13 +199,37 @@ public class SweepyIDIMExplorer extends CommonBase {
     }
 
     public static void main(String[] args) throws Exception {
-        int number_samples = 1000000;
-        int noOfRefPoints = 200;
+        int number_samples = 999500; // 1M less 500
+        int noOfRefPoints = 500;
 
-        SweepyIDIMExplorer sie = new SweepyIDIMExplorer(EUC20,number_samples,noOfRefPoints );
-        sie.sweep( 1.5 );
+        SweepyIDIMExplorer sie = new SweepyIDIMExplorer(EUC30,number_samples,noOfRefPoints );
+        sie.sweep( 2.3 );
     }
 
+
+
+    public static void main1(String[] args) throws Exception {
+        int number_samples =  999800; // 1M less 200
+        int noOfRefPoints = 200;
+
+        for( String dataset_name : eucs ) {
+
+            SweepyIDIMExplorer sie = new SweepyIDIMExplorer(dataset_name,number_samples,noOfRefPoints );
+            double query_radius;
+            if( dataset_name.equals( EUC10 ) ) {
+                query_radius = 1;
+            } else  if( dataset_name.equals( EUC20 ) ) {
+                query_radius = 1.8;
+            } else  if( dataset_name.equals( EUC30 ) ) {
+                query_radius = 2.3;
+            } else {
+                System.out.println( "Unrecognised dataset name: " + dataset_name );
+                return;
+            }
+            sie.sweep( query_radius );
+
+        }
+    }
 
 
 

@@ -26,7 +26,7 @@ public class ExploreAngles extends CommonBase {
      *         the angle from pivot-query-point.
      **/
     private void explore( boolean print_intermediaries ) {
-        System.out.println( "Dataset: " + dataset_name );
+        System.out.print( dataset_name + ": " );
         CartesianPoint[] eucs_array = new CartesianPoint[0];
         eucs_array = getData().toArray( eucs_array );  // an array of Cartesians drawn from the euc 20 space
         int len = eucs_array.length;
@@ -50,7 +50,6 @@ public class ExploreAngles extends CommonBase {
             }
         }
         summarizeAngles( angles );
-        System.out.println( "finished" );
     }
 
     private void summarizeAngles(List<Double> angles) {
@@ -80,10 +79,18 @@ public class ExploreAngles extends CommonBase {
         return theta;
     }
 
+    public static void main1( String[] args ) throws Exception {
+
+        ExploreAngles ea = new ExploreAngles( EUC20,500  );
+        ea.explore( false );
+    }
+
     public static void main( String[] args ) throws Exception {
 
-        ExploreAngles ea = new ExploreAngles( EUC30,500  );
-        ea.explore( false );
+        for( String dataset_name : datasets ) {
+            ExploreAngles ea = new ExploreAngles(dataset_name, 500);
+            ea.explore(false);
+        }
     }
 
 

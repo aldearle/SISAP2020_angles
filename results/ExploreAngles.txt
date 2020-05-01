@@ -1,0 +1,13 @@
+ExploreAngles.java
+
+Euc10 Mean = 60 Std_dev = 16.5
+Euc20 Mean = 60 Std_dev = 11.25
+Euc30 Mean = 60 Std_dev = 9.11
+SIFT  Mean = 60 Std_dev = 16.19
+DECAF  Mean = 60 Std_dev = 8.25
+
+
+
+
+
+
