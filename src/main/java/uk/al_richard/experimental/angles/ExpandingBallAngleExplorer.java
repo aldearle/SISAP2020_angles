@@ -17,21 +17,18 @@ public class ExpandingBallAngleExplorer extends CommonBase {
 
     private static final int ORIGIN = 0;
     private static final int CENTRE = 0xC;
+    private final Random rand;
+    private final Metric<CartesianPoint> metric;
 
     private boolean debug = false;
 
-    private final Metric<CartesianPoint> metric;
-    private final List<CartesianPoint> samples;
-    private final List<CartesianPoint> pivots;
-    private final int dim;
-
-    Random rand  = new Random(8796253 );
     double[] centre;
     double[] origin;
     CartesianPoint centre_cartesian;
     CartesianPoint origin_cartesian;
     CartesianPoint global_reference_point;
 
+    private final static int angle_calculation_repetitions = 1000000;
 
 
     public ExpandingBallAngleExplorer(String dataset_name, int number_samples, int noOfRefPoints, int WHICH_REF) throws Exception {
@@ -39,15 +36,11 @@ public class ExpandingBallAngleExplorer extends CommonBase {
 
         this.rand = new Random();
 
-        pivots = super.getRos();
-        samples = super.getData();
-        metric = super.getMetric();
-        dim = super.getDim();
-
         this.origin = new double[getDim()];
         this.centre = makePoint( 0.5 );
         this.centre_cartesian = new CartesianPoint(centre);
         this.origin_cartesian = new CartesianPoint(origin);
+        this.metric = super.getMetric();
 
         if( WHICH_REF == ORIGIN ) {
             global_reference_point = origin_cartesian;
@@ -146,9 +139,6 @@ public class ExpandingBallAngleExplorer extends CommonBase {
         return theta;
     }
 
-    private final static int angle_calculation_repetitions = 1000000;
-
-
     /**
      * Expand a ball from a point at 1 millionth of space up and see how angles change
      * Expand ball until the radius of the ball touches the apex of unit cube
@@ -187,22 +177,6 @@ public class ExpandingBallAngleExplorer extends CommonBase {
         }
     }
 
-    private void calculatePivotAngles(double diagonal_distance, double query_radius)  {
-        List<Double> list = new ArrayList<>();
-
-        double[] diagonal_point = getDiagonalPoint( diagonal_distance );
-        CartesianPoint diagonal_point_cartesian = new CartesianPoint(diagonal_point);
-
-        for( int j = 0; j < pivots.size(); j++ ) {
-                double theta = calculateAngle(global_reference_point, diagonal_point_cartesian, pivots.get(j));
-                list.add(theta);
-        }
-        int count = list.size();
-        double mean = (double) Util.mean(list);
-        double std_dev = Util.stddev(list, mean);
-        System.out.println("Distance = " + df.format(diagonal_distance) + " mean angle (degrees) = " + df.format(Math.toDegrees(mean)) + " std_dev = " + df.format(Math.toDegrees(std_dev)) + " n = " + count );
-    }
-
     private boolean insideSpace(CartesianPoint some_point_cartesian) {
         double[] point = some_point_cartesian.getPoint();
         for( int i = 0; i < point.length; i++ ) {
@@ -216,7 +190,7 @@ public class ExpandingBallAngleExplorer extends CommonBase {
 
     public static void main(String[] args) throws Exception {
 
-        int number_samples =  1000000; // 1M less 200
+        int number_samples = 0;
         int noOfRefPoints = 0;
         ExpandingBallAngleExplorer sae = new ExpandingBallAngleExplorer( EUC20,number_samples,noOfRefPoints, ORIGIN );
         sae.expand();
@@ -224,7 +198,7 @@ public class ExpandingBallAngleExplorer extends CommonBase {
 
 
     public static void main1(String[] args) throws Exception {
-        int number_samples =  1000000; // 1M less 200
+        int number_samples = 0;
         int noOfRefPoints = 0;
 
         for( String dataset_name : eucs ) {
