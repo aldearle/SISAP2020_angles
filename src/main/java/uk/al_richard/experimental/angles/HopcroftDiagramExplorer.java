@@ -155,8 +155,8 @@ public class HopcroftDiagramExplorer extends CommonBase {
 
         System.out.println("Expore Hopcroft " + dataset_name + " " );
         double total = 0.0;
-        int count = 100;
-        for( int i = 0; i < 100; i++ ) {
+        int count = 1000;
+        for( int i = 0; i < count; i++ ) {
             CartesianPoint p1 = new CartesianPoint( getRandomSurfacePoint(centre,root_d) );
          //   System.out.println( "P1 = " + pointToString(p1.getPoint()));
             CartesianPoint p2 = new CartesianPoint( getRandomSurfacePoint(centre,root_d) );
