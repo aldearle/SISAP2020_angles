@@ -17,6 +17,8 @@ public class ExpandingBallAngleExplorer extends CommonBase {
 
     private static final int ORIGIN = 0;
     private static final int CENTRE = 0xC;
+    private static final int RANDOM = -1;
+
     private final Random rand;
     private final Metric<CartesianPoint> metric;
 
@@ -47,10 +49,27 @@ public class ExpandingBallAngleExplorer extends CommonBase {
             System.out.println( "using origin" );
         } else if( WHICH_REF == CENTRE ) {
             global_reference_point = centre_cartesian;
-            System.out.println( "using centre" );
+            System.out.println("using centre");
+        } else if (WHICH_REF == RANDOM) {
+            double radius = ( Math.sqrt( getDim() ) / 2 ) + 1;
+            double[] random_point = getRandomVolumePoint( centre_cartesian.getPoint(), radius );
+            global_reference_point = new CartesianPoint( random_point ); // some random point outside sphere
+            System.out.println("random: " + pointToString( random_point ) + "distance from centre: " + radius );
         } else {
-            throw new RuntimeException( "unknown reference point");
+            throw new RuntimeException("unknown reference point");
         }
+    }
+
+    private String pointToString(double[] point) {
+        StringBuilder sb = new StringBuilder();
+        sb.append( "[" );
+        for( int i = 0; i < point.length; i++ ) {
+            sb.append( df.format( point[i] ) );
+            sb.append( "," );
+        }
+        sb.deleteCharAt( sb.lastIndexOf(",") );
+        sb.append( "]" );
+        return sb.toString();
     }
 
     /**
@@ -73,6 +92,7 @@ public class ExpandingBallAngleExplorer extends CommonBase {
         return res;
     }
 
+
     @Test
     public void testRandomVolumePoints() {
 
@@ -87,25 +107,6 @@ public class ExpandingBallAngleExplorer extends CommonBase {
         }
     }
 
-    /**
-     *
-     * @param distance_from_o - this distance from the origin
-     * @return a point on the diagonal that distance from the origin
-     */
-    private double[] getDiagonalPoint(double distance_from_o ) {
-
-        double coordinate = Math.sqrt( Math.pow(distance_from_o,2) / getDim() );
-        return makePoint( coordinate );
-    }
-
-    @Test
-    public void testDiagnonalPoints() {
-
-        for( double i = 0.1; i < 1; i += 0.1 ) {
-            double[] point = getDiagonalPoint( i );
-            assert(  metric.distance(new CartesianPoint(point), global_reference_point) < ( i + 0.005 ) ); // close to equal
-        }
-    }
 
     private double[] makePoint( double coordinate ) {
         double[] point = new double[getDim()];
@@ -192,7 +193,7 @@ public class ExpandingBallAngleExplorer extends CommonBase {
 
         int number_samples = 0;
         int noOfRefPoints = 0;
-        ExpandingBallAngleExplorer sae = new ExpandingBallAngleExplorer( EUC20,number_samples,noOfRefPoints, ORIGIN );
+        ExpandingBallAngleExplorer sae = new ExpandingBallAngleExplorer( EUC20,number_samples,noOfRefPoints, RANDOM );
         sae.expand();
     }
 
