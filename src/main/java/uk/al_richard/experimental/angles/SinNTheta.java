@@ -14,8 +14,9 @@ public class SinNTheta extends CommonBase {
     public static final int TEN_THOUSAND = 10000;
     public static final int HUNDRED_THOUSAND = 100000;
     public static final int ONE_MILLION = 1000000;
+    public static final int TEN_MILLION = 10000000;
 
-    private final static int repetitions = TEN_THOUSAND;
+    private final static int repetitions = 10; // TEN_THOUSAND;
     private final List<CartesianPoint> data;
     private final Metric<CartesianPoint> metric;
     private final double query_radius;
@@ -25,6 +26,8 @@ public class SinNTheta extends CommonBase {
         this.data = super.getData();
         this.metric = super.getMetric();
         this.query_radius = super.getThreshold();
+        System.out.println("thresh = " + query_radius );
+
     }
 
 
@@ -55,7 +58,11 @@ public class SinNTheta extends CommonBase {
             if( insideSpace( some_point_cartesian ) ) {
                 double theta = calculateAngle(p1, centre, some_point_cartesian);
 //                System.out.println( theta );
-                dists.add(theta);
+                if( Double.isNaN(theta)) {
+                    System.out.println("theta is nan");
+                } else {
+                    dists.add(theta);
+                }
             }
         }
         double mean = Util.mean(dists);
@@ -67,7 +74,7 @@ public class SinNTheta extends CommonBase {
 
     public static void main(String[] args) throws Exception {
 
-        int number_samples = ONE_MILLION;
+        int number_samples = TEN_MILLION;
         int noOfRefPoints = 0;
         SinNTheta sae = new SinNTheta( "Euc23",number_samples,noOfRefPoints );
         sae.explore_constrained_points();
