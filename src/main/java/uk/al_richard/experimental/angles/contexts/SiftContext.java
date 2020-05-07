@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SiftContext {
+public class SiftContext implements IContext {
 
     public static final String SIFT_DEFAULT_BASE_DIR = "/Users/al/repos/SIFT/";
 

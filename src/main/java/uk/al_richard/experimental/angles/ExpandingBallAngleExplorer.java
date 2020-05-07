@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static uk.al_richard.experimental.angles.Util.square;
-
 /**
  * Expand a ball around the centre and see how angles change
  */
@@ -60,18 +58,6 @@ public class ExpandingBallAngleExplorer extends CommonBase {
         }
     }
 
-    private String pointToString(double[] point) {
-        StringBuilder sb = new StringBuilder();
-        sb.append( "[" );
-        for( int i = 0; i < point.length; i++ ) {
-            sb.append( df.format( point[i] ) );
-            sb.append( "," );
-        }
-        sb.deleteCharAt( sb.lastIndexOf(",") );
-        sb.append( "]" );
-        return sb.toString();
-    }
-
     /**
      *
      * @return a point within radius of the midpoint specified
@@ -108,39 +94,7 @@ public class ExpandingBallAngleExplorer extends CommonBase {
     }
 
 
-    private double[] makePoint( double coordinate ) {
-        double[] point = new double[getDim()];
-        for (int i = 0; i < getDim(); i++) {
-            point[i] = coordinate;
-        }
-        return point;
-    }
-
-    /**
-     *
-     * @param pivot
-     * @param query
-     * @param some_point
-     * @return the angle in RADIANS.
-     */
-    private double calculateAngle( CartesianPoint pivot, CartesianPoint query, CartesianPoint some_point ) {
-
-        Metric<CartesianPoint> metric = getMetric();
-
-        double dpq =  metric.distance( pivot,query );
-        double dqpi = metric.distance( query,some_point );
-        double p1pi = metric.distance( pivot,some_point );
-
-        double theta = Math.acos( ( square(dqpi) + square(dpq) - square(p1pi) ) / (2 * dqpi * dpq ) );
-
-        if( debug ) {
-            System.out.println(df.format(dpq) + "\t" + df.format(p1pi) + "\t" + df.format(dqpi) + "\t" + df.format(Math.toDegrees(theta)));
-        }
-
-        return theta;
-    }
-
-    /**
+    /*
      * Expand a ball from a point at 1 millionth of space up and see how angles change
      * Expand ball until the radius of the ball touches the apex of unit cube
      */
@@ -176,16 +130,6 @@ public class ExpandingBallAngleExplorer extends CommonBase {
         } else {
             System.out.println( "Distance = " + df.format(query_radius) + " No points in 0-1 range" );
         }
-    }
-
-    private boolean insideSpace(CartesianPoint some_point_cartesian) {
-        double[] point = some_point_cartesian.getPoint();
-        for( int i = 0; i < point.length; i++ ) {
-            if( point[i] < 0.0 || point[i] > 1.0 ) { // inclusive?
-                return false;
-            }
-        }
-        return true;
     }
 
 

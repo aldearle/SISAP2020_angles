@@ -15,7 +15,7 @@ import java.util.List;
  * This class is something that acts like a context from the Metric Space Framework.
  * It was adapted from code in an earlier project - fc6_stuff written by Richard in Brno?
  */
-public class DeCafContext {
+public class DeCafContext implements IContext {
 
     public static final String DECAF_DEFAULT_BASE_DIR = "/Users/al/repos/github/fc6_stuff/resources/";
 
@@ -54,21 +54,21 @@ public class DeCafContext {
         return metric;
     }
 
-    public List<CartesianPoint> getData() throws IOException, ClassNotFoundException {
+    public List<CartesianPoint> getData() throws Exception {
         if( data_list == null ) {
             loadProfisetData();
         }
         return data_list;
     }
 
-    public List<CartesianPoint> getRefPoints() throws IOException, ClassNotFoundException {
+    public List<CartesianPoint> getRefPoints() throws Exception {
         if( reference_object_list == null ) {
             loadProfisetData();
         }
         return reference_object_list;
     }
 
-    public List<CartesianPoint> getQueries() throws IOException, ClassNotFoundException {
+    public List<CartesianPoint> getQueries() throws Exception {
         if( query_list == null ) {
             loadProfisetQueries();
         }

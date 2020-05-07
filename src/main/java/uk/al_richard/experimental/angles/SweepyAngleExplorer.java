@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static uk.al_richard.experimental.angles.Util.square;
-
 public class SweepyAngleExplorer extends CommonBase {
 
     private static final int ORIGIN = 0;
@@ -91,17 +89,6 @@ public class SweepyAngleExplorer extends CommonBase {
         }
     }
 
-    /**
-     *
-     * @param distance_from_o - this distance from the origin
-     * @return a point on the diagonal that distance from the origin
-     */
-    private double[] getDiagonalPoint(double distance_from_o ) {
-
-        double coordinate = Math.sqrt( Math.pow(distance_from_o,2) / getDim() );
-        return makePoint( coordinate );
-    }
-
     @Test
     public void testDiagnonalPoints() {
 
@@ -109,38 +96,6 @@ public class SweepyAngleExplorer extends CommonBase {
             double[] point = getDiagonalPoint( i );
             assert(  metric.distance(new CartesianPoint(point), global_reference_point) < ( i + 0.005 ) ); // close to equal
         }
-    }
-
-    private double[] makePoint( double coordinate ) {
-        double[] point = new double[getDim()];
-        for (int i = 0; i < getDim(); i++) {
-            point[i] = coordinate;
-        }
-        return point;
-    }
-
-    /**
-     *
-     * @param pivot
-     * @param query
-     * @param some_point
-     * @return the angle in RADIANS.
-     */
-    private double calculateAngle( CartesianPoint pivot, CartesianPoint query, CartesianPoint some_point ) {
-
-        Metric<CartesianPoint> metric = getMetric();
-
-        double dpq =  metric.distance( pivot,query );
-        double dqpi = metric.distance( query,some_point );
-        double p1pi = metric.distance( pivot,some_point );
-
-        double theta = Math.acos( ( square(dqpi) + square(dpq) - square(p1pi) ) / (2 * dqpi * dpq ) );
-
-        if( debug ) {
-            System.out.println(df.format(dpq) + "\t" + df.format(p1pi) + "\t" + df.format(dqpi) + "\t" + df.format(Math.toDegrees(theta)));
-        }
-
-        return theta;
     }
 
     private final static int angle_calculation_repetitions = 1000000;
@@ -182,32 +137,6 @@ public class SweepyAngleExplorer extends CommonBase {
         } else {
             System.out.println( "Distance = " + df.format(diagonal_distance) + " No points in 0-1 range" );
         }
-    }
-
-    private void calculatePivotAngles(double diagonal_distance, double query_radius)  {
-        List<Double> list = new ArrayList<>();
-
-        double[] diagonal_point = getDiagonalPoint( diagonal_distance );
-        CartesianPoint diagonal_point_cartesian = new CartesianPoint(diagonal_point);
-
-        for( int j = 0; j < pivots.size(); j++ ) {
-                double theta = calculateAngle(global_reference_point, diagonal_point_cartesian, pivots.get(j));
-                list.add(theta);
-        }
-        int count = list.size();
-        double mean = (double) Util.mean(list);
-        double std_dev = Util.stddev(list, mean);
-        System.out.println("Distance = " + df.format(diagonal_distance) + " mean angle (degrees) = " + df.format(Math.toDegrees(mean)) + " std_dev = " + df.format(Math.toDegrees(std_dev)) + " n = " + count );
-    }
-
-    private boolean insideSpace(CartesianPoint some_point_cartesian) {
-        double[] point = some_point_cartesian.getPoint();
-        for( int i = 0; i < point.length; i++ ) {
-            if( point[i] < 0.0 || point[i] > 1.0 ) { // inclusive?
-                return false;
-            }
-        }
-        return true;
     }
 
 

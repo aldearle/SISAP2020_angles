@@ -71,7 +71,7 @@ public class CalculateDeCafThreshold extends DeCafContext {
         return count / values.size();
     }
 
-    private void findThresh() throws IOException, ClassNotFoundException {
+    private void findThresh() throws Exception {
 
         double start = 55; // !% point?
         List<CartesianPoint> data = getData();

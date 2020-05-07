@@ -11,7 +11,6 @@ import java.util.*;
 import static uk.al_richard.experimental.angles.CircleGeometry.calculateMargin;
 import static uk.al_richard.experimental.angles.CircleGeometry.calculateSafeRadius;
 import static uk.al_richard.experimental.angles.Util.idim;
-import static uk.al_richard.experimental.angles.Util.square;
 
 /**
  *
@@ -158,71 +157,6 @@ public class LIDIMtoAngleMap extends CommonBase {
     }
 
 
-
-    /**
-     * @return a random point within radius of the midpoint specified
-     */
-    private double[] getRandomVolumePoint( double[] midpoint, double radius ) {
-        double[] res = new double[this.dim];
-        double[] temp = new double[this.dim + 2];
-        double acc = 0;
-        for (int i = 0; i < this.dim + 2; i++) {
-            double d = this.rand.nextGaussian();
-            acc += d * d;
-            temp[i] = d;
-        }
-        double magnitude = Math.sqrt(acc);   // the magnitude of the vector
-        for (int i = 0; i < this.dim; i++) {
-            res[i] = ( temp[i] / magnitude * radius ) + midpoint[i];
-        }
-        return res;
-    }
-
-    /**
-     * @param distance_from_o - this distance from the origin
-     * @return a point on the diagonal that distance from the origin
-     */
-    private double[] getDiagonalPoint(double distance_from_o ) {
-
-        double coordinate = Math.sqrt( Math.pow(distance_from_o,2) / dim );
-        return makePoint( coordinate );
-    }
-
-    /**
-     * @param coordinate a vlue used to initialise the coordinates
-     * @return a point in dim space with all the coordinates equal to coordinate
-     */
-    private double[] makePoint( double coordinate ) {
-        double[] point = new double[this.dim];
-        for (int i = 0; i < dim; i++) {
-            point[i] = coordinate;
-        }
-        return point;
-    }
-
-    /**
-     *
-     * @param pivot
-     * @param query
-     * @param some_point
-     * @return the internal angle (pivot,query,some_point) in RADIANS
-     */
-    private double calculateAngle( CartesianPoint pivot, CartesianPoint query, CartesianPoint some_point ) {
-
-        double dpq =  metric.distance( pivot,query );
-        double dqpi = metric.distance( query,some_point );
-        double p1pi = metric.distance( pivot,some_point );
-
-        double theta = Math.acos( ( square(dqpi) + square(dpq) - square(p1pi) ) / (2 * dqpi * dpq ) );
-
-        if(printing) {
-            System.out.println(df2.format(dpq) + "\t" + df2.format(p1pi) + "\t" + df2.format(dqpi) + "\t" + df2.format(Math.toDegrees(theta)));
-        }
-
-        return theta;
-    }
-
-
     /**
      *
      * @param pivots
@@ -288,21 +222,6 @@ public class LIDIMtoAngleMap extends CommonBase {
             }
         }
         return list;
-    }
-
-    /**
-     *
-     * @param some_point_cartesian
-     * @return true if the point is within [0,..0] and [1,..1]
-     */
-    private boolean insideSpace(CartesianPoint some_point_cartesian) {
-        double[] point = some_point_cartesian.getPoint();
-        for( int i = 0; i < point.length; i++ ) {
-            if( point[i] < 0.0 || point[i] > 1.0 ) { // inclusive?
-                return false;
-            }
-        }
-        return true;
     }
 
     /**

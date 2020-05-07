@@ -11,7 +11,6 @@ import java.util.*;
 import static uk.al_richard.experimental.angles.CircleGeometry.calculateMargin;
 import static uk.al_richard.experimental.angles.CircleGeometry.calculateSafeRadius;
 import static uk.al_richard.experimental.angles.Util.idim;
-import static uk.al_richard.experimental.angles.Util.square;
 
 /**
  *
@@ -165,50 +164,6 @@ public class LIDIMtoAngleMapNonEucSIFT extends CommonBase {
         Angles stored_angles = findClosest(lidim, map);
 
         return calculateMargin( stored_angles.angle, stored_angles.std_dev, threshold, factor );
-    }
-
-
-    /**
-     * @param distance_from_o - this distance from the origin
-     * @return a point on the diagonal that distance from the origin
-     */
-    private double[] getDiagonalPoint(double distance_from_o ) {
-
-        double coordinate = Math.sqrt( Math.pow(distance_from_o,2) / dim );
-        return makePoint( coordinate );
-    }
-
-    /**
-     * @param coordinate a vlue used to initialise the coordinates
-     * @return a point in dim space with all the coordinates equal to coordinate
-     */
-    private double[] makePoint( double coordinate ) {
-        double[] point = new double[this.dim];
-        for (int i = 0; i < dim; i++) {
-            point[i] = coordinate;
-        }
-        return point;
-    }
-
-    /**
-     *
-     * @param ro
-     * @param query
-     * @param some_point
-     * @return the internal angle (ro,query,some_point) in RADIANS
-     */
-    private double calculateAngle( CartesianPoint ro, CartesianPoint query, CartesianPoint some_point ) {
-
-        double d_ro_q =  metric.distance( ro,query );
-        double d_q_soln = metric.distance( query,some_point );
-        double d_ro_soln = metric.distance( ro,some_point );
-        double theta = Math.acos( ( square(d_q_soln) + square(d_ro_q) - square(d_ro_soln) ) / (2 * d_q_soln * d_ro_q ) );
-
-        if(printing) {
-            System.out.println(df2.format(d_ro_q) + "\t" + df2.format(d_ro_soln) + "\t" + df2.format(d_q_soln) + "\t" + df2.format(Math.toDegrees(theta)));
-        }
-
-        return theta;
     }
 
 

@@ -19,7 +19,6 @@ public class SweepyIDIMExplorer extends CommonBase {
     private final List<CartesianPoint> pivots;
     private final int dim;
 
-    Random rand  = new Random(8796253 );
     double[] centre;
     double[] origin;
     CartesianPoint centre_cartesian;
@@ -56,50 +55,6 @@ public class SweepyIDIMExplorer extends CommonBase {
         return samples;
     }
 
-    /**
-     *
-     * @return a point within radius of the midpoint specified
-     */
-    double[] getRandomVolumePoint( double[] midpoint, double radius ) {
-        double[] res = new double[dim];
-        double[] temp = new double[dim + 2];
-        double acc = 0;
-        for (int i = 0; i < dim + 2; i++) {
-            double d = rand.nextGaussian();
-            acc += d * d;
-            temp[i] = d;
-        }
-        double magnitude = Math.sqrt(acc);   // the magnitude of the vector
-        for (int i = 0; i < dim; i++) {
-            res[i] = ( temp[i] / magnitude * radius ) + midpoint[i];
-        }
-        return res;
-    }
-
-    @Test
-    public void testRandomVolumePoints() {
-
-        for( int i = 0; i < 10000; i++ ) {
-            for( double j = 0.1; j <= 0.9; j+=0.01 ) {
-                double[] centre = makePoint(j);
-                CartesianPoint centre_cartesian = new CartesianPoint(centre);
-                double[] random_point = getRandomVolumePoint(centre, 0.25);
-                CartesianPoint random_cartesian = new CartesianPoint(random_point);
-                assert (metric.distance(centre_cartesian, random_cartesian) < 0.25);
-            }
-        }
-    }
-
-    /**
-     *
-     * @param distance_from_o - this distance from the origin
-     * @return a point on the diagonal that distance from the origin
-     */
-    private double[] getDiagonalPoint(double distance_from_o ) {
-
-        double coordinate = Math.sqrt( Math.pow(distance_from_o,2) / getDim() );
-        return makePoint( coordinate );
-    }
 
     @Test
     public void testDiagnonalPoints() {
@@ -109,16 +64,6 @@ public class SweepyIDIMExplorer extends CommonBase {
             assert(  metric.distance(new CartesianPoint(point), origin_cartesian) < ( i + 0.005 ) ); // close to equal
         }
     }
-
-    private double[] makePoint( double coordinate ) {
-        double[] point = new double[this.dim];
-        for (int i = 0; i < dim; i++) {
-            point[i] = coordinate;
-        }
-        return point;
-    }
-
-    private static double square( double x ) { return x * x; }
 
     private final static int idim_calculation_repetitions = 1000000;
 
@@ -186,16 +131,6 @@ public class SweepyIDIMExplorer extends CommonBase {
             dists.add(d);
         }
         return dists;
-    }
-
-    private boolean insideSpace(CartesianPoint some_point_cartesian) {
-        double[] point = some_point_cartesian.getPoint();
-        for( int i = 0; i < point.length; i++ ) {
-            if( point[i] < 0.0 || point[i] > 1.0 ) { // inclusive?
-                return false;
-            }
-        }
-        return true;
     }
 
     public static void main(String[] args) throws Exception {

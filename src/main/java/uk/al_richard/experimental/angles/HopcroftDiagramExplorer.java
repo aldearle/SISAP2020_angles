@@ -5,8 +5,6 @@ import dataPoints.cartesian.CartesianPoint;
 
 import java.util.Random;
 
-import static uk.al_richard.experimental.angles.Util.square;
-
 /**
  * To test assertion in Computer Science Theory for the Information Age
  * https://www.cs.cmu.edu/~venkatg/teaching/CStheory-infoage/
@@ -55,38 +53,6 @@ public class HopcroftDiagramExplorer extends CommonBase {
         this.root_2d = Math.sqrt( 2 * super.getDim() );
     }
 
-    private String pointToString(double[] point) {
-        StringBuilder sb = new StringBuilder();
-        sb.append( "[" );
-        for( int i = 0; i < point.length; i++ ) {
-            sb.append( df.format( point[i] ) );
-            sb.append( "," );
-        }
-        sb.deleteCharAt( sb.lastIndexOf(",") );
-        sb.append( "]" );
-        return sb.toString();
-    }
-
-    /**
-     *
-     * @return a point within radius of the midpoint specified
-     */
-    double[] getRandomVolumePoint( double[] midpoint, double radius ) {
-        double[] res = new double[getDim()];
-        double[] temp = new double[getDim() + 2];
-        double acc = 0;
-        for (int i = 0; i < getDim() + 2; i++) {
-            double d = this.rand.nextGaussian();
-            acc += d * d;
-            temp[i] = d;
-        }
-        double magnitude = Math.sqrt(acc);   // the magnitude of the vector
-        for (int i = 0; i < getDim(); i++) {
-            res[i] = ( temp[i] / magnitude * radius ) + midpoint[i];
-        }
-        return res;
-    }
-
     /**
      *
      * @return a point on radius of the ball of specified radius with the specified midpoint
@@ -115,38 +81,6 @@ public class HopcroftDiagramExplorer extends CommonBase {
 //        assert( d < 5.0001 && d > 4.9999 );
 //    }
 
-
-    private double[] makePoint( double coordinate ) {
-        double[] point = new double[getDim()];
-        for (int i = 0; i < getDim(); i++) {
-            point[i] = coordinate;
-        }
-        return point;
-    }
-
-    /**
-     *
-     * @param pivot
-     * @param query
-     * @param some_point
-     * @return the angle in RADIANS.
-     */
-    private double calculateAngle( CartesianPoint pivot, CartesianPoint query, CartesianPoint some_point ) {
-
-        Metric<CartesianPoint> metric = getMetric();
-
-        double dpq =  metric.distance( pivot,query );
-        double dqpi = metric.distance( query,some_point );
-        double p1pi = metric.distance( pivot,some_point );
-
-        double theta = Math.acos( ( square(dqpi) + square(dpq) - square(p1pi) ) / (2 * dqpi * dpq ) );
-
-        if( debug ) {
-            System.out.println(df.format(dpq) + "\t" + df.format(p1pi) + "\t" + df.format(dqpi) + "\t" + df.format(Math.toDegrees(theta)));
-        }
-
-        return theta;
-    }
 
     /**
      *
