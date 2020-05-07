@@ -20,7 +20,6 @@ public class EucN implements IContext {
     private final TestLoad tl;
 
     public EucN(int dim, int datasize, int num_ros, int num_queries ) {
-        System.out.println( "Data set - Euc " + dim );
         this.dim = dim;
         metric = new Euclidean();
         dataSize = datasize;
@@ -50,9 +49,9 @@ public class EucN implements IContext {
         double kFacV = dFac * vol;
         double bot = Math.pow(2, k + 1) * Math.pow(Math.PI, k);
         double frac = kFacV / bot;
-        System.out.println(k + "\t" + dim + "\t" + vol + "\t" + dFac + "\t" + bot);
+//        System.out.println(k + "\t" + dim + "\t" + vol + "\t" + dFac + "\t" + bot);
         final double doubleDims = (double) 1 / dim;
-        System.out.println(doubleDims);
+//        System.out.println(doubleDims);
         return Math.pow(frac, doubleDims);
     }
 
