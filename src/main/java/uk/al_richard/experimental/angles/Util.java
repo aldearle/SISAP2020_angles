@@ -108,7 +108,7 @@ public class Util {
         if( count > 0 ) {
             double max = max(dists);
 
-            double sigma = 0;
+            double sigma = 0; // sum
 
             for( int i = 0; i < count - 1; i++ ) {
                 double d = dists.get(i);
