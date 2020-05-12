@@ -10,6 +10,7 @@ import java.util.*;
 
 import static uk.al_richard.experimental.angles.CircleGeometry.calculateMargin;
 import static uk.al_richard.experimental.angles.CircleGeometry.calculateSafeRadius;
+import static uk.al_richard.experimental.angles.Util.MLEIDim;
 import static uk.al_richard.experimental.angles.Util.idim;
 
 /**
@@ -97,7 +98,8 @@ public class LIDIMtoAngleMap extends CommonBase {
 
             // Calculate the local idim based on reference points.
             List<Double> dists = getDists(pivots, p.getPoint());
-            double lidim = idim(dists);
+            double lidim = MLEIDim(dists);
+            System.out.println( i + " Pivot based IDIM = " + lidim );
 
             if( num_angles > 0 ) { // can only put entry in table if we have calculated some angles.
 
@@ -130,8 +132,7 @@ public class LIDIMtoAngleMap extends CommonBase {
     public double adjustedQueryRadius( CartesianPoint p, List<Double> dists, double threshold, double factor ) throws Exception {
 
         // Calculate the local idim based on reference points.
-        // dists = getDists(pivots, p.getPoint());
-        double lidim = idim(dists);
+        double lidim = MLEIDim(dists);
         Angles stored_angles = findClosest(lidim, map);
 
         return calculateSafeRadius( stored_angles.angle, stored_angles.std_dev, threshold, factor );
@@ -149,8 +150,7 @@ public class LIDIMtoAngleMap extends CommonBase {
     public double margin( CartesianPoint p, List<Double> dists, double threshold, double factor ) throws Exception {
 
         // Calculate the local idim based on reference points.
-        // dists = getDists(pivots, p.getPoint());
-        double lidim = idim(dists);
+        double lidim = MLEIDim(dists);
         Angles stored_angles = findClosest(lidim, map);
 
         return calculateMargin( stored_angles.angle, stored_angles.std_dev, threshold, factor );
@@ -193,7 +193,9 @@ public class LIDIMtoAngleMap extends CommonBase {
         // Calculate the local idim based on reference points.
 
         List<Double> dists = getDists(pivots, diagonal_point);
-        double lidim = round( idim(dists), 2 );
+        double chav_idim = round( idim(dists), 2 );
+        double lidim = round( MLEIDim(dists), 2 );
+        System.out.println( "Chavez IDIM = " + chav_idim + " MLE diagonal IDIM = " + lidim );
 
         if( num_angles > 0 ) { // can only put entry in table if we have calculated some angles.
 
@@ -296,7 +298,7 @@ public class LIDIMtoAngleMap extends CommonBase {
     }
 
     public static void main(String[] args) throws Exception {
-        int number_samples =  999800; // 1M less 200
+        int number_samples =  10000; // 999800; // 1M less 200
         int noOfRefPoints = 200;
 
         for( String dataset_name : eucs ) {

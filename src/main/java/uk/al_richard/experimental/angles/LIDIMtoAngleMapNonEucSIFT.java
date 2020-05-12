@@ -9,7 +9,6 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 import static uk.al_richard.experimental.angles.CircleGeometry.calculateMargin;
-import static uk.al_richard.experimental.angles.CircleGeometry.calculateSafeRadius;
 import static uk.al_richard.experimental.angles.Util.idim;
 
 /**
@@ -127,45 +126,6 @@ public class LIDIMtoAngleMapNonEucSIFT extends CommonBase {
             }
         }
     }
-
-    /**
-     *
-     * @param p - a point (from a query) for which to calculate a safe smaller radius
-     * @dists - an array of distances to reference points
-     * @param threshold - the threshold of the query
-     * @param factor -  how many std devs to add to the approximated safe minimum angle
-     * @return an adjusted query radius.
-     * @throws Exception if method cannot calculate local idim
-     */
-    public double adjustedQueryRadius( CartesianPoint p, List<Double> dists, double threshold, double factor ) throws Exception {
-
-        // Calculate the local idim based on reference points.
-        // dists = getDists(pivots, p.getPoint());
-        double lidim = idim(dists);
-        Angles stored_angles = findClosest(lidim, map);
-
-        return calculateSafeRadius( stored_angles.angle, stored_angles.std_dev, threshold, factor );
-    }
-
-    /**
-     *
-     * @param p - a point (from a query) for which to calculate a safe smaller radius
-     * @dists - an array of distances to reference points
-     * @param threshold - the threshold of the query
-     * @param factor -  how many std devs to add to the approximated safe minimum angle
-     * @return the safety margin
-     * @throws Exception if method cannot calculate local idim
-     */
-    public double margin( CartesianPoint p, List<Double> dists, double threshold, double factor ) throws Exception {
-
-        // Calculate the local idim based on reference points.
-        // dists = getDists(pivots, p.getPoint());
-        double lidim = idim(dists);
-        Angles stored_angles = findClosest(lidim, map);
-
-        return calculateMargin( stored_angles.angle, stored_angles.std_dev, threshold, factor );
-    }
-
 
     /**
      *
