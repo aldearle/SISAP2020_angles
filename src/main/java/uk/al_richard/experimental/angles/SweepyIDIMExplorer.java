@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static uk.al_richard.experimental.angles.Util.idim;
-
 public class SweepyIDIMExplorer extends CommonBase {
 
     private boolean debug = false;
@@ -76,7 +74,7 @@ public class SweepyIDIMExplorer extends CommonBase {
 
         System.out.println("Checking " + dataset_name + " " + idim_calculation_repetitions + " random points, query radius = " + query_radius + " pivots = " + pivots.size() );
 
-        System.out.println( "diagonal_distance" + "\t" + "lidim" + "\t" + "count" + "\t" + "piv idim" + "\t" + "count"  );
+        System.out.println( "diagonal_distance" + "\t" + "lidim" + "\t" + "count" + "\t" + "piv iDIM" + "\t" + "count"  );
         for( double diagonal_distance = 0.01; diagonal_distance < Math.sqrt( dim ) ; diagonal_distance += 0.01 ) {
             try {
                 calculateLocalIDIM(samples, diagonal_distance, query_radius);
@@ -91,7 +89,7 @@ public class SweepyIDIMExplorer extends CommonBase {
         List<Double> dists = getDists(samples, diagonal_distance,query_radius);
 
         int count = dists.size();
-        double lidim = idim(dists);
+        double lidim = Util.LIDimLevinaBickel(dists);
         System.out.print( df.format( diagonal_distance ) + "\t" + lidim + "\t" + count );
     }
 
@@ -100,7 +98,7 @@ public class SweepyIDIMExplorer extends CommonBase {
         List<Double> dists = getPivotDists(pivots, diagonal_distance);
 
         int count = dists.size();
-        double lidim = idim(dists);
+        double lidim = Util.LIDimLevinaBickel(dists);
         System.out.println( "\t" + lidim + "\t" + count );
     }
 
@@ -137,8 +135,8 @@ public class SweepyIDIMExplorer extends CommonBase {
         int number_samples = 999500; // 1M less 500
         int noOfRefPoints = 500;
 
-        SweepyIDIMExplorer sie = new SweepyIDIMExplorer(EUC30,number_samples,noOfRefPoints );
-        sie.sweep( 2.3 );
+        SweepyIDIMExplorer sie = new SweepyIDIMExplorer(EUC20,number_samples,noOfRefPoints );
+        sie.sweep( 1.8 );
     }
 
 

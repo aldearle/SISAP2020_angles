@@ -52,15 +52,15 @@ public class Util {
         return Math.sqrt( sd / list.size() );
     }
 
-    public static double idim(double mean, double std_dev) {
+    public static double iDIMChavez(double mean, double std_dev) {
         return square(mean) / ( 2 * square(std_dev) );
     }
 
-    public static double idim(List<Double> dists) throws Exception {
+    public static double iDIMChavez(List<Double> dists) throws Exception {
         if( dists.size() > 0 ) {
             double mean = (double) Util.mean(dists);
             double std_dev = Util.stddev(dists, mean);
-            return idim(mean, std_dev);
+            return iDIMChavez(mean, std_dev);
         } else {
             throw new Exception("zero length list");
         }
@@ -73,13 +73,13 @@ public class Util {
      * @return the MLE IDIM of the list
      * @throws Exception if a zero length list is supplied.
      */
-    public static double MLEIDim(List<Double> dists) throws Exception {
+    public static double LIDimAmsaleg(List<Double> dists) throws Exception {
         int count = dists.size();
         if( count > 0 ) {
             double mean = mean(dists);
             double sum = sum(dists);
             double max = max(dists);
-            double weight = max; // was mean / sum;
+            double weight = max;
             double one_over_n = ( 1.0d / (double) count );
 
             System.out.println( "count = " + count + " s =" + sum + " w = " + weight + " tot = " + weight * count );
@@ -101,7 +101,7 @@ public class Util {
      * @return the MLE IDIM of the list
      * @throws Exception if a zero length list is supplied.
      */
-    public static double MLEIDimX(List<Double> dists) throws Exception {
+    public static double LIDimLevinaBickel(List<Double> dists) throws Exception {
         int count = dists.size();
         double one_over_k_minus_one = 1.0d / ( (double) count - 1.0d );
 

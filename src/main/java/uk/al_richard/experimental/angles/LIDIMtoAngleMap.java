@@ -10,8 +10,7 @@ import java.util.*;
 
 import static uk.al_richard.experimental.angles.CircleGeometry.calculateMargin;
 import static uk.al_richard.experimental.angles.CircleGeometry.calculateSafeRadius;
-import static uk.al_richard.experimental.angles.Util.MLEIDim;
-import static uk.al_richard.experimental.angles.Util.idim;
+import static uk.al_richard.experimental.angles.Util.LIDimLevinaBickel;
 
 /**
  *
@@ -22,7 +21,7 @@ import static uk.al_richard.experimental.angles.Util.idim;
  * The table is created from the diagonal points (which we wouldn’t have in a real dataset)
  * and calculates angles to points within some radius (using the volume points)
  * (but which we could do in a real dataset).
- * The table maps from local idim (using the points within the radius) to the angle and std dev.
+ * The table maps from local iDIMChavez (using the points within the radius) to the angle and std dev.
  *
  */
 public class LIDIMtoAngleMap extends CommonBase {
@@ -96,9 +95,9 @@ public class LIDIMtoAngleMap extends CommonBase {
 
             int num_angles = list.size();
 
-            // Calculate the local idim based on reference points.
+            // Calculate the local iDIMChavez based on reference points.
             List<Double> dists = getDists(pivots, p.getPoint());
-            double lidim = MLEIDim(dists);
+            double lidim = LIDimLevinaBickel(dists);
             System.out.println( i + " Pivot based IDIM = " + lidim );
 
             if( num_angles > 0 ) { // can only put entry in table if we have calculated some angles.
@@ -127,12 +126,12 @@ public class LIDIMtoAngleMap extends CommonBase {
      * @param threshold - the threshold of the query
      * @param factor -  how many std devs to add to the approximated safe minimum angle
      * @return an adjusted query radius.
-     * @throws Exception if method cannot calculate local idim
+     * @throws Exception if method cannot calculate local iDIMChavez
      */
     public double adjustedQueryRadius( CartesianPoint p, List<Double> dists, double threshold, double factor ) throws Exception {
 
-        // Calculate the local idim based on reference points.
-        double lidim = MLEIDim(dists);
+        // Calculate the local iDIMChavez based on reference points.
+        double lidim = LIDimLevinaBickel(dists);
         Angles stored_angles = findClosest(lidim, map);
 
         return calculateSafeRadius( stored_angles.angle, stored_angles.std_dev, threshold, factor );
@@ -145,12 +144,12 @@ public class LIDIMtoAngleMap extends CommonBase {
      * @param threshold - the threshold of the query
      * @param factor -  how many std devs to add to the approximated safe minimum angle
      * @return the safety margin
-     * @throws Exception if method cannot calculate local idim
+     * @throws Exception if method cannot calculate local iDIMChavez
      */
     public double margin( CartesianPoint p, List<Double> dists, double threshold, double factor ) throws Exception {
 
-        // Calculate the local idim based on reference points.
-        double lidim = MLEIDim(dists);
+        // Calculate the local iDIMChavez based on reference points.
+        double lidim = LIDimLevinaBickel(dists);
         Angles stored_angles = findClosest(lidim, map);
 
         return calculateMargin( stored_angles.angle, stored_angles.std_dev, threshold, factor );
@@ -190,12 +189,11 @@ public class LIDIMtoAngleMap extends CommonBase {
 
         int num_angles = list.size();
 
-        // Calculate the local idim based on reference points.
+        // Calculate the local iDIMChavez based on reference points.
 
         List<Double> dists = getDists(pivots, diagonal_point);
-        double chav_idim = round( idim(dists), 2 );
-        double lidim = round( MLEIDim(dists), 2 );
-        System.out.println( "Chavez IDIM = " + chav_idim + " MLE diagonal IDIM = " + lidim );
+        // double chav_idim = round( Util.iDIMChavez(dists), 2 );
+        double lidim = round( LIDimLevinaBickel(dists), 2 );
 
         if( num_angles > 0 ) { // can only put entry in table if we have calculated some angles.
 

@@ -9,7 +9,6 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 import static uk.al_richard.experimental.angles.CircleGeometry.calculateMargin;
-import static uk.al_richard.experimental.angles.Util.idim;
 
 /**
  *
@@ -18,7 +17,7 @@ import static uk.al_richard.experimental.angles.Util.idim;
  * The calculated angles are compared with those looked up in the table.
  * The table is created from the pivots                                                          <<<<<<<<<<<<<<<<
  * and calculates angles to points within some radius using whole data set for now.              <<<<<<<<<<<<<<<<
- * The table maps from local idim (using the points within the radius) to the angle and std dev.
+ * The table maps from local iDIMChavez (using the points within the radius) to the angle and std dev.
  *
  */
 public class LIDIMtoAngleMapNonEucSIFT extends CommonBase {
@@ -104,9 +103,9 @@ public class LIDIMtoAngleMapNonEucSIFT extends CommonBase {
 
             int num_angles = list.size();
 
-            // Calculate the local idim based on reference points.
+            // Calculate the local IDIM based on reference points.
             List<Double> dists = getDists(pivots, p.getPoint());
-            double lidim = idim(dists);
+            double lidim = Util.LIDimLevinaBickel(dists);
 
             if( num_angles > 0 ) { // can only put entry in table if we have calculated some angles.
 
@@ -158,10 +157,10 @@ public class LIDIMtoAngleMapNonEucSIFT extends CommonBase {
 
         int num_angles = list.size();
 
-        // Calculate the local idim based on reference points.
+        // Calculate the local iDIMChavez based on reference points.
 
         List<Double> dists = getDists(pivots, query.getPoint() );   // TODO look at folding this into above. CHANGED <<<<<<<
-        double lidim = round( idim(dists), 2 );
+        double lidim = round( Util.LIDimLevinaBickel(dists), 2 );
 
         if( num_angles > 0 ) { // can only put entry in table if we have calculated some angles.
 
