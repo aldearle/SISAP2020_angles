@@ -16,6 +16,7 @@ public class SiftContext implements IContext {
     public static final String SIFT_DEFAULT_BASE_DIR = "/Users/al/repos/SIFT/";
 
     private final Map<Integer,float[]> data_map;
+    private final Map<Integer, int[]> nn_map;
     private Map<Integer, float[]> query_map;
     private Map<Integer, float[]> reference_object_map;
     private Map<Integer, Double> threshold_map;
@@ -39,6 +40,7 @@ public class SiftContext implements IContext {
         query_map = sd.getQueries();
         threshold_map = sd.getThresholds();
         reference_object_map = new HashMap<>(); // should not be used (and isnt unless setSizes() is not called).
+        nn_map = sd.getNNIds();
     }
 
     public void setSizes(int num_queries, int num_ref_points) throws Exception {
@@ -107,6 +109,21 @@ public class SiftContext implements IContext {
             initialiseList(cached_ros, reference_object_map);
         }
         return cached_ros;
+    }
+
+    @Override
+    public Map<Integer, int[]> getNNMap() {
+        return nn_map;
+    }
+
+    @Override
+    public Map<Integer, float[]> getDataMap() {
+        return data_map;
+    }
+
+    @Override
+    public Map<Integer, float[]> getQueryMap() {
+        return query_map;
     }
 
     public List<CartesianPoint> getQueries() {

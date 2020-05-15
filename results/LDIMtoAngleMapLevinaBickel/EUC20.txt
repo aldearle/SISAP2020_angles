@@ -1,0 +1,400 @@
+Testing map (Euc10) ...
+Query radius = 0.22874056434485462 dim = 10
+1 Pivot based IDIM = 2.0957063358966623
+1: real angle = 88.9776 real std dev = 18.8298 stored angle = 90.0109 stored std dev = 19.0657 angle error = 0.0115 std dev error = 0.0124
+2 Pivot based IDIM = 2.77218700166651
+2: real angle = 83.541 real std dev = 17.3498 stored angle = 90.0383 stored std dev = 19.0394 angle error = 0.0722 std dev error = 0.0887
+3 Pivot based IDIM = 2.274065605321596
+3: real angle = 90.1579 real std dev = 19.2806 stored angle = 89.9791 stored std dev = 19.0475 angle error = 0.002 std dev error = 0.0122
+4 Pivot based IDIM = 1.9711941402436923
+4: real angle = 89.9874 real std dev = 19.066 stored angle = 89.983 stored std dev = 19.0586 angle error = 0 std dev error = 0.0004
+5 Pivot based IDIM = 2.118898718805285
+5: real angle = 89.9886 real std dev = 19.0695 stored angle = 89.9882 stored std dev = 19.0749 angle error = 0 std dev error = 0.0003
+6 Pivot based IDIM = 2.7168227447141797
+6: real angle = 90.0182 real std dev = 19.0627 stored angle = 82.3384 stored std dev = 17.9586 angle error = 0.0933 std dev error = 0.0615
+7 Pivot based IDIM = 2.24091411085325
+7: real angle = 90.0177 real std dev = 19.0621 stored angle = 90.0007 stored std dev = 19.0824 angle error = 0.0002 std dev error = 0.0011
+8 Pivot based IDIM = 2.393482300209969
+8: real angle = 90.0092 real std dev = 19.1854 stored angle = 89.9596 stored std dev = 19.0654 angle error = 0.0006 std dev error = 0.0063
+9 Pivot based IDIM = 2.47874072935671
+9: real angle = 90.4647 real std dev = 19.54 stored angle = 89.6667 stored std dev = 19.0755 angle error = 0.0089 std dev error = 0.0243
+10 Pivot based IDIM = 2.4663175136568607
+10: real angle = 89.29 real std dev = 18.776 stored angle = 90.0093 stored std dev = 19.0748 angle error = 0.008 std dev error = 0.0157
+11 Pivot based IDIM = 2.6731419759403705
+11: real angle = 90.184 real std dev = 19.2747 stored angle = 84.8262 stored std dev = 18.4959 angle error = 0.0632 std dev error = 0.0421
+12 Pivot based IDIM = 2.434072056314568
+12: real angle = 81.9775 real std dev = 17.3051 stored angle = 90.0176 stored std dev = 19.0528 angle error = 0.0893 std dev error = 0.0917
+13 Pivot based IDIM = 2.10189233819545
+13: real angle = 89.9814 real std dev = 19.0504 stored angle = 90.0109 stored std dev = 19.0657 angle error = 0.0003 std dev error = 0.0008
+14 Pivot based IDIM = 2.1992246275660117
+14: real angle = 89.7504 real std dev = 18.9968 stored angle = 89.9952 stored std dev = 19.0399 angle error = 0.0027 std dev error = 0.0023
+15 Pivot based IDIM = 2.006183820240455
+15: real angle = 89.9823 real std dev = 19.0775 stored angle = 90.0181 stored std dev = 19.0587 angle error = 0.0004 std dev error = 0.001
+16 Pivot based IDIM = 2.2895438911585977
+16: real angle = 89.9921 real std dev = 19.0747 stored angle = 89.9932 stored std dev = 19.0762 angle error = 0 std dev error = 0.0001
+17 Pivot based IDIM = 2.2026576098647075
+17: real angle = 90.0084 real std dev = 19.0772 stored angle = 89.9952 stored std dev = 19.0399 angle error = 0.0001 std dev error = 0.002
+18 Pivot based IDIM = 2.126210237582337
+18: real angle = 89.9996 real std dev = 19.0859 stored angle = 89.9874 stored std dev = 19.0674 angle error = 0.0001 std dev error = 0.001
+19 Pivot based IDIM = 2.139545276243071
+19: real angle = 90.1167 real std dev = 19.1872 stored angle = 89.9841 stored std dev = 19.0678 angle error = 0.0015 std dev error = 0.0063
+20 Pivot based IDIM = 2.1379248183227886
+20: real angle = 90.2231 real std dev = 19.3288 stored angle = 89.9841 stored std dev = 19.0678 angle error = 0.0027 std dev error = 0.0137
+21 Pivot based IDIM = 1.9474342170551742
+21: real angle = 89.9639 real std dev = 19.0617 stored angle = 89.9865 stored std dev = 19.0659 angle error = 0.0003 std dev error = 0.0002
+22 Pivot based IDIM = 2.5275689362784575
+22: real angle = 82.0619 real std dev = 17.5174 stored angle = 89.2006 stored std dev = 19.0622 angle error = 0.08 std dev error = 0.081
+23 Pivot based IDIM = 2.0600403201845876
+23: real angle = 90.0214 real std dev = 19.0745 stored angle = 89.9707 stored std dev = 19.0565 angle error = 0.0006 std dev error = 0.0009
+24 Pivot based IDIM = 1.8581047092683332
+24: real angle = 90.0156 real std dev = 19.0513 stored angle = 89.9998 stored std dev = 19.0524 angle error = 0.0002 std dev error = 0.0001
+25 Pivot based IDIM = 2.000157582974444
+25: real angle = 90.5439 real std dev = 19.5475 stored angle = 89.9995 stored std dev = 19.0442 angle error = 0.006 std dev error = 0.0264
+26 Pivot based IDIM = 2.382189688286174
+26: real angle = 90.2698 real std dev = 19.3747 stored angle = 89.9789 stored std dev = 19.0571 angle error = 0.0032 std dev error = 0.0167
+27 Pivot based IDIM = 2.326166225702921
+27: real angle = 89.966 real std dev = 19.0584 stored angle = 89.9865 stored std dev = 19.061 angle error = 0.0002 std dev error = 0.0001
+28 Pivot based IDIM = 1.940604105422167
+28: real angle = 89.4373 real std dev = 18.9169 stored angle = 89.9929 stored std dev = 19.0681 angle error = 0.0062 std dev error = 0.0079
+29 Pivot based IDIM = 2.2660938219750006
+29: real angle = 86.4147 real std dev = 18.2241 stored angle = 89.9791 stored std dev = 19.0475 angle error = 0.0396 std dev error = 0.0432
+30 Pivot based IDIM = 2.032171119452847
+30: real angle = 89.8712 real std dev = 19.0119 stored angle = 90.0015 stored std dev = 19.0534 angle error = 0.0014 std dev error = 0.0022
+31 Pivot based IDIM = 3.04056053342281
+31: real angle = 78.6852 real std dev = 16.7036 stored angle = 92.1371 stored std dev = 18.9598 angle error = 0.146 std dev error = 0.119
+32 Pivot based IDIM = 2.41600055419022
+32: real angle = 89.9674 real std dev = 19.0444 stored angle = 89.9147 stored std dev = 19.0525 angle error = 0.0006 std dev error = 0.0004
+33 Pivot based IDIM = 2.2685202313393793
+33: real angle = 81.4136 real std dev = 16.9902 stored angle = 89.9791 stored std dev = 19.0475 angle error = 0.0952 std dev error = 0.108
+34 Pivot based IDIM = 2.1093056332766555
+34: real angle = 90.2827 real std dev = 19.385 stored angle = 90.0053 stored std dev = 19.0563 angle error = 0.0031 std dev error = 0.0173
+35 Pivot based IDIM = 2.2785809687704304
+35: real angle = 89.9934 real std dev = 19.0589 stored angle = 90.034 stored std dev = 19.0702 angle error = 0.0005 std dev error = 0.0006
+36 Pivot based IDIM = 2.312346851400295
+36: real angle = 90.1456 real std dev = 19.2037 stored angle = 90.0319 stored std dev = 19.0515 angle error = 0.0013 std dev error = 0.008
+37 Pivot based IDIM = 2.4144633826381368
+37: real angle = 80.9676 real std dev = 16.9543 stored angle = 89.9246 stored std dev = 19.0592 angle error = 0.0996 std dev error = 0.1104
+38 Pivot based IDIM = 2.3580585891831776
+38: real angle = 82.6058 real std dev = 17.3166 stored angle = 89.9324 stored std dev = 19.0553 angle error = 0.0815 std dev error = 0.0912
+39 Pivot based IDIM = 2.801439543044656
+39: real angle = 90.2509 real std dev = 19.3901 stored angle = 75.754 stored std dev = 16.2039 angle error = 0.1914 std dev error = 0.1966
+40 Pivot based IDIM = 2.56190936506846
+40: real angle = 88.501 real std dev = 18.7655 stored angle = 90.0221 stored std dev = 19.047 angle error = 0.0169 std dev error = 0.0148
+41 Pivot based IDIM = 2.2545781449485816
+41: real angle = 89.9879 real std dev = 19.0494 stored angle = 90.0099 stored std dev = 19.056 angle error = 0.0002 std dev error = 0.0004
+42 Pivot based IDIM = 2.240199473686918
+42: real angle = 89.0896 real std dev = 18.8315 stored angle = 90.0007 stored std dev = 19.0824 angle error = 0.0101 std dev error = 0.0131
+43 Pivot based IDIM = 2.194421052645412
+43: real angle = 90.3136 real std dev = 19.3617 stored angle = 90.014 stored std dev = 19.053 angle error = 0.0033 std dev error = 0.0162
+44 Pivot based IDIM = 2.606772055058877
+44: real angle = 85.9106 real std dev = 17.8998 stored angle = 87.5699 stored std dev = 18.9371 angle error = 0.0189 std dev error = 0.0548
+45 Pivot based IDIM = 2.5381659013818707
+45: real angle = 89.7487 real std dev = 18.9872 stored angle = 89.0149 stored std dev = 19.0305 angle error = 0.0082 std dev error = 0.0023
+46 Pivot based IDIM = 2.548063352683279
+46: real angle = 90.0434 real std dev = 19.0753 stored angle = 88.8075 stored std dev = 19.0305 angle error = 0.0139 std dev error = 0.0024
+47 Pivot based IDIM = 2.2117208994493356
+47: real angle = 90.0054 real std dev = 19.0416 stored angle = 90.01 stored std dev = 19.0684 angle error = 0.0001 std dev error = 0.0014
+48 Pivot based IDIM = 2.5222931671082467
+48: real angle = 89.9977 real std dev = 19.0515 stored angle = 89.2006 stored std dev = 19.0622 angle error = 0.0089 std dev error = 0.0006
+49 Pivot based IDIM = 2.0587353134890756
+49: real angle = 87.4012 real std dev = 18.4388 stored angle = 89.9707 stored std dev = 19.0565 angle error = 0.0286 std dev error = 0.0324
+50 Pivot based IDIM = 1.7994155224955908
+50: real angle = 89.8075 real std dev = 19.0171 stored angle = 89.9998 stored std dev = 19.0524 angle error = 0.0021 std dev error = 0.0019
+51 Pivot based IDIM = 1.8801324376588746
+51: real angle = 89.9522 real std dev = 19.0699 stored angle = 89.9998 stored std dev = 19.0524 angle error = 0.0005 std dev error = 0.0009
+52 Pivot based IDIM = 2.9038174313373566
+52: real angle = 80.9958 real std dev = 16.4622 stored angle = 66.3535 stored std dev = 13.5644 angle error = 0.2207 std dev error = 0.2136
+53 Pivot based IDIM = 2.1714696807140896
+53: real angle = 90.0174 real std dev = 19.0714 stored angle = 89.9981 stored std dev = 19.0781 angle error = 0.0002 std dev error = 0.0004
+54 Pivot based IDIM = 2.8174651812121008
+54: real angle = 90.2535 real std dev = 19.3412 stored angle = 74.4296 stored std dev = 15.8087 angle error = 0.2126 std dev error = 0.2234
+55 Pivot based IDIM = 2.2934169144896037
+55: real angle = 89.9557 real std dev = 19.0518 stored angle = 89.9932 stored std dev = 19.0762 angle error = 0.0004 std dev error = 0.0013
+56 Pivot based IDIM = 2.283606373155091
+56: real angle = 89.9133 real std dev = 19.0336 stored angle = 90.034 stored std dev = 19.0702 angle error = 0.0013 std dev error = 0.0019
+57 Pivot based IDIM = 2.2829402105593792
+57: real angle = 90.0255 real std dev = 19.1454 stored angle = 90.034 stored std dev = 19.0702 angle error = 0.0001 std dev error = 0.0039
+58 Pivot based IDIM = 2.309020363520183
+58: real angle = 89.9845 real std dev = 19.0545 stored angle = 90.0319 stored std dev = 19.0515 angle error = 0.0005 std dev error = 0.0002
+59 Pivot based IDIM = 2.5350929428269744
+59: real angle = 90.2264 real std dev = 19.3666 stored angle = 89.0149 stored std dev = 19.0305 angle error = 0.0136 std dev error = 0.0177
+60 Pivot based IDIM = 2.17899142486883
+60: real angle = 89.9911 real std dev = 19.0537 stored angle = 89.9908 stored std dev = 19.065 angle error = 0 std dev error = 0.0006
+61 Pivot based IDIM = 2.0911631407228826
+61: real angle = 89.544 real std dev = 18.9063 stored angle = 90.019 stored std dev = 19.0499 angle error = 0.0053 std dev error = 0.0075
+62 Pivot based IDIM = 2.5175438937701693
+62: real angle = 90.0695 real std dev = 19.0969 stored angle = 89.3767 stored std dev = 19.067 angle error = 0.0078 std dev error = 0.0016
+63 Pivot based IDIM = 2.0836703955028706
+63: real angle = 89.995 real std dev = 19.0595 stored angle = 90.0007 stored std dev = 19.0837 angle error = 0.0001 std dev error = 0.0013
+64 Pivot based IDIM = 2.23252841889669
+64: real angle = 90.3289 real std dev = 19.4764 stored angle = 89.9568 stored std dev = 19.0889 angle error = 0.0041 std dev error = 0.0203
+65 Pivot based IDIM = 2.051703493657837
+65: real angle = 89.9288 real std dev = 19.0607 stored angle = 90.0265 stored std dev = 19.0547 angle error = 0.0011 std dev error = 0.0003
+66 Pivot based IDIM = 2.246294228648516
+66: real angle = 89.919 real std dev = 19.0387 stored angle = 90.0099 stored std dev = 19.056 angle error = 0.001 std dev error = 0.0009
+67 Pivot based IDIM = 2.089640464408414
+67: real angle = 89.8769 real std dev = 19.0287 stored angle = 90.019 stored std dev = 19.0499 angle error = 0.0016 std dev error = 0.0011
+68 Pivot based IDIM = 2.4542064931182987
+68: real angle = 85.8976 real std dev = 18.3555 stored angle = 89.8377 stored std dev = 19.0548 angle error = 0.0439 std dev error = 0.0367
+69 Pivot based IDIM = 2.450099360385733
+69: real angle = 81.5016 real std dev = 17.0023 stored angle = 89.8377 stored std dev = 19.0548 angle error = 0.0928 std dev error = 0.1077
+70 Pivot based IDIM = 2.0640936902185243
+70: real angle = 88.9918 real std dev = 18.7574 stored angle = 89.9707 stored std dev = 19.0565 angle error = 0.0109 std dev error = 0.0157
+71 Pivot based IDIM = 2.337846351422072
+71: real angle = 89.9117 real std dev = 19.0356 stored angle = 90.0069 stored std dev = 19.0887 angle error = 0.0011 std dev error = 0.0028
+72 Pivot based IDIM = 2.213131322158436
+72: real angle = 89.3415 real std dev = 18.897 stored angle = 90.01 stored std dev = 19.0684 angle error = 0.0074 std dev error = 0.009
+73 Pivot based IDIM = 2.639927368970381
+73: real angle = 90.0283 real std dev = 19.0948 stored angle = 86.6348 stored std dev = 18.8357 angle error = 0.0392 std dev error = 0.0138
+74 Pivot based IDIM = 2.4437552508055687
+74: real angle = 89.9481 real std dev = 19.0425 stored angle = 89.8441 stored std dev = 19.0591 angle error = 0.0012 std dev error = 0.0009
+75 Pivot based IDIM = 1.97382377058412
+75: real angle = 89.8797 real std dev = 19.0525 stored angle = 89.983 stored std dev = 19.0586 angle error = 0.0011 std dev error = 0.0003
+76 Pivot based IDIM = 2.429477511951181
+76: real angle = 87.7867 real std dev = 18.636 stored angle = 90.0176 stored std dev = 19.0528 angle error = 0.0248 std dev error = 0.0219
+77 Pivot based IDIM = 2.1955140997700098
+77: real angle = 83.9616 real std dev = 17.7411 stored angle = 89.9952 stored std dev = 19.0399 angle error = 0.067 std dev error = 0.0682
+78 Pivot based IDIM = 1.9708069037873666
+78: real angle = 90.1066 real std dev = 19.1663 stored angle = 89.983 stored std dev = 19.0586 angle error = 0.0014 std dev error = 0.0056
+79 Pivot based IDIM = 2.208930031956294
+79: real angle = 90.0571 real std dev = 19.0761 stored angle = 90.01 stored std dev = 19.0684 angle error = 0.0005 std dev error = 0.0004
+80 Pivot based IDIM = 2.328204699901359
+80: real angle = 81.1678 real std dev = 17.1248 stored angle = 89.9865 stored std dev = 19.061 angle error = 0.098 std dev error = 0.1016
+81 Pivot based IDIM = 1.9670657234090019
+81: real angle = 90.3398 real std dev = 19.3733 stored angle = 89.983 stored std dev = 19.0586 angle error = 0.004 std dev error = 0.0165
+82 Pivot based IDIM = 2.224507741813665
+82: real angle = 81.9813 real std dev = 16.909 stored angle = 89.9784 stored std dev = 19.0812 angle error = 0.0889 std dev error = 0.1138
+83 Pivot based IDIM = 2.7726852359552323
+83: real angle = 90.2034 real std dev = 19.3004 stored angle = 90.0383 stored std dev = 19.0394 angle error = 0.0018 std dev error = 0.0137
+84 Pivot based IDIM = 2.129607842280228
+84: real angle = 85.6085 real std dev = 18.1524 stored angle = 89.9874 stored std dev = 19.0674 angle error = 0.0487 std dev error = 0.048
+85 Pivot based IDIM = 1.927997547793525
+85: real angle = 90.0111 real std dev = 19.079 stored angle = 89.9704 stored std dev = 19.0748 angle error = 0.0005 std dev error = 0.0002
+86 Pivot based IDIM = 2.018016874774996
+86: real angle = 89.985 real std dev = 19.0582 stored angle = 89.9651 stored std dev = 19.0574 angle error = 0.0002 std dev error = 0
+87 Pivot based IDIM = 2.4569829674272428
+87: real angle = 89.9817 real std dev = 19.0889 stored angle = 89.7013 stored std dev = 19.0296 angle error = 0.0031 std dev error = 0.0031
+88 Pivot based IDIM = 2.441281529534736
+88: real angle = 90.0154 real std dev = 19.0639 stored angle = 89.8441 stored std dev = 19.0591 angle error = 0.0019 std dev error = 0.0003
+89 Pivot based IDIM = 2.332687331900152
+89: real angle = 88.123 real std dev = 18.8825 stored angle = 89.9865 stored std dev = 19.061 angle error = 0.0207 std dev error = 0.0094
+90 Pivot based IDIM = 2.179883285456492
+90: real angle = 90.0048 real std dev = 19.0503 stored angle = 89.9908 stored std dev = 19.065 angle error = 0.0002 std dev error = 0.0008
+91 Pivot based IDIM = 2.539475360291483
+91: real angle = 80.6976 real std dev = 16.846 stored angle = 89.0149 stored std dev = 19.0305 angle error = 0.0934 std dev error = 0.1148
+92 Pivot based IDIM = 2.0060460563318374
+92: real angle = 89.997 real std dev = 19.058 stored angle = 90.0181 stored std dev = 19.0587 angle error = 0.0002 std dev error = 0
+93 Pivot based IDIM = 2.2063897391990746
+93: real angle = 89.8176 real std dev = 19.0341 stored angle = 90.01 stored std dev = 19.0684 angle error = 0.0021 std dev error = 0.0018
+94 Pivot based IDIM = 2.183234522642938
+94: real angle = 89.9897 real std dev = 19.0741 stored angle = 89.9908 stored std dev = 19.065 angle error = 0 std dev error = 0.0005
+95 Pivot based IDIM = 2.286482814474693
+95: real angle = 90.2403 real std dev = 19.2507 stored angle = 89.9932 stored std dev = 19.0762 angle error = 0.0027 std dev error = 0.0091
+96 Pivot based IDIM = 2.4123215738107127
+96: real angle = 89.2371 real std dev = 18.8757 stored angle = 89.9246 stored std dev = 19.0592 angle error = 0.0076 std dev error = 0.0096
+97 Pivot based IDIM = 2.247786107675094
+97: real angle = 89.9739 real std dev = 19.0634 stored angle = 90.0099 stored std dev = 19.056 angle error = 0.0004 std dev error = 0.0004
+98 Pivot based IDIM = 2.323270990680838
+98: real angle = 86.9915 real std dev = 18.2458 stored angle = 89.9886 stored std dev = 19.0587 angle error = 0.0333 std dev error = 0.0427
+99 Pivot based IDIM = 2.140043903478937
+99: real angle = 89.721 real std dev = 18.9635 stored angle = 89.9841 stored std dev = 19.0678 angle error = 0.0029 std dev error = 0.0055
+Testing map (Euc20) ...
+Query radius = 0.6017460044834176 dim = 20
+1 Pivot based IDIM = 2.5096166284405714
+1: real angle = 88.4295 real std dev = 12.7819 stored angle = 89.9044 stored std dev = 13.1331 angle error = 0.0164 std dev error = 0.0267
+2 Pivot based IDIM = 3.2847588765417632
+2: real angle = 89.9914 real std dev = 13.1578 stored angle = 81.7629 stored std dev = 11.9789 angle error = 0.1006 std dev error = 0.0984
+3 Pivot based IDIM = 3.5698838637575205
+3: real angle = 89.9756 real std dev = 13.2065 stored angle = 95.4617 stored std dev = 12.5249 angle error = 0.0575 std dev error = 0.0544
+4 Pivot based IDIM = 3.4811409030152367
+4: real angle = 87.4834 real std dev = 12.7048 stored angle = 74.43 stored std dev = 10.4302 angle error = 0.1754 std dev error = 0.2181
+5 Pivot based IDIM = 3.37348729504847
+5: real angle = 89.9131 real std dev = 13.1159 stored angle = 90.0308 stored std dev = 13.1263 angle error = 0.0013 std dev error = 0.0008
+6 Pivot based IDIM = 3.1718771166806667
+6: real angle = 89.9985 real std dev = 13.1335 stored angle = 85.0718 stored std dev = 12.6212 angle error = 0.0579 std dev error = 0.0406
+7 Pivot based IDIM = 3.2470784759406937
+7: real angle = 90.008 real std dev = 13.16 stored angle = 82.7062 stored std dev = 12.172 angle error = 0.0883 std dev error = 0.0812
+8 Pivot based IDIM = 3.3002596322013096
+8: real angle = 90.1846 real std dev = 13.2979 stored angle = 81.0787 stored std dev = 11.8627 angle error = 0.1123 std dev error = 0.121
+9 Pivot based IDIM = 2.9298947602678154
+9: real angle = 90.2326 real std dev = 13.3379 stored angle = 88.5788 stored std dev = 13.0714 angle error = 0.0187 std dev error = 0.0204
+10 Pivot based IDIM = 2.950884725394705
+10: real angle = 88.9305 real std dev = 13.023 stored angle = 88.5116 stored std dev = 13.0558 angle error = 0.0047 std dev error = 0.0025
+11 Pivot based IDIM = 3.3218037156950717
+11: real angle = 90.0031 real std dev = 13.1472 stored angle = 80.4006 stored std dev = 11.7031 angle error = 0.1194 std dev error = 0.1234
+12 Pivot based IDIM = 3.00716868719251
+12: real angle = 90.0495 real std dev = 13.2082 stored angle = 88.1279 stored std dev = 13.0295 angle error = 0.0218 std dev error = 0.0137
+13 Pivot based IDIM = 3.7178491327764966
+13: real angle = 89.3898 real std dev = 12.9701 stored angle = 65.1541 stored std dev = 8.6431 angle error = 0.372 std dev error = 0.5006
+14 Pivot based IDIM = 3.116743794564883
+14: real angle = 89.9965 real std dev = 13.1272 stored angle = 86.3328 stored std dev = 12.8185 angle error = 0.0424 std dev error = 0.0241
+15 Pivot based IDIM = 4.213290621617015
+15: real angle = 90.1987 real std dev = 13.3272 stored angle = 46.4179 stored std dev = 6.3296 angle error = 0.9432 std dev error = 1.1055
+16 Pivot based IDIM = 3.342166663633539
+16: real angle = 89.9742 real std dev = 13.1403 stored angle = 79.669 stored std dev = 11.5379 angle error = 0.1294 std dev error = 0.1389
+17 Pivot based IDIM = 3.834458904169708
+17: real angle = 90.1064 real std dev = 13.2315 stored angle = 60.8961 stored std dev = 7.7314 angle error = 0.4797 std dev error = 0.7114
+18 Pivot based IDIM = 3.719756976622102
+18: real angle = 90.0438 real std dev = 13.188 stored angle = 65.1541 stored std dev = 8.6431 angle error = 0.382 std dev error = 0.5258
+19 Pivot based IDIM = 3.580972825164058
+19: real angle = 85.6107 real std dev = 12.3982 stored angle = 70.8211 stored std dev = 9.7286 angle error = 0.2088 std dev error = 0.2744
+20 Pivot based IDIM = 3.433977562853462
+20: real angle = 89.9928 real std dev = 13.1253 stored angle = 76.5821 stored std dev = 10.8665 angle error = 0.1751 std dev error = 0.2079
+21 Pivot based IDIM = 2.8358892724742124
+21: real angle = 89.8507 real std dev = 13.109 stored angle = 89.0821 stored std dev = 13.0973 angle error = 0.0086 std dev error = 0.0009
+22 Pivot based IDIM = 3.3493368782670783
+22: real angle = 89.9852 real std dev = 13.1503 stored angle = 79.3303 stored std dev = 11.4608 angle error = 0.1343 std dev error = 0.1474
+23 Pivot based IDIM = 3.3664185847514383
+23: real angle = 89.9806 real std dev = 13.1714 stored angle = 90.0308 stored std dev = 13.1263 angle error = 0.0006 std dev error = 0.0034
+24 Pivot based IDIM = 3.3106710148609664
+24: real angle = 90.112 real std dev = 13.2393 stored angle = 80.7248 stored std dev = 11.7486 angle error = 0.1163 std dev error = 0.1269
+25 Pivot based IDIM = 3.4564379089901993
+25: real angle = 90.0066 real std dev = 13.1657 stored angle = 75.2702 stored std dev = 10.6407 angle error = 0.1958 std dev error = 0.2373
+26 Pivot based IDIM = 3.788314556241497
+26: real angle = 89.0999 real std dev = 12.9626 stored angle = 62.2545 stored std dev = 8.1276 angle error = 0.4312 std dev error = 0.5949
+27 Pivot based IDIM = 3.7886275050596585
+27: real angle = 90.0292 real std dev = 13.2015 stored angle = 62.2545 stored std dev = 8.1276 angle error = 0.4461 std dev error = 0.6243
+28 Pivot based IDIM = 3.3057381063815328
+28: real angle = 90.0222 real std dev = 13.1442 stored angle = 80.7248 stored std dev = 11.7486 angle error = 0.1152 std dev error = 0.1188
+29 Pivot based IDIM = 3.20470430506151
+29: real angle = 89.996 real std dev = 13.1626 stored angle = 84.3858 stored std dev = 12.5119 angle error = 0.0665 std dev error = 0.052
+30 Pivot based IDIM = 3.9774828516199863
+30: real angle = 84.7048 real std dev = 12.2063 stored angle = 55.327 stored std dev = 6.9473 angle error = 0.531 std dev error = 0.757
+31 Pivot based IDIM = 2.4204624915776716
+31: real angle = 87.4397 real std dev = 12.6934 stored angle = 89.9829 stored std dev = 13.1426 angle error = 0.0283 std dev error = 0.0342
+32 Pivot based IDIM = 3.134893662000461
+32: real angle = 89.5599 real std dev = 13.0703 stored angle = 86.1594 stored std dev = 12.8059 angle error = 0.0395 std dev error = 0.0207
+33 Pivot based IDIM = 3.118900996611322
+33: real angle = 89.067 real std dev = 12.9512 stored angle = 86.3328 stored std dev = 12.8185 angle error = 0.0317 std dev error = 0.0103
+34 Pivot based IDIM = 3.0936906138513662
+34: real angle = 90.0832 real std dev = 13.2412 stored angle = 86.9705 stored std dev = 12.9151 angle error = 0.0358 std dev error = 0.0252
+35 Pivot based IDIM = 3.4349834381077806
+35: real angle = 85.4822 real std dev = 12.4168 stored angle = 76.5821 stored std dev = 10.8665 angle error = 0.1162 std dev error = 0.1427
+36 Pivot based IDIM = 3.829592557355361
+36: real angle = 89.6727 real std dev = 13.1076 stored angle = 60.8961 stored std dev = 7.7314 angle error = 0.4726 std dev error = 0.6954
+37 Pivot based IDIM = 2.5580601301404533
+37: real angle = 89.8758 real std dev = 13.0993 stored angle = 89.8613 stored std dev = 13.1332 angle error = 0.0002 std dev error = 0.0026
+38 Pivot based IDIM = 2.9161884958599575
+38: real angle = 90.0638 real std dev = 13.2416 stored angle = 88.6927 stored std dev = 13.088 angle error = 0.0155 std dev error = 0.0117
+39 Pivot based IDIM = 3.136261939207608
+39: real angle = 87.4134 real std dev = 12.6808 stored angle = 85.9318 stored std dev = 12.7624 angle error = 0.0172 std dev error = 0.0064
+40 Pivot based IDIM = 3.7986449780236313
+40: real angle = 90.001 real std dev = 13.1443 stored angle = 61.6442 stored std dev = 7.9335 angle error = 0.46 std dev error = 0.6568
+41 Pivot based IDIM = 3.555136259697569
+41: real angle = 90.1165 real std dev = 13.2709 stored angle = 71.3138 stored std dev = 9.8487 angle error = 0.2637 std dev error = 0.3475
+42 Pivot based IDIM = 3.6679336063064345
+42: real angle = 90.0109 real std dev = 13.1324 stored angle = 67.1549 stored std dev = 9.0095 angle error = 0.3403 std dev error = 0.4576
+43 Pivot based IDIM = 3.3283799383326715
+43: real angle = 90.1168 real std dev = 13.2449 stored angle = 80.0462 stored std dev = 11.6524 angle error = 0.1258 std dev error = 0.1367
+44 Pivot based IDIM = 3.222169614607562
+44: real angle = 89.9923 real std dev = 13.1293 stored angle = 83.8091 stored std dev = 12.3904 angle error = 0.0738 std dev error = 0.0596
+45 Pivot based IDIM = 3.3286334020358574
+45: real angle = 90.055 real std dev = 13.2409 stored angle = 80.0462 stored std dev = 11.6524 angle error = 0.125 std dev error = 0.1363
+46 Pivot based IDIM = 2.580798194651282
+46: real angle = 89.0486 real std dev = 12.9347 stored angle = 89.8329 stored std dev = 13.1421 angle error = 0.0087 std dev error = 0.0158
+47 Pivot based IDIM = 2.92480919576548
+47: real angle = 90.0116 real std dev = 13.1377 stored angle = 88.6927 stored std dev = 13.088 angle error = 0.0149 std dev error = 0.0038
+48 Pivot based IDIM = 3.4711090120522803
+48: real angle = 89.973 real std dev = 13.1378 stored angle = 74.8271 stored std dev = 10.5535 angle error = 0.2024 std dev error = 0.2449
+49 Pivot based IDIM = 2.935496254862491
+49: real angle = 89.4276 real std dev = 13.0456 stored angle = 88.5788 stored std dev = 13.0714 angle error = 0.0096 std dev error = 0.002
+50 Pivot based IDIM = 3.3913791942006153
+50: real angle = 89.7322 real std dev = 13.123 stored angle = 78.1433 stored std dev = 11.2278 angle error = 0.1483 std dev error = 0.1688
+51 Pivot based IDIM = 3.7434303870544974
+51: real angle = 89.9303 real std dev = 13.1575 stored angle = 64.1556 stored std dev = 8.4048 angle error = 0.4018 std dev error = 0.5655
+52 Pivot based IDIM = 2.429892243695882
+52: real angle = 89.9886 real std dev = 13.1645 stored angle = 89.9829 stored std dev = 13.1426 angle error = 0.0001 std dev error = 0.0017
+53 Pivot based IDIM = 3.098715089307894
+53: real angle = 89.1203 real std dev = 13.0152 stored angle = 86.8023 stored std dev = 12.8969 angle error = 0.0267 std dev error = 0.0092
+54 Pivot based IDIM = 3.036587645936341
+54: real angle = 90.0244 real std dev = 13.1481 stored angle = 87.9285 stored std dev = 13.0276 angle error = 0.0238 std dev error = 0.0093
+55 Pivot based IDIM = 2.909840041434351
+55: real angle = 89.0116 real std dev = 12.9877 stored angle = 88.7384 stored std dev = 13.112 angle error = 0.0031 std dev error = 0.0095
+56 Pivot based IDIM = 2.919630246912628
+56: real angle = 89.9732 real std dev = 13.1348 stored angle = 88.6927 stored std dev = 13.088 angle error = 0.0144 std dev error = 0.0036
+57 Pivot based IDIM = 3.6415360105887653
+57: real angle = 89.9891 real std dev = 13.2142 stored angle = 97.0696 stored std dev = 12.2052 angle error = 0.0729 std dev error = 0.0827
+58 Pivot based IDIM = 2.2365912210607592
+58: real angle = 89.9012 real std dev = 13.1161 stored angle = 89.9829 stored std dev = 13.1426 angle error = 0.0009 std dev error = 0.002
+59 Pivot based IDIM = 3.2685329879938734
+59: real angle = 83.8211 real std dev = 12.0341 stored angle = 82.072 stored std dev = 12.0788 angle error = 0.0213 std dev error = 0.0037
+60 Pivot based IDIM = 3.1657916684792577
+60: real angle = 87.9309 real std dev = 12.7837 stored angle = 85.0718 stored std dev = 12.6212 angle error = 0.0336 std dev error = 0.0129
+61 Pivot based IDIM = 3.6584759562925675
+61: real angle = 90.1003 real std dev = 13.2423 stored angle = 67.626 stored std dev = 9.0306 angle error = 0.3323 std dev error = 0.4664
+62 Pivot based IDIM = 2.9843740946066926
+62: real angle = 90.0611 real std dev = 13.2222 stored angle = 88.3428 stored std dev = 13.0813 angle error = 0.0195 std dev error = 0.0108
+63 Pivot based IDIM = 2.8794182702572146
+63: real angle = 89.9927 real std dev = 13.1422 stored angle = 88.8616 stored std dev = 13.0961 angle error = 0.0127 std dev error = 0.0035
+64 Pivot based IDIM = 2.676875988356046
+64: real angle = 89.9929 real std dev = 13.1302 stored angle = 89.5916 stored std dev = 13.1312 angle error = 0.0045 std dev error = 0.0001
+65 Pivot based IDIM = 3.213242454123848
+65: real angle = 90.0292 real std dev = 13.2396 stored angle = 84.1058 stored std dev = 12.4358 angle error = 0.0704 std dev error = 0.0646
+66 Pivot based IDIM = 3.23612178650148
+66: real angle = 88.948 real std dev = 12.966 stored angle = 83.0129 stored std dev = 12.2197 angle error = 0.0715 std dev error = 0.0611
+67 Pivot based IDIM = 2.4870094908732483
+67: real angle = 90.1097 real std dev = 13.2109 stored angle = 89.9576 stored std dev = 13.1359 angle error = 0.0017 std dev error = 0.0057
+68 Pivot based IDIM = 2.806302575334499
+68: real angle = 90.0056 real std dev = 13.13 stored angle = 89.1886 stored std dev = 13.1264 angle error = 0.0092 std dev error = 0.0003
+69 Pivot based IDIM = 2.5350484307239523
+69: real angle = 88.7168 real std dev = 12.8834 stored angle = 89.8651 stored std dev = 13.144 angle error = 0.0128 std dev error = 0.0198
+70 Pivot based IDIM = 3.0429895401443106
+70: real angle = 90.0194 real std dev = 13.1399 stored angle = 87.9285 stored std dev = 13.0276 angle error = 0.0238 std dev error = 0.0086
+71 Pivot based IDIM = 3.8901826297997046
+71: real angle = 89.9888 real std dev = 13.1476 stored angle = 58.2154 stored std dev = 7.4732 angle error = 0.5458 std dev error = 0.7593
+72 Pivot based IDIM = 2.242524507964423
+72: real angle = 89.9946 real std dev = 13.1568 stored angle = 89.9829 stored std dev = 13.1426 angle error = 0.0001 std dev error = 0.0011
+73 Pivot based IDIM = 3.2491879035122064
+73: real angle = 90.1464 real std dev = 13.2529 stored angle = 82.7062 stored std dev = 12.172 angle error = 0.09 std dev error = 0.0888
+74 Pivot based IDIM = 2.6984563973785924
+74: real angle = 90.0008 real std dev = 13.138 stored angle = 89.5412 stored std dev = 13.1477 angle error = 0.0051 std dev error = 0.0007
+75 Pivot based IDIM = 3.2123623342388425
+75: real angle = 81.3718 real std dev = 11.7072 stored angle = 84.1058 stored std dev = 12.4358 angle error = 0.0325 std dev error = 0.0586
+76 Pivot based IDIM = 3.6422654482529415
+76: real angle = 90.063 real std dev = 13.2109 stored angle = 97.0696 stored std dev = 12.2052 angle error = 0.0722 std dev error = 0.0824
+77 Pivot based IDIM = 2.460848457443736
+77: real angle = 90.0755 real std dev = 13.2329 stored angle = 89.9829 stored std dev = 13.1426 angle error = 0.001 std dev error = 0.0069
+78 Pivot based IDIM = 3.1040008953455445
+78: real angle = 89.2246 real std dev = 13.0018 stored angle = 86.8023 stored std dev = 12.8969 angle error = 0.0279 std dev error = 0.0081
+79 Pivot based IDIM = 3.1345317367884564
+79: real angle = 88.8632 real std dev = 12.9138 stored angle = 86.1594 stored std dev = 12.8059 angle error = 0.0314 std dev error = 0.0084
+80 Pivot based IDIM = 3.3399228320262315
+80: real angle = 89.7423 real std dev = 13.0691 stored angle = 79.669 stored std dev = 11.5379 angle error = 0.1264 std dev error = 0.1327
+81 Pivot based IDIM = 3.083863427181349
+81: real angle = 88.5836 real std dev = 12.8557 stored angle = 87.1415 stored std dev = 12.9517 angle error = 0.0165 std dev error = 0.0074
+82 Pivot based IDIM = 4.095804240226459
+82: real angle = 90.0537 real std dev = 13.2281 stored angle = 50.2451 stored std dev = 6.1974 angle error = 0.7923 std dev error = 1.1345
+83 Pivot based IDIM = 3.1479914230635435
+83: real angle = 90.0104 real std dev = 13.1322 stored angle = 85.5122 stored std dev = 12.6957 angle error = 0.0526 std dev error = 0.0344
+84 Pivot based IDIM = 3.008757514010244
+84: real angle = 88.9159 real std dev = 12.9642 stored angle = 88.1279 stored std dev = 13.0295 angle error = 0.0089 std dev error = 0.005
+85 Pivot based IDIM = 3.3337194358215
+85: real angle = 90.065 real std dev = 13.2436 stored angle = 80.0462 stored std dev = 11.6524 angle error = 0.1252 std dev error = 0.1366
+86 Pivot based IDIM = 2.3687154201642087
+86: real angle = 89.9868 real std dev = 13.1322 stored angle = 89.9829 stored std dev = 13.1426 angle error = 0 std dev error = 0.0008
+87 Pivot based IDIM = 3.5778500519930025
+87: real angle = 87.0749 real std dev = 12.5514 stored angle = 70.8211 stored std dev = 9.7286 angle error = 0.2295 std dev error = 0.2902
+88 Pivot based IDIM = 3.0291966732757487
+88: real angle = 90.0526 real std dev = 13.1997 stored angle = 89.9911 stored std dev = 13.1452 angle error = 0.0007 std dev error = 0.0041
+89 Pivot based IDIM = 3.119820577827004
+89: real angle = 88.669 real std dev = 13.0246 stored angle = 86.3328 stored std dev = 12.8185 angle error = 0.0271 std dev error = 0.0161
+90 Pivot based IDIM = 3.080413136369396
+90: real angle = 90.1115 real std dev = 13.2575 stored angle = 87.1415 stored std dev = 12.9517 angle error = 0.0341 std dev error = 0.0236
+91 Pivot based IDIM = 2.1425551057062067
+91: real angle = 89.9738 real std dev = 13.1398 stored angle = 89.9829 stored std dev = 13.1426 angle error = 0.0001 std dev error = 0.0002
+92 Pivot based IDIM = 3.15799096298816
+92: real angle = 88.1347 real std dev = 12.6607 stored angle = 85.3128 stored std dev = 12.6643 angle error = 0.0331 std dev error = 0.0003
+93 Pivot based IDIM = 2.917033434402386
+93: real angle = 88.1184 real std dev = 12.8026 stored angle = 88.6927 stored std dev = 13.088 angle error = 0.0065 std dev error = 0.0218
+94 Pivot based IDIM = 2.8869639554450326
+94: real angle = 90.0476 real std dev = 13.2956 stored angle = 88.8049 stored std dev = 13.1033 angle error = 0.014 std dev error = 0.0147
+95 Pivot based IDIM = 3.1384252709373888
+95: real angle = 89.5517 real std dev = 13.0167 stored angle = 85.9318 stored std dev = 12.7624 angle error = 0.0421 std dev error = 0.0199
+96 Pivot based IDIM = 2.705133931106991
+96: real angle = 89.5046 real std dev = 13.077 stored angle = 89.5412 stored std dev = 13.1477 angle error = 0.0004 std dev error = 0.0054
+97 Pivot based IDIM = 2.5914578105176744
+97: real angle = 90.0085 real std dev = 13.1401 stored angle = 89.7714 stored std dev = 13.1408 angle error = 0.0026 std dev error = 0.0001
+98 Pivot based IDIM = 3.2107044642259757
+98: real angle = 88.5326 real std dev = 12.8775 stored angle = 84.1058 stored std dev = 12.4358 angle error = 0.0526 std dev error = 0.0355
+99 Pivot based IDIM = 3.1298192926663555
+99: real angle = 88.3089 real std dev = 12.8056 stored angle = 86.1594 stored std dev = 12.8059 angle error = 0.0249 std dev error = 0

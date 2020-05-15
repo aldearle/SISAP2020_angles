@@ -6,6 +6,7 @@ import dataPoints.cartesian.Euclidean;
 import testloads.TestLoad;
 
 import java.util.List;
+import java.util.Map;
 
 public class EucN implements IContext {
 
@@ -106,6 +107,21 @@ public class EucN implements IContext {
     @Override
     public List<CartesianPoint> getRefPoints() throws Exception {
         return refPoints;
+    }
+
+    @Override
+    public Map<Integer, int[]> getNNMap() {
+        return null;
+    }
+
+    @Override
+    public Map<Integer, float[]> getDataMap() {
+        return null;
+    }
+
+    @Override
+    public Map<Integer, float[]> getQueryMap() {
+        return null;
     }
 
     @Override

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class is something that acts like a context from the Metric Space Framework.
@@ -66,6 +67,21 @@ public class DeCafContext implements IContext {
             loadProfisetData();
         }
         return reference_object_list;
+    }
+
+    @Override
+    public Map<Integer, int[]> getNNMap() {
+        return null;
+    }
+
+    @Override
+    public Map<Integer, float[]> getDataMap() {
+        return null;
+    }
+
+    @Override
+    public Map<Integer, float[]> getQueryMap() {
+        return null;
     }
 
     public List<CartesianPoint> getQueries() throws Exception {

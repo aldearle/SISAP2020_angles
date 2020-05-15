@@ -10,6 +10,7 @@ import uk.al_richard.experimental.angles.contexts.SiftContext;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public abstract class CommonBase {
@@ -34,13 +35,21 @@ public abstract class CommonBase {
     private List<CartesianPoint> queries;
     private List<CartesianPoint> ros;
     private double threshold = -1;
+
+    protected Map<Integer,int[]> nn_map;
+    protected Map<Integer, float[]> data_map;
+    protected Map<Integer,float[]> query_map;
+
     private int dim;
 
     protected Random rand  = new Random(8796253 );
 
     protected DecimalFormat df = new DecimalFormat("#.##");
 
+
+
     public CommonBase(String dataset_name, int num_data_points, int num_ros, int num_queries) throws Exception {
+        System.out.println( "CommonBase: DANGER - only SIFT maps/queries etc. are complete - rest return null - temp botch");
         this.num_data_points = num_data_points;
         this.num_ros = num_ros;
         this.num_queries = num_queries;
@@ -104,6 +113,10 @@ public abstract class CommonBase {
         data = tc.getData().subList(0,num_data_points);
         ros = tc.getRefPoints();
         threshold = tc.getThreshold();
+        nn_map = tc.getNNMap();
+        data_map = tc.getDataMap();
+        query_map = tc.getQueryMap();
+        queries = tc.getQueries();
         dim = 128;
     }
 
@@ -245,6 +258,14 @@ public abstract class CommonBase {
 
     public List<CartesianPoint> getRos() {
         return ros;
+    }
+
+    public Map<Integer, float[]> getDataMap() {
+        return data_map;
+    }
+
+    public Map<Integer, float[]> getQueryMap() {
+        return query_map;
     }
 
 }

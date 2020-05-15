@@ -91,9 +91,9 @@ public class LIDIMtoAngleMap extends CommonBase {
         for( int i = 1; i < 100; i++ ) {
             CartesianPoint p = samples.get(i);
 
-            List<Double> list = getAngles( 0.25, p.getPoint() );
+            List<Double> real_angles = getAngles( 0.25, p.getPoint() ); // the real angles in the volume around p radius specified.
 
-            int num_angles = list.size();
+            int num_angles = real_angles.size();
 
             // Calculate the local iDIMChavez based on reference points.
             List<Double> dists = getDists(pivots, p.getPoint());
@@ -102,8 +102,8 @@ public class LIDIMtoAngleMap extends CommonBase {
 
             if( num_angles > 0 ) { // can only put entry in table if we have calculated some angles.
 
-                double mean_rad = Util.mean(list);
-                double std_dev = Util.stddev(list, mean_rad);
+                double mean_rad = Util.mean(real_angles);
+                double std_dev = Util.stddev(real_angles, mean_rad);
 
                 Angles stored_angles = findClosest(lidim, map);
 
