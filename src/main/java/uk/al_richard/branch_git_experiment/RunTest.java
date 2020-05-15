@@ -1,4 +1,4 @@
-package branch_git_experiment;
+package uk.al_richard.branch_git_experiment;
 
 public class RunTest {
 
