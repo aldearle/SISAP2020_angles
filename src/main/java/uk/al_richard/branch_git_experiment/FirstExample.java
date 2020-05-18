@@ -17,13 +17,13 @@ public class FirstExample {
 			List<CartesianPoint> data = myDataSet.getData10k();
 			List<CartesianPoint> queries = myDataSet.getQueries();
 
-			double[] nns = myDataSet.getNNinfo(5);
+			double[] nns = myDataSet.getNNinfo(10);
 
-			CartesianPoint query = queries.get(0);
+			CartesianPoint query = queries.get(21);
 			int datum = 0;
 			for (CartesianPoint s : data) {
 				double dist = myDataSet.getMetric().distance(query, s);
-				if (dist <= nns[0]) {
+				if (dist <= nns[21]) {
 					System.out.println("datum " + datum + " is in 5nn, distance " + dist);
 				}
 				datum++;
