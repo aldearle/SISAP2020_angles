@@ -83,14 +83,14 @@ public class SiftContext implements IContext {
                 new_ro_map.put( index, data_map.get(index) );}
                 count++;
         }
-        // then remove from data_map
-        count = 0;
-        for( Integer index : new_ro_map.keySet() ) {
-            if( count < num_ref_points ) {
-                data_map.remove(index);
-                count++;
-            }
-        }
+        // then remove from data_map - don't remove for SIFT
+//        count = 0;
+//        for( Integer index : new_ro_map.keySet() ) {
+//            if( count < num_ref_points ) {
+//                data_map.remove(index);
+//                count++;
+//            }
+//        }
         return new_ro_map;
     }
 

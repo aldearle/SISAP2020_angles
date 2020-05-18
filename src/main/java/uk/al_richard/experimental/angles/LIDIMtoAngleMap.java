@@ -66,7 +66,7 @@ public class LIDIMtoAngleMap extends CommonBase {
     }
 
     /**
-     * Creates a map from LIDIM to angles by moving up the diagonal from [0,..0] to [1,..1]
+     * Creates a angle_map from LIDIM to angles by moving up the diagonal from [0,..0] to [1,..1]
      * @return a Map from LIDIM (calculated using pivots) to the angle and std dev.
      */
     public TreeMap<Double,Angles> createMap() throws Exception {
@@ -81,7 +81,7 @@ public class LIDIMtoAngleMap extends CommonBase {
     }
 
     /**
-     * Tests some points (1000) drawn from the space and prints out the errors from ground truth compared with stored values in the map
+     * Tests some points (1000) drawn from the space and prints out the errors from ground truth compared with stored values in the angle_map
      * @throws Exception
      */
     public void printTestPoints() throws Exception {
@@ -175,8 +175,8 @@ public class LIDIMtoAngleMap extends CommonBase {
     }
 
     /**
-     * Populates a map mapping from LIDIm to Angles uses points within query_radius to calculate the angles.
-     * @param map - the map to be populated
+     * Populates a angle_map mapping from LIDIm to Angles uses points within query_radius to calculate the angles.
+     * @param map - the angle_map to be populated
      * @param diagonal_distance - the distance up the diagonal
      * @param query_radius - the query radius used to calculate angles
      * @throws Exception if there are no points found within the query_radius
@@ -239,7 +239,7 @@ public class LIDIMtoAngleMap extends CommonBase {
      *
      * @param key
      * @param map
-     * @return the closest entry to key in the map
+     * @return the closest entry to key in the angle_map
      */
     private Angles findClosest( double key, TreeMap<Double,Angles> map ) {
         Map.Entry<Double,Angles> low = map.floorEntry(key);
@@ -257,7 +257,7 @@ public class LIDIMtoAngleMap extends CommonBase {
     }
 
     /**
-     * Displays the map
+     * Displays the angle_map
      */
     private void print() {
         for( Double idim : map.keySet() ) {
@@ -280,9 +280,9 @@ public class LIDIMtoAngleMap extends CommonBase {
 
     private void testMap() throws Exception {
 
-        // System.out.println( "Printing map (" + dataset_name + ") ..." );
+        // System.out.println( "Printing angle_map (" + dataset_name + ") ..." );
         // print();
-        System.out.println( "Testing map (" + dataset_name + ") ..." );
+        System.out.println( "Testing angle_map (" + dataset_name + ") ..." );
         printTestPoints();
     }
 

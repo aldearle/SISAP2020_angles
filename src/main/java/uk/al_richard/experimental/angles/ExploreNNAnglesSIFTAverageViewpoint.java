@@ -8,7 +8,7 @@ import java.util.List;
 
 import static uk.al_richard.experimental.angles.Util.square;
 
-public class ExploreNNAnglesSIFT extends CommonBase {
+public class ExploreNNAnglesSIFTAverageViewpoint extends CommonBase {
 
     private final boolean show_all;
     private List<Double> d_pivot_q_list = new ArrayList<>();
@@ -25,7 +25,7 @@ public class ExploreNNAnglesSIFT extends CommonBase {
      * @param show_all - show the intermediate distances and angles
      * @throws Exception - if something goes wrong.
      */
-    public ExploreNNAnglesSIFT(String dataset_name, int data_size, int query_size, boolean show_all ) throws Exception {
+    public ExploreNNAnglesSIFTAverageViewpoint(String dataset_name, int data_size, int query_size, boolean show_all ) throws Exception {
 
         super( dataset_name,data_size,0,query_size );
         this.show_all = show_all;
@@ -41,10 +41,7 @@ public class ExploreNNAnglesSIFT extends CommonBase {
 
     private void explore() {
 
-        double[] dbls = makePoint(0);
-        dbls[0] = 508.6;      // Richard suggestion
-
-        CartesianPoint viewpoint = new CartesianPoint( dbls );
+        CartesianPoint viewpoint = averagePoint();
 
 
         for( int index : nn_map.keySet() ) {
@@ -73,6 +70,21 @@ public class ExploreNNAnglesSIFT extends CommonBase {
         }
         printDists();
         System.out.println( "finished" );
+    }
+
+    private CartesianPoint averagePoint() {
+        double[] dbls = makePoint(0);
+        List<CartesianPoint> queries = getQueries();
+        for( CartesianPoint q : queries ) {
+            double[] p = q.getPoint();
+            for( int i = 0; i < p.length; i ++ ) {
+                dbls[i] = p[i];
+            }
+        }
+        for( int i = 0; i < dbls.length; i ++ ) {
+            dbls[i] = dbls[i] / queries.size();
+        }
+        return new CartesianPoint( dbls );
     }
 
     private void calculateAngle( CartesianPoint some_point, CartesianPoint pivot, CartesianPoint query, double d_pivot_q ) {
@@ -136,7 +148,7 @@ public class ExploreNNAnglesSIFT extends CommonBase {
 
     public static void main( String[] args ) throws Exception {
 
-        ExploreNNAnglesSIFT ea = new ExploreNNAnglesSIFT( SIFT, 1000, 1000, true );
+        ExploreNNAnglesSIFTAverageViewpoint ea = new ExploreNNAnglesSIFTAverageViewpoint( SIFT, 1000, 1000, true );
         ea.explore();
     }
 }

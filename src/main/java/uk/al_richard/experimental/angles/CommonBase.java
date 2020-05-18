@@ -110,7 +110,7 @@ public abstract class CommonBase {
 
         tc.setSizes(num_queries, num_ros);
         metric = tc.metric();
-        data = tc.getData().subList(0,num_data_points);
+        data = tc.getData(); // .subList(0,num_data_points);
         ros = tc.getRefPoints();
         threshold = tc.getThreshold();
         nn_map = tc.getNNMap();
