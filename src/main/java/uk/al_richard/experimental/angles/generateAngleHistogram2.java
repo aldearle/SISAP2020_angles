@@ -36,7 +36,6 @@ public class generateAngleHistogram2 extends CommonBase {
 
 		for (int i = 0; i < count; i++) {
 
-			double d_viewpoint_q = getMetric().distance(viewpoint, eucs_array[i]);
 			for (int j = count + (count * i); j < (2 * count) + (count * i); j++) {
 
 				CartesianPoint query;
@@ -51,6 +50,7 @@ public class generateAngleHistogram2 extends CommonBase {
 
 				double dqpi = metric.distance(query, some_point);
 				double p1pi = metric.distance(viewpoint, some_point);
+				double d_viewpoint_q = getMetric().distance(viewpoint, query);
 
 				double theta = Math
 						.acos((square(dqpi) + square(d_viewpoint_q) - square(p1pi)) / (2 * dqpi * d_viewpoint_q));
@@ -62,7 +62,7 @@ public class generateAngleHistogram2 extends CommonBase {
 
 	public static void main(String[] args) throws Exception {
 
-		generateAngleHistogram2 ea = new generateAngleHistogram2(EUC30, 100);
+		generateAngleHistogram2 ea = new generateAngleHistogram2(EUC10, 100);
 		ea.generateAngles(true);
 	}
 
