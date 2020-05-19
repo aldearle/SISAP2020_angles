@@ -47,5 +47,7 @@ figure
 hold on
 histogram(r_angles);
 histogram(s_angles);
+xlabel('angle (radians)');
+ylabel('count');
 legend("random","nn");
 hold off

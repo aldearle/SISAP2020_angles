@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class SiftContext implements IContext {
 
-    public static final String SIFT_DEFAULT_BASE_DIR = "/Users/al/repos/SIFT/";
+    public static final String SIFT_DEFAULT_BASE_DIR = "/Volumes/Data/SIFT_mu/";
 
     private final Map<Integer,float[]> data_map;
     private final Map<Integer, int[]> nn_map;

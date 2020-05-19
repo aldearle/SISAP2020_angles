@@ -1,11 +1,12 @@
 package uk.al_richard.branch_git_experiment;
 
-import java.util.List;
 
 import eu.similarity.msc.data.ExperimentalData;
 import eu.similarity.msc.data.ExperimentalData.DataSets;
 import eu.similarity.msc.data.cartesian.CartesianPoint;
 import eu.similarity.msc.local_context.LocalContext;
+
+import java.util.List;
 
 public class FirstExample {
 	public static void main(String[] args) {
