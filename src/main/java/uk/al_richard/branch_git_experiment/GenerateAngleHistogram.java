@@ -42,8 +42,8 @@ public class GenerateAngleHistogram {
 		float[] viewpoint = this.data.get(this.dataSetIdIterator.next());
 
 		// randomly selected query, in fact first element of queries
-//		int queryId = this.queries.keySet().iterator().next();
-		int queryId = 834618;
+		int queryId = this.queries.keySet().iterator().next();
+//		int queryId = 834618;
 		/*
 		 * 0000834618 query in profiset has small query radius 0001143758 has big one
 		 */
