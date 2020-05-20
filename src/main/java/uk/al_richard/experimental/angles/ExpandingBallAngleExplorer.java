@@ -62,7 +62,7 @@ public class ExpandingBallAngleExplorer extends CommonBase {
      *
      * @return a point within radius of the midpoint specified
      */
-    double[] getRandomVolumePoint( double[] midpoint, double radius ) {
+    protected double[] getRandomVolumePoint(double[] midpoint, double radius) {
         double[] res = new double[getDim()];
         double[] temp = new double[getDim() + 2];
         double acc = 0;
