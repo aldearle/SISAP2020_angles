@@ -20,6 +20,7 @@ public abstract class CommonBase {
     protected static final String EUC20 = "Euc20";
     protected static final String EUC30 = "Euc30";
     protected static final String SIFT = "SIFT";
+    protected static final String SIFT_MSC = "SIFT_MSC";
     protected static final String DECAF = "DECAF";
 
     public static final String[] eucs = new String[] { EUC10,EUC20,EUC30 };
@@ -120,6 +121,7 @@ public abstract class CommonBase {
         dim = 128;
     }
 
+
     private void initDecaf(int num_data_points, int num_ros, int num_queries) throws Exception {
         DeCafContext tc = new DeCafContext();
 
@@ -146,7 +148,7 @@ public abstract class CommonBase {
      *
      * @return a point within radius of the midpoint specified
      */
-    double[] getRandomVolumePoint( double[] midpoint, double radius ) {
+    protected double[] getRandomVolumePoint(double[] midpoint, double radius) {
         double[] res = new double[dim];
         double[] temp = new double[dim + 2];
         double acc = 0;

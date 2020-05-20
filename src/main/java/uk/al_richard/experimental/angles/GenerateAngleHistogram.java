@@ -5,14 +5,16 @@ import dataPoints.cartesian.CartesianPoint;
 
 import static uk.al_richard.experimental.angles.Util.square;
 
-public class generateAngleHistogram extends CommonBase {
+public class GenerateAngleHistogram extends CommonBase {
 
     private final CartesianPoint viewpoint;
     private final int count;
     private final double thresh;
 
-    public generateAngleHistogram(String dataset_name, int count ) throws Exception {
+    public GenerateAngleHistogram(String dataset_name, int count ) throws Exception {
         super( dataset_name, (count * count) + count, 0, 0 );
+        System.out.println( "This code superceded by GenerateAngleHistogram2" );
+        System.exit(0);
         this.count = count;
         this.thresh = super.getThreshold();
         this.viewpoint = new CartesianPoint(makePoint( 0.5 ));
@@ -39,7 +41,10 @@ public class generateAngleHistogram extends CommonBase {
                 CartesianPoint query = eucs_array[i];
                 CartesianPoint some_point;
                 if( constrained ) {
-                    some_point = new CartesianPoint( getRandomVolumePoint(query.getPoint(),thresh ) );
+                    some_point = new CartesianPoint(getRandomVolumePoint(query.getPoint(), thresh)); // count ins and outs
+                    while( ! insideSpace( query ) ) {
+                        some_point = new CartesianPoint(getRandomVolumePoint(query.getPoint(), thresh));
+                    }
                 } else {
                     some_point = eucs_array[j];
                 }
@@ -56,14 +61,14 @@ public class generateAngleHistogram extends CommonBase {
 
     public static void main( String[] args ) throws Exception {
 
-        generateAngleHistogram ea = new generateAngleHistogram( EUC30,100  );
+        GenerateAngleHistogram ea = new GenerateAngleHistogram( EUC30,100  );
         ea.generateAngles( true );
     }
 
     public static void main1( String[] args ) throws Exception {
 
         for( String dataset_name : eucs ) {
-            generateAngleHistogram ea = new generateAngleHistogram(dataset_name, 100);
+            GenerateAngleHistogram ea = new GenerateAngleHistogram(dataset_name, 100);
             ea.generateAngles( false );
             ea.generateAngles( true );
 

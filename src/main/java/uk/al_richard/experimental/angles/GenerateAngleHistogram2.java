@@ -5,14 +5,14 @@ import dataPoints.cartesian.CartesianPoint;
 
 import static uk.al_richard.experimental.angles.Util.square;
 
-public class generateAngleHistogram2 extends CommonBase {
+public class GenerateAngleHistogram2 extends CommonBase {
 
 	private final CartesianPoint viewpoint;
 	private final CartesianPoint centre;
 	private final int count;
 	private final double thresh;
 
-	public generateAngleHistogram2(String dataset_name, int count) throws Exception {
+	public GenerateAngleHistogram2(String dataset_name, int count) throws Exception {
 		super(dataset_name, (count * count) + count, 0, 0);
 		this.count = count;
 		this.thresh = super.getThreshold();
@@ -44,7 +44,7 @@ public class generateAngleHistogram2 extends CommonBase {
 					query = this.centre;
 					some_point = new CartesianPoint(getRandomVolumePoint(query.getPoint(), 0.5));
 				} else {
-					query = eucs_array[i];
+					query = this.centre; // = eucs_array[i];
 					some_point = eucs_array[j];
 				}
 
@@ -62,14 +62,14 @@ public class generateAngleHistogram2 extends CommonBase {
 
 	public static void main(String[] args) throws Exception {
 
-		generateAngleHistogram2 ea = new generateAngleHistogram2(EUC10, 100);
+		GenerateAngleHistogram2 ea = new GenerateAngleHistogram2(EUC30, 100);
 		ea.generateAngles(true);
 	}
 
 	public static void main1(String[] args) throws Exception {
 
 		for (String dataset_name : eucs) {
-			generateAngleHistogram2 ea = new generateAngleHistogram2(dataset_name, 100);
+			GenerateAngleHistogram2 ea = new GenerateAngleHistogram2(dataset_name, 100);
 			ea.generateAngles(false);
 			ea.generateAngles(true);
 
