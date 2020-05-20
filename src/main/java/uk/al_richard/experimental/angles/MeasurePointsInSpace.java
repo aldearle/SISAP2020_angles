@@ -1,7 +1,6 @@
-package uk.al_richard.branch_git_experiment;
+package uk.al_richard.experimental.angles;
 
 import dataPoints.cartesian.CartesianPoint;
-import uk.al_richard.experimental.angles.CommonBase;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -31,31 +30,35 @@ public class MeasurePointsInSpace extends CommonBase {
         int inside = 0;
         int outside = 0;
 
+        int comparisons = count * count;
+
         for (int i = 0; i < count; i++) {
 
             CartesianPoint query = data.get(i);
 
-            CartesianPoint some_point = new CartesianPoint(getRandomVolumePoint(query.getPoint(), thresh));
+            for (int j = 0; j < count; j++) {
+                CartesianPoint some_point = new CartesianPoint(getRandomVolumePoint(query.getPoint(), thresh));
 
-            if( insideSpace( some_point ) ) {
-                inside++;
-            } else {
-                outside++;
+                if (insideSpace(some_point)) {
+                    inside++;
+                } else {
+                    outside++;
+                }
             }
         }
-        System.out.println( "Inside = " + df2.format( inside * 100.0 / count ) + "% Outside = " + df2.format( outside * 100.0 / count ) + "%" );
+        System.out.println( "Inside = " + df2.format( inside * 100.0 / comparisons ) + "% Outside = " + df2.format( outside * 100.0 / comparisons ) + "%" );
     }
 
     public static void main1( String[] args ) throws Exception {
 
-        MeasurePointsInSpace ea = new MeasurePointsInSpace( EUC10,10000  );
+        MeasurePointsInSpace ea = new MeasurePointsInSpace( EUC10,1000  );
         ea.exploreInclusion();
     }
 
     public static void main( String[] args ) throws Exception {
 
         for( String dataset_name : eucs ) {
-            MeasurePointsInSpace ea = new MeasurePointsInSpace(dataset_name, 10000 );
+            MeasurePointsInSpace ea = new MeasurePointsInSpace(dataset_name, 1000 );
             ea.exploreInclusion();
 
         }

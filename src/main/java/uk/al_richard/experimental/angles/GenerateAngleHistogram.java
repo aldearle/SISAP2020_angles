@@ -13,8 +13,6 @@ public class GenerateAngleHistogram extends CommonBase {
 
     public GenerateAngleHistogram(String dataset_name, int count ) throws Exception {
         super( dataset_name, (count * count) + count, 0, 0 );
-        System.out.println( "This code superceded by GenerateAngleHistogram2" );
-        System.exit(0);
         this.count = count;
         this.thresh = super.getThreshold();
         this.viewpoint = new CartesianPoint(makePoint( 0.5 ));
@@ -41,7 +39,7 @@ public class GenerateAngleHistogram extends CommonBase {
                 CartesianPoint query = eucs_array[i];
                 CartesianPoint some_point;
                 if( constrained ) {
-                    some_point = new CartesianPoint(getRandomVolumePoint(query.getPoint(), thresh)); // count ins and outs
+                    some_point = new CartesianPoint(getRandomVolumePoint(query.getPoint(), thresh));
                     while( ! insideSpace( query ) ) {
                         some_point = new CartesianPoint(getRandomVolumePoint(query.getPoint(), thresh));
                     }
@@ -61,7 +59,7 @@ public class GenerateAngleHistogram extends CommonBase {
 
     public static void main( String[] args ) throws Exception {
 
-        GenerateAngleHistogram ea = new GenerateAngleHistogram( EUC30,100  );
+        GenerateAngleHistogram ea = new GenerateAngleHistogram( EUC20,100  );
         ea.generateAngles( true );
     }
 

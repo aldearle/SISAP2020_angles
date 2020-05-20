@@ -44,16 +44,16 @@ public class GenerateAngleHistogram2 extends CommonBase {
 					query = this.centre;
 					some_point = new CartesianPoint(getRandomVolumePoint(query.getPoint(), 0.5));
 				} else {
-					query = this.centre; // = eucs_array[i];
+					query = eucs_array[i];  // this.centre; // if this is centre two cases are the same
 					some_point = eucs_array[j];
 				}
 
-				double dqpi = metric.distance(query, some_point);
-				double p1pi = metric.distance(viewpoint, some_point);
-				double d_viewpoint_q = getMetric().distance(viewpoint, query);
+				double d_q_somepoint = metric.distance(query, some_point);
+				double d_view_somepoint = metric.distance(viewpoint, some_point);
+				double d_view_q = getMetric().distance(viewpoint, query);
 
 				double theta = Math
-						.acos((square(dqpi) + square(d_viewpoint_q) - square(p1pi)) / (2 * dqpi * d_viewpoint_q));
+						.acos((square(d_q_somepoint) + square(d_view_q) - square(d_view_somepoint)) / (2 * d_q_somepoint * d_view_q));
 
 				System.out.println(theta);
 			}
