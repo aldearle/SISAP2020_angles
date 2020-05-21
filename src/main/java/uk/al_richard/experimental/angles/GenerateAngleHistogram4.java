@@ -6,20 +6,19 @@ import dataPoints.cartesian.CartesianPoint;
 import static uk.al_richard.experimental.angles.Util.square;
 
 /**
- * This is the third version of GenerateAngleHistogram
+ * This is the fourth version of GenerateAngleHistogram
  * @author al@st-andrews.ac.uk
  *
  * It takes a viewpoint radomly chose from Euc space,
  * a random point in the Euc space and
- * a third point either from Eucs or a random query point constrained to be in cube and in query radius.
- *
+ * a third point within a sphere that is constrained to be in the cube.
  */
-public class GenerateAngleHistogram3 extends CommonBase {
+public class GenerateAngleHistogram4 extends CommonBase {
 
     private final int count;
     private final double thresh;
 
-    public GenerateAngleHistogram3(String dataset_name, int count ) throws Exception {
+    public GenerateAngleHistogram4(String dataset_name, int count ) throws Exception {
         super( dataset_name, count * 3, 0, 0 );
         this.count = count;
         this.thresh = super.getThreshold();
@@ -47,14 +46,13 @@ public class GenerateAngleHistogram3 extends CommonBase {
                 CartesianPoint query = eucs_array[i];
                 double d_view_q = getMetric().distance(viewpoint, query);
 
+                double max_radius = 1 - getMaxCoordinate( query ); // biggest radius we can tolerate and not go outside the cube.
+
                 for (int j = (count * 2); j < count * 3; j++) {
 
                     CartesianPoint some_point;
                     if (constrained) {
-                        some_point = new CartesianPoint(getRandomVolumePoint(query.getPoint(), thresh));
-                        while (!insideSpace(query)) {
-                            some_point = new CartesianPoint(getRandomVolumePoint(query.getPoint(), thresh));
-                        }
+                        some_point = new CartesianPoint(getRandomVolumePoint(query.getPoint(), max_radius));
                     } else {
                         some_point = eucs_array[j];
                     }
@@ -70,16 +68,31 @@ public class GenerateAngleHistogram3 extends CommonBase {
         }
     }
 
+    /**
+     * @param point
+     * @return the largest coordinate in the point.
+     */
+    private double getMaxCoordinate(CartesianPoint point) {
+        double[] doubles = point.getPoint();
+        double max = Double.MIN_VALUE;
+        for( double next_double : doubles ) {
+            if( next_double > max ) {
+                max = next_double;
+            }
+        }
+        return max;
+    }
+
     public static void main( String[] args ) throws Exception {
 
-        GenerateAngleHistogram3 ea = new GenerateAngleHistogram3( EUC10,50  );
-        ea.generateAngles( true );
+        GenerateAngleHistogram4 ea = new GenerateAngleHistogram4( EUC30,50  );
+        ea.generateAngles( false );
     }
 
     public static void main1( String[] args ) throws Exception {
 
         for( String dataset_name : eucs ) {
-            GenerateAngleHistogram3 ea = new GenerateAngleHistogram3(dataset_name, 100);
+            GenerateAngleHistogram4 ea = new GenerateAngleHistogram4(dataset_name, 100);
             ea.generateAngles( false );
             ea.generateAngles( true );
 

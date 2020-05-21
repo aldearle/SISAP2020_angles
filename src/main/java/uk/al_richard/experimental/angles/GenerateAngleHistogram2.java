@@ -5,6 +5,14 @@ import dataPoints.cartesian.CartesianPoint;
 
 import static uk.al_richard.experimental.angles.Util.square;
 
+/**
+ * This is the second version of GenerateAngleHistogram
+ * @author rchc@st-andrews.ac.uk
+ *
+ * It takes a viewpoint at the origin,
+ * a centre of the sphere at [0.5,..0.5]
+ * and a third point either from Eucs or a random query point within query radius (0.5) (and thus in the cube).
+ */
 public class GenerateAngleHistogram2 extends CommonBase {
 
 	private final CartesianPoint viewpoint;
