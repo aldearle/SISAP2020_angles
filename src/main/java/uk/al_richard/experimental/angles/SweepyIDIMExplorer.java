@@ -135,7 +135,7 @@ public class SweepyIDIMExplorer extends CommonBase {
         int number_samples = 999500; // 1M less 500
         int noOfRefPoints = 500;
 
-        SweepyIDIMExplorer sie = new SweepyIDIMExplorer(EUC20,number_samples,noOfRefPoints );
+        SweepyIDIMExplorer sie = new SweepyIDIMExplorer(EUC30,number_samples,noOfRefPoints );
         sie.sweep( 1.8 );
     }
 

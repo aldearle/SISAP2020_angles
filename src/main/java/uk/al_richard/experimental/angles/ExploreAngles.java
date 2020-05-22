@@ -87,7 +87,7 @@ public class ExploreAngles extends CommonBase {
 
     public static void main( String[] args ) throws Exception {
 
-        for( String dataset_name : datasets ) {
+        for( String dataset_name : eucs ) {
             ExploreAngles ea = new ExploreAngles(dataset_name, 500);
             ea.explore(false);
         }
