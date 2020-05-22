@@ -9,12 +9,14 @@ fileID = fopen("/Users/al/repos/github/angles/results/justAngles/euc_10_unconstr
 euc10_dists_unconstrained = fscanf(fileID,"%f");
 fclose(fileID);
 
+bins = 0:0.01:2.6;
+
 %%
 
 figure
 hold on
-histogram(euc10_dists_constrained);
-histogram(euc10_dists_unconstrained);
+histogram(euc10_dists_constrained,bins);
+histogram(euc10_dists_unconstrained,bins);
 xlabel('angle (radians)');
 ylabel('count');
 legend("euc10 constrained","euc10 unconstrained");

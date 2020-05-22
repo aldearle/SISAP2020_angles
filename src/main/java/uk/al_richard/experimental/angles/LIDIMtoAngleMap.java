@@ -297,7 +297,7 @@ public class LIDIMtoAngleMap extends CommonBase {
 
     public static void main(String[] args) throws Exception {
         int number_samples =  10000; // 999800; // 1M less 200
-        int noOfRefPoints = 200;
+        int noOfRefPoints = 400;
 
         for( String dataset_name : eucs ) {
 

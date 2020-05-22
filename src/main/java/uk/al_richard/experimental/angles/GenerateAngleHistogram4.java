@@ -47,12 +47,14 @@ public class GenerateAngleHistogram4 extends CommonBase {
                 double d_view_q = getMetric().distance(viewpoint, query);
 
                 double max_radius = 1 - getMaxCoordinate( query ); // biggest radius we can tolerate and not go outside the cube.
+                double min_radius = getMinCoordinate( query );
+                double radius = Math.max( max_radius, min_radius );
 
                 for (int j = (count * 2); j < count * 3; j++) {
 
                     CartesianPoint some_point;
                     if (constrained) {
-                        some_point = new CartesianPoint(getRandomVolumePoint(query.getPoint(), max_radius));
+                        some_point = new CartesianPoint(getRandomVolumePoint(query.getPoint(), radius));
                     } else {
                         some_point = eucs_array[j];
                     }
@@ -66,6 +68,21 @@ public class GenerateAngleHistogram4 extends CommonBase {
                 }
             }
         }
+    }
+
+    /**
+     * @param point
+     * @return the smallest coordinate in the point.
+     */
+    private double getMinCoordinate(CartesianPoint point) {
+        double[] doubles = point.getPoint();
+        double min = Double.MAX_VALUE;
+        for( double next_double : doubles ) {
+            if( next_double < min ) {
+                min = next_double;
+            }
+        }
+        return min;
     }
 
     /**

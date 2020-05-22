@@ -1,0 +1,22 @@
+[1] "Euc10:"
+> k10 <- Kendall(euc10_df$IDIM,euc10_df$PIV_IDIM);
+> summary( k10 );
+Score =  37220 , Var(Score) = 3522610
+denominator =  49770
+tau = 0.748, 2-sided pvalue =< 2.22e-16
+>
+> print('Euc20:')
+[1] "Euc20:"
+> k20 <- Kendall(euc20_df$IDIM,euc20_df$PIV_IDIM);
+> summary( k20 );
+Score =  92901 , Var(Score) = 9957024
+denominator =  99681.01
+tau = 0.932, 2-sided pvalue =< 2.22e-16
+>
+> print('Euc30:')
+[1] "Euc30:"
+> k30 <- Kendall(euc30_df$IDIM,euc30_df$PIV_IDIM);
+> summary( k30 );
+Score =  83768 , Var(Score) = 12952252
+denominator =  118828
+tau = 0.705, 2-sided pvalue =< 2.22e-16
