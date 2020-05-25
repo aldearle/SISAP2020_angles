@@ -9,7 +9,6 @@ import eu.similarity.msc.data.DecafMetricSpace;
 import eu.similarity.msc.data.MetricSpaceResource;
 import eu.similarity.msc.data.MfAlexMetricSpace;
 import eu.similarity.msc.data.SiftMetricSpace;
-import uk.al_richard.branch_git_experiment.Laesa;
 
 public class RunSearch {
 
@@ -77,7 +76,6 @@ public class RunSearch {
 
 	public static void main(String[] args) throws Exception {
 		testVptAngleTree();
-
 	}
 
 	private static void testVptAngleTree() throws Exception {
