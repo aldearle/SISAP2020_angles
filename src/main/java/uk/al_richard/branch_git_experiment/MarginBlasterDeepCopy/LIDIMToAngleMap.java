@@ -25,6 +25,8 @@ import static uk.al_richard.branch_git_experiment.MarginBlasterDeepCopy.Util.LID
  * (but which we could do in a real dataset).
  * The table maps from local IDIM Levina Bickel (using the points within the radius) to the angle and std dev.
  *
+ * @author al@st-andrews.ac.uk
+ *
  */
 public class LIDIMtoAngleMap extends CommonBase {
 
