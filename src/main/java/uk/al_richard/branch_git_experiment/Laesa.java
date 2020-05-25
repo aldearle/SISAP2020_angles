@@ -61,21 +61,14 @@ public class Laesa<T> {
 	private static boolean canExclude(double[] qDists, double[] rDists, double t, double maxCosTheta,
 			double minCosTheta) {
 		boolean excluded = false;
-		for (int i = 0; i < qDists.length; i++) {
+		int i = 0;
+		while (i < qDists.length && !excluded)
 			if (!excluded) {
 				final double pq = qDists[i];
 				final double ps = rDists[i];
 				excluded = cosThetaOutOfRange(t, ps, pq, maxCosTheta, minCosTheta);
-//				if (pq > ps) {
-//					if ((pq > ps + t) || cosThetaOutOfRange(t, ps, pq, maxCosTheta, minCosTheta)) {
-//						excluded = true;
-//					}
-//				} else if (ps > pq + t) {
-//					excluded = true;
-//				}
+				i++;
 			}
-		}
 		return excluded;
 	}
-
 }
