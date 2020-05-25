@@ -1,17 +1,18 @@
-package uk.al_richard.experimental.angles;
+package uk.al_richard.branch_git_experiment.MarginBlasterDeepCopy;
 
 
-import coreConcepts.Metric;
-import dataPoints.cartesian.CartesianPoint;
+import eu.similarity.msc.core_concepts.Metric;
+import eu.similarity.msc.data.cartesian.CartesianPoint;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.*;
 
-import static uk.al_richard.experimental.angles.CircleGeometry.calculateMargin;
-import static uk.al_richard.experimental.angles.CircleGeometry.calculateSafeRadius;
-import static uk.al_richard.experimental.angles.Util.LIDimLevinaBickel;
+import static uk.al_richard.branch_git_experiment.MarginBlasterDeepCopy.CircleGeometry.calculateMargin;
+import static uk.al_richard.branch_git_experiment.MarginBlasterDeepCopy.CircleGeometry.calculateSafeRadius;
+import static uk.al_richard.branch_git_experiment.MarginBlasterDeepCopy.Util.LIDimLevinaBickel;
+
 
 /**
  *
@@ -22,7 +23,7 @@ import static uk.al_richard.experimental.angles.Util.LIDimLevinaBickel;
  * The table is created from the diagonal points (which we wouldn’t have in a real dataset)
  * and calculates angles to points within some radius (using the volume points)
  * (but which we could do in a real dataset).
- * The table maps from local iDIMChavez (using the points within the radius) to the angle and std dev.
+ * The table maps from local IDIM Levina Bickel (using the points within the radius) to the angle and std dev.
  *
  */
 public class LIDIMtoAngleMap extends CommonBase {
@@ -41,7 +42,6 @@ public class LIDIMtoAngleMap extends CommonBase {
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     private static DecimalFormat df4 = new DecimalFormat("#.####");
 
-
     double[] centre;
     double[] origin;
     CartesianPoint centre_cartesian;
@@ -50,7 +50,7 @@ public class LIDIMtoAngleMap extends CommonBase {
 
     public LIDIMtoAngleMap( String dataset_name, int number_samples, int noOfRefPoints ) throws Exception {
 
-        super( dataset_name, number_samples, noOfRefPoints,0  );
+        super( dataset_name, number_samples, noOfRefPoints, 0 );
 
         this.samples = super.getData();
         this.pivots = super.getRos();
@@ -66,6 +66,7 @@ public class LIDIMtoAngleMap extends CommonBase {
         map = createMap();
     }
 
+
     /**
      * Creates a angle_map from LIDIM to angles by moving up the diagonal from [0,..0] to [1,..1]
      * @return a Map from LIDIM (calculated using pivots) to the angle and std dev.
@@ -79,45 +80,6 @@ public class LIDIMtoAngleMap extends CommonBase {
         }
 
         return map;
-    }
-
-    /**
-     * Tests some points (1000) drawn from the space and prints out the errors from ground truth compared with stored values in the angle_map
-     * @throws Exception
-     */
-    public void printTestPoints() throws Exception {
-
-        System.out.println( "Query radius = " + query_radius + " dim = " + dim );
-
-        for( int i = 1; i < 100; i++ ) {
-            CartesianPoint p = samples.get(i);
-
-            List<Double> real_angles = getAngles( 0.25, p.getPoint() ); // the real angles in the volume around p radius specified.
-
-            int num_angles = real_angles.size();
-
-            // Calculate the local iDIMChavez based on reference points.
-            List<Double> dists = getDists(pivots, p.getPoint());
-            double lidim = LIDimLevinaBickel(dists);
-            System.out.println( i + " Pivot based IDIM = " + lidim );
-
-            if( num_angles > 0 ) { // can only put entry in table if we have calculated some angles.
-
-                double mean_rad = Util.mean(real_angles);
-                double std_dev = Util.stddev(real_angles, mean_rad);
-
-                Angles stored_angles = findClosest(lidim, map);
-
-                double margin = calculateMargin( mean_rad, std_dev, query_radius, 3.0 );
-
-                double mean_degrees = Math.toDegrees(mean_rad);
-                double std_dev_degrees = Math.toDegrees(std_dev);
-
-                System.out.println( i + ": real angle = " + df4.format(mean_degrees) + " real std dev = " +  df4.format(std_dev_degrees) +
-                        " stored angle = " + df4.format( Math.toDegrees(stored_angles.angle)) + " stored std dev = " + df4.format( Math.toDegrees(stored_angles.std_dev)) +
-                        " angle error = " + showError(mean_rad,stored_angles.angle) + " std dev error = " + showError(std_dev,stored_angles.std_dev) );
-            }
-        }
     }
 
     /**
@@ -170,7 +132,7 @@ public class LIDIMtoAngleMap extends CommonBase {
 
         for(int i = 0; i < pivots.size(); i++ ) {
             double d = metric.distance( pivots.get(i),diagonal_point_cartesian );
-                dists.add(d);
+            dists.add(d);
         }
         return dists;
     }
@@ -227,17 +189,6 @@ public class LIDIMtoAngleMap extends CommonBase {
 
     /**
      *
-     * @param measured
-     * @param stored
-     * @return the error between measured and stored
-     */
-    private String showError(double measured, double stored) {
-        double diff = measured - stored;
-        return df4.format( Math.abs(diff)/stored );
-    }
-
-    /**
-     *
      * @param key
      * @param map
      * @return the closest entry to key in the angle_map
@@ -253,18 +204,8 @@ public class LIDIMtoAngleMap extends CommonBase {
         } else if (low != null || high != null) {
             res = low != null ? low.getValue() : high.getValue();
         }
-    return res;
+        return res;
 
-    }
-
-    /**
-     * Displays the angle_map
-     */
-    private void print() {
-        for( Double idim : map.keySet() ) {
-            Angles ang = map.get(idim);
-            System.out.println( "IDIM:" + idim + " mean = " + df2.format(Math.toDegrees(ang.angle)) + " std_dev = " + df2.format(Math.toDegrees(ang.std_dev)) + " degrees n = " + ang.angles_measured );
-        }
     }
 
     /**
@@ -279,32 +220,5 @@ public class LIDIMtoAngleMap extends CommonBase {
         return bd.doubleValue();
     }
 
-    private void testMap() throws Exception {
-
-        // System.out.println( "Printing angle_map (" + dataset_name + ") ..." );
-        // print();
-        System.out.println( "Testing angle_map (" + dataset_name + ") ..." );
-        printTestPoints();
-    }
-
-    //********************************* Main *********************************
-
-    public static void main1(String[] args) throws Exception {
-        int number_samples = 998000; // 1M less 200
-        int noOfRefPoints = 200;
-        LIDIMtoAngleMap lam = new LIDIMtoAngleMap(EUC20, number_samples, noOfRefPoints);
-        lam.testMap();
-    }
-
-    public static void main(String[] args) throws Exception {
-        int number_samples =  10000; // 999800; // 1M less 200
-        int noOfRefPoints = 400;
-
-        for( String dataset_name : eucs ) {
-
-            LIDIMtoAngleMap lam = new LIDIMtoAngleMap(dataset_name, number_samples, noOfRefPoints);
-            lam.testMap();
-
-        }
-    }
 }
+
