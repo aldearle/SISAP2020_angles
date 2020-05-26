@@ -7,10 +7,10 @@ import eu.similarity.msc.core_concepts.Metric;
 
 public class Laesa<T> {
 
-	private List<T> data;
-	private Metric<T> metric;
-	private List<T> refPoints;
-	private double[][] refDists;
+	protected List<T> data;
+	protected Metric<T> metric;
+	protected List<T> refPoints;
+	protected double[][] refDists;
 
 	public Laesa(List<T> data, List<T> refPoints, Metric<T> metric) {
 		this.data = data;
@@ -49,7 +49,8 @@ public class Laesa<T> {
 		return res;
 	}
 
-	public static boolean cosThetaOutOfRange(double aA, double bB, double cC, double maxCosTheta, double minCosTheta) {
+	protected static boolean cosThetaOutOfRange(double aA, double bB, double cC, double maxCosTheta,
+			double minCosTheta) {
 		try {
 			double cosTheta = (aA * aA + cC * cC - bB * bB) / (2 * aA * cC);
 			return cosTheta > maxCosTheta || cosTheta < minCosTheta;
@@ -58,7 +59,7 @@ public class Laesa<T> {
 		}
 	}
 
-	private static boolean canExclude(double[] qDists, double[] rDists, double t, double maxCosTheta,
+	protected static boolean canExclude(double[] qDists, double[] rDists, double t, double maxCosTheta,
 			double minCosTheta) {
 		boolean excluded = false;
 		int i = 0;

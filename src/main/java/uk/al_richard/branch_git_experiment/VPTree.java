@@ -14,10 +14,8 @@ public class VPTree<T> {
 		private double mu;
 		private VPTreeNode<T1> left;
 		private VPTreeNode<T1> right;
-		private int size;
 
 		VPTreeNode(List<T1> data, Metric<T1> metric) {
-			this.size = data.size();
 			if (data.size() == 0) {
 				// do nothing
 			} else if (data.size() == 1) {
