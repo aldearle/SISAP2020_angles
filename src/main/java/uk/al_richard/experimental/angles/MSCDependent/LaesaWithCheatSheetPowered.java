@@ -1,4 +1,4 @@
-package uk.al_richard.branch_git_experiment;
+package uk.al_richard.experimental.angles.MSCDependent;
 
 import java.util.ArrayList;
 import java.util.HashSet;
