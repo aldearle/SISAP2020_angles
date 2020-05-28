@@ -30,19 +30,20 @@ public class EpsilonSort extends CommonBase {
     private final double theta;
 
     private HashSet<Integer> exclude; // HACK putting this here!
+    private HashSet<Integer> include; // HACK putting this here!
 
     public EpsilonSort(String dataset_name, int number_data_points, int noOfRefPoints, int num_queries ) throws Exception {
 
         super( dataset_name, number_data_points, noOfRefPoints,num_queries  );
 
-        thresh = super.getThreshold();
+        this.thresh = super.getThreshold();
 
         System.out.println( "thresh = " + thresh );
 
         this.theta = theta_euc_20 + (2 * std_dev_angle_euc_20);  // Making this bigger gets more exclusions (but more errors)
 
         this.data_points = getData();
-        data_size = data_points.size();
+        this.data_size = data_points.size();
         this.ref_points = getRos();
         this.queries = getQueries();
         this.metric = getMetric();
@@ -73,9 +74,16 @@ public class EpsilonSort extends CommonBase {
         OrderedList<Integer,Double> dists = new OrderedList<>(data_size); // list of data indexes and distances
 
         for(int i = 0; i < data_size ; i++ ) {
+
             double d = metric.distance( pivot,data_points.get(i) );
             dists.add(i,d);
         }
+
+//        comps = dists.getComparators();
+//        indices  = dists.getList();
+//        for(int i = 0; i < 10 ; i++ ) {
+//
+//        }
         return dists;
     }
 
@@ -90,9 +98,11 @@ public class EpsilonSort extends CommonBase {
     private void query(CartesianPoint query_point) {
 
         exclude = new HashSet<>();
+        include = new HashSet<>();
         for( int i = 0; i < ro_map.size(); i++ ) {
             CartesianPoint ro_object = ref_points.get(i);
-            queryRO(query_point, ro_map.get(i), ro_object);
+            queryROExclude(query_point, ro_map.get(i), ro_object);
+            queryROInclude(query_point, ro_map.get(i), ro_object);
         }
         check(query_point);
     }
@@ -103,10 +113,15 @@ public class EpsilonSort extends CommonBase {
     }
 
     private void checkInclusions(CartesianPoint query_point) {
+
         int true_positive = 0;
         int inclusion_count = 0;
         int solution_count = 0;
+
+        HashSet<Integer> not_exclusions = new HashSet<>();
+
         for( int i = 0; i < data_points.size(); i++ ) {
+
             double d_q_s = metric.distance( data_points.get(i), query_point);
 
             if( d_q_s < thresh ) {
@@ -114,13 +129,26 @@ public class EpsilonSort extends CommonBase {
             }
 
             if( ! exclude.contains(i) ) { // these ones are candidate solutions
-                inclusion_count++;
+                not_exclusions.add(i);
                 if( d_q_s < thresh ) {
                     true_positive++;
                 }
             }
         }
-        System.out.println( "Included points size = " + inclusion_count + " correct = " + true_positive + " / " + solution_count );
+        System.out.println( "Not exclusions size = " + not_exclusions.size() + " correct = " + true_positive + " / " + solution_count );
+
+        System.out.println( "Inclusions before adding not exclusions = " + include.size() );
+
+        include.addAll( not_exclusions );
+
+        true_positive = 0;
+        for( int i : include) {
+            double d_q_s = metric.distance( data_points.get(i), query_point);
+            if( d_q_s < thresh ) {
+                true_positive++;
+            }
+        }
+        System.out.println( "All inclusions = " + include.size() + " correct = " + true_positive + " / " + solution_count );
     }
 
     private void checkExclusions(CartesianPoint query_point) {
@@ -134,21 +162,45 @@ public class EpsilonSort extends CommonBase {
         System.out.println( "Eliminated points size = " + exclude.size() + " correct = " + true_positive );
     }
 
-    private void queryRO(CartesianPoint query_point, OrderedList<Integer, Double> data_dists, CartesianPoint ro_object) {
+    private void queryROExclude(CartesianPoint query_point, OrderedList<Integer, Double> data_dists, CartesianPoint ro_object) {
 
         double d_ro_q = metric.distance(ro_object, query_point);
 
         List<Double> dists = data_dists.getComparators();
+        List<Integer> indices = data_dists.getList();
+
         for( int i = dists.size() - 1; i >= 0; i-- ) {
 
             Double d_ro_s = dists.get(i);
 
             boolean gt_thresh = estimateGTThreshold( d_ro_q, d_ro_s, theta);
             if( gt_thresh ) {
-                exclude.add( i );
+                exclude.add( indices.get(i) );
             }
 
             if( ! gt_thresh ) {
+                return;
+            }
+        }
+    }
+
+    private void queryROInclude(CartesianPoint query_point, OrderedList<Integer, Double> data_dists, CartesianPoint ro_object) {
+
+        double d_ro_q = metric.distance(ro_object, query_point);
+
+        List<Double> dists = data_dists.getComparators();
+        List<Integer> indices = data_dists.getList();
+
+        for( int i = 0; i < dists.size(); i++) {
+
+            Double d_ro_s = dists.get( i );
+
+            boolean lt_thresh = estimateLTThreshold( d_ro_q, d_ro_s, theta - (3 * std_dev_angle_euc_20));
+            if( lt_thresh ) {
+                include.add( indices.get(i) );
+            }
+
+            if( ! lt_thresh ) {
                 return;
             }
         }
@@ -183,7 +235,7 @@ public class EpsilonSort extends CommonBase {
 
     public static void main( String[] args ) throws Exception {
 
-        EpsilonSort pp = new EpsilonSort( EUC20,10000, 200, 20  );
+        EpsilonSort pp = new EpsilonSort( EUC20,10000, 60, 20  );
         pp.experiment();
     }
 
