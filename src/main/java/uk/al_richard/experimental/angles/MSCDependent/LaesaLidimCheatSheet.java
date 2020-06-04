@@ -5,26 +5,23 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 import eu.similarity.msc.core_concepts.Metric;
 import eu.similarity.msc.data.DataListView.IdDatumPair;
+import uk.al_richard.experimental.angles.Util;
 
-public class LaesaLidimCheatSheet extends Laesa<IdDatumPair> {
-
-	private Map<Integer, Integer[]> nnids;
-	private int distancesCalculatedForLastSearch = 0;
+public class LaesaLidimCheatSheet extends LaesaWithCheatSheet {
 
 	public LaesaLidimCheatSheet(List<IdDatumPair> data, List<IdDatumPair> refPoints, Metric<IdDatumPair> metric,
 			Map<Integer, Integer[]> nnids) {
-		super(data, refPoints, metric);
-		this.nnids = nnids;
+		super(data, refPoints, metric, nnids);
 	}
 
 	@SuppressWarnings("boxing")
-	@Override
-	public List<IdDatumPair> search(IdDatumPair query, double t, double meanAngle, double threeSigma) {
-		double maxCosTheta = Math.cos(meanAngle - threeSigma);
-		double minCosTheta = Math.cos(meanAngle + threeSigma);
+	public List<IdDatumPair> search(IdDatumPair query, double t, Function<Double, Double> lidimToAngle,
+			double plusOrMinus) throws Exception {
+
 		List<IdDatumPair> res = new ArrayList<>();
 
 		// calculate query to pivot distances
@@ -33,8 +30,11 @@ public class LaesaLidimCheatSheet extends Laesa<IdDatumPair> {
 		for (IdDatumPair rPoint : this.refPoints) {
 			qDists[refPtr++] = this.metric.distance(rPoint, query);
 		}
-		// Calculate the LIDIM of the query
-		
+		// Calculate the LIDIM of the query and get the angle
+		double lidim = Util.LIDimLevinaBickel(qDists);
+		double meanAngle = lidimToAngle.apply(lidim);
+		double maxCosTheta = Math.cos(meanAngle - plusOrMinus);
+		double minCosTheta = Math.cos(meanAngle + plusOrMinus);
 
 		this.distancesCalculatedForLastSearch = this.refPoints.size();
 		int dPtr = 0;
@@ -54,9 +54,5 @@ public class LaesaLidimCheatSheet extends Laesa<IdDatumPair> {
 		}
 
 		return res;
-	}
-
-	public int getDistances() {
-		return this.distancesCalculatedForLastSearch;
 	}
 }

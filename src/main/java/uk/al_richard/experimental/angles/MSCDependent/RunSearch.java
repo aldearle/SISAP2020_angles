@@ -1,8 +1,10 @@
 package uk.al_richard.experimental.angles.MSCDependent;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
+import java.util.Random;
+import java.util.function.Function;
 
 import eu.similarity.msc.core_concepts.Metric;
 import eu.similarity.msc.data.DataListView;
@@ -23,42 +25,51 @@ public class RunSearch {
 		final MfAlexMetricSpace mf = new MfAlexMetricSpace("/Volumes/Data/mf_fc6/");
 		MetricSpaceResource<Integer, float[]> gist = new GistMetricSpace("/Volumes/Data/mf_gist/");
 
-		testLaesa("gist", gist);
+		testLaesa("decaf", decaf);
+//		testLaesa("decaf", decaf);
+//		testLaesa("sift", sift);
+//		testLaesa("sift", sift);
 //		recreateVladResults(gist);
 	}
 
 	private static void testLaesa(String name, MetricSpaceResource<Integer, float[]> space) throws Exception {
 		System.out.println("testing " + space.getClass().getName());
 
-//		System.out.println("testing sift");
-//		final SiftMetricSpace sift = new SiftMetricSpace("/Volumes/Data/SIFT_mu/");
-		List<IdDatumPair> idps = DataListView.convert(space.getData());
-		List<IdDatumPair> refs = idps.subList(0, 256);
-		List<IdDatumPair> data = idps.subList(1000, 101000);
+		List<IdDatumPair> data = DataListView.convert(space.getData());
+		List<IdDatumPair> refs = removeRandom(data, 256);
+
 		Map<Integer, double[]> qThreshes = space.getThresholds();
 		Map<Integer, Integer[]> nnids = space.getNNIds();
 
 		Metric<IdDatumPair> convertMetric = DataListView.convert(space.getMetric());
 
-		LaesaWithCheatSheet index = new LaesaWithCheatSheet(data, refs, convertMetric, nnids);
+//		LaesaWithCheatSheet index = new LaesaWithCheatSheet(data, refs, convertMetric, nnids);
+		LaesaLidimCheatSheet index = new LaesaLidimCheatSheet(data, refs, convertMetric, nnids);
 
 		List<IdDatumPair> queries = DataListView.convert(space.getQueries());
-		for (IdDatumPair query : queries) {
+		for (IdDatumPair query : queries.subList(500, queries.size())) {
 			@SuppressWarnings("boxing")
-			
+
 			double threshold = qThreshes.get(query.id)[99];
 			System.out.print(query.id + "\t" + threshold);
-
-			double angle = getAngle(name, threshold);
 
 			List<IdDatumPair> res1 = index.search(query, threshold, Math.PI / 2, Math.PI / 2);
 			System.out.print("\t" + res1.size() + "\t" + index.getDistances());
 			for (int gap = 30; gap < 70; gap += 5) {
-				List<IdDatumPair> res3 = index.search(query, threshold, angle, (float) gap / 100);
+				List<IdDatumPair> res3 = index.search(query, threshold, getLidimAngle(name), (float) gap / 100);
 				System.out.print("\t" + res3.size() + "\t" + index.getDistances());
 			}
 			System.out.println();
 		}
+	}
+
+	static <T> List<T> removeRandom(List<T> data, int i) {
+		Random rand = new Random();
+		List<T> res = new ArrayList<>();
+		while (res.size() < i) {
+			res.add(data.remove(rand.nextInt(data.size())));
+		}
+		return res;
 	}
 
 	private static double getAngle(String name, double threshold) {
@@ -86,29 +97,17 @@ public class RunSearch {
 		}
 	}
 
-	private static double getLidimAngle(String name, double lidim) {
-		// -0.0005x + 1.519 mf_alex equation... 1.519 - 0.0005 * threshold, sigma about
-		// 0.2
-		// -0.0013x + 1.602 sift equation, sigma about 0.2
-		// decaf equation... 1.6865 - 0.0103 * threshold, sigma about 0.13
-		// gist equation: = -2.3503x + 1.5518, sigma about 0.16
-//		double siftAngle = 1.602 - 0.0013 * threshold;
-//		
-//		double decafAngle = 1.6865 - 0.0103 * threshold;
-//		double mfAngle = 1.519 - 0.0005 * threshold;
-//		double gistAngle = 1.5518 - 2.3503 * threshold;
+	@SuppressWarnings("boxing")
+	private static Function<Double, Double> getLidimAngle(String name) {
 
 		switch (name) {
 		case "sift":
-			return 0;
-		case "gist":
-			return 0;
+			return (x) -> -0.0349 * x + 1.4716;
 		case "decaf":
-			return 0;
-		case "mf":
-			return 0;
+			// 0.0467x2 - 0.4077x + 1.8161
+			return (x) -> 0.0467 * x * x - 0.4077 * x + 1.8161;
 		default:
-			throw new RuntimeException("no such space: " + name);
+			throw new RuntimeException("space: " + name + " doesn't have lidim function defined");
 		}
 	}
 

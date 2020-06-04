@@ -11,8 +11,8 @@ import eu.similarity.msc.data.DataListView.IdDatumPair;
 
 public class LaesaWithCheatSheet extends Laesa<IdDatumPair> {
 
-	private Map<Integer, Integer[]> nnids;
-	private int distancesCalculatedForLastSearch = 0;
+	protected Map<Integer, Integer[]> nnids;
+	protected int distancesCalculatedForLastSearch = 0;
 
 	public LaesaWithCheatSheet(List<IdDatumPair> data, List<IdDatumPair> refPoints, Metric<IdDatumPair> metric,
 			Map<Integer, Integer[]> nnids) {

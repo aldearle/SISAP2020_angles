@@ -52,7 +52,7 @@ public class AngleInfo {
 		if (!Double.isNaN(theta)) {
 			return theta;
 		} else {
-			throw new RuntimeException("angle was NaN in AngleInfo");
+			throw new RuntimeException("angle was NaN in AngleInfo (A was " + aA + ", C was" + cC + ")");
 		}
 	}
 }

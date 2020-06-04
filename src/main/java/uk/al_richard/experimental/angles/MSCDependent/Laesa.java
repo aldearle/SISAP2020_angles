@@ -53,9 +53,9 @@ public class Laesa<T> {
 			double minCosTheta) {
 		try {
 			double cosTheta = (aA * aA + cC * cC - bB * bB) / (2 * aA * cC);
-			return cosTheta > maxCosTheta || cosTheta < minCosTheta;
+			return cosTheta > maxCosTheta || cosTheta < minCosTheta || cosTheta < 0 || cosTheta > 1;
 		} catch (RuntimeException e) {
-			return true;
+			return false;
 		}
 	}
 
