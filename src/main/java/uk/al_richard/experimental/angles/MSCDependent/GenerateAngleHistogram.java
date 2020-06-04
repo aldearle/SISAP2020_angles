@@ -11,33 +11,6 @@ import eu.similarity.msc.core_concepts.Metric;
 import eu.similarity.msc.data.MetricSpaceResource;
 
 public class GenerateAngleHistogram {
-	public static class AngleInfo {
-		private double mean;
-		private double std;
-
-		AngleInfo(double mean, double[] angles) {
-			this.mean = mean;
-			this.std = getStd(mean, angles);
-		}
-
-		private static double getStd(double mean, double[] angles) {
-			double acc = 0;
-			for (double ang : angles) {
-				double diff = mean - ang;
-				acc += diff * diff;
-			}
-			return Math.sqrt(acc / (angles.length - 1));
-		}
-
-		public double getMean() {
-			return this.mean;
-		}
-
-		public double getStd() {
-			return this.std;
-		}
-	}
-
 	private MetricSpaceResource<Integer, float[]> msr;
 	private Map<Integer, float[]> data;
 	private Map<Integer, float[]> queries;
@@ -86,8 +59,8 @@ public class GenerateAngleHistogram {
 				Integer[] nnids = this.nnIds.get(queryId);
 
 				AngleInfo ai = getAngleSample(constrained, query, nnids);
-				System.out.println(
-						queryId + "\t" + this.thresholds.get(queryId)[5] + "\t" + ai.getMean() + "\t" + ai.getStd());
+				System.out.println(queryId + "\t" + this.thresholds.get(queryId)[5] + "\t" + ai.getMean() + "\t"
+						+ ai.getStd() + "\t" + ai.getMin() + "\t" + ai.getMax());
 				noOfQueriesToTest--;
 			}
 		}
@@ -121,10 +94,13 @@ public class GenerateAngleHistogram {
 						double bB = this.metric.distance(a, c);
 						double cC = this.metric.distance(a, b);
 
-						double theta = Math.acos((square(aA) + square(cC) - square(bB)) / (2 * aA * cC));
-						angles[ptr++] = theta;
-						acc += theta;
-						noToDo--;
+						final double cosine = (square(aA) + square(cC) - square(bB)) / (2 * aA * cC);
+						double theta = Math.acos(cosine);
+						if (!Double.isNaN(theta)) {
+							angles[ptr++] = theta;
+							acc += theta;
+							noToDo--;
+						}
 					}
 				}
 			}

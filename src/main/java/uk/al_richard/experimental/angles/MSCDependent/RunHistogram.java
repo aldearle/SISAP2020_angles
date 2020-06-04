@@ -1,15 +1,24 @@
 package uk.al_richard.experimental.angles.MSCDependent;
 
 import eu.similarity.msc.data.DecafMetricSpace;
+import eu.similarity.msc.data.GistMetricSpace;
+import eu.similarity.msc.data.MetricSpaceResource;
 import eu.similarity.msc.data.MfAlexMetricSpace;
 import eu.similarity.msc.data.SiftMetricSpace;
-import uk.al_richard.experimental.angles.MSCDependent.GenerateAngleHistogram;
 
 public class RunHistogram {
 	public static void main(String[] args) throws Exception {
 
-		testDecaf();
+		System.out.println("testing GistMetricSpace");
+		MetricSpaceResource<Integer, float[]> gist = new GistMetricSpace("/Volumes/Data/mf_gist/");
+		getSpaceHistograms(gist);
+	}
 
+	private static void getSpaceHistograms(MetricSpaceResource<Integer, float[]> msr) throws Exception {
+		System.out.println("testing " + msr.getClass().getName());
+		GenerateAngleHistogram h = new GenerateAngleHistogram(msr, 100, 100, 100);
+		h.generateAngles(true);
+		h.generateAngles(false);
 	}
 
 	private static void testDecaf() throws Exception {

@@ -9,12 +9,12 @@ import java.util.Set;
 import eu.similarity.msc.core_concepts.Metric;
 import eu.similarity.msc.data.DataListView.IdDatumPair;
 
-public class LaesaWithCheatSheet extends Laesa<IdDatumPair> {
+public class LaesaLidimCheatSheet extends Laesa<IdDatumPair> {
 
 	private Map<Integer, Integer[]> nnids;
 	private int distancesCalculatedForLastSearch = 0;
 
-	public LaesaWithCheatSheet(List<IdDatumPair> data, List<IdDatumPair> refPoints, Metric<IdDatumPair> metric,
+	public LaesaLidimCheatSheet(List<IdDatumPair> data, List<IdDatumPair> refPoints, Metric<IdDatumPair> metric,
 			Map<Integer, Integer[]> nnids) {
 		super(data, refPoints, metric);
 		this.nnids = nnids;
@@ -33,6 +33,8 @@ public class LaesaWithCheatSheet extends Laesa<IdDatumPair> {
 		for (IdDatumPair rPoint : this.refPoints) {
 			qDists[refPtr++] = this.metric.distance(rPoint, query);
 		}
+		// Calculate the LIDIM of the query
+		
 
 		this.distancesCalculatedForLastSearch = this.refPoints.size();
 		int dPtr = 0;
