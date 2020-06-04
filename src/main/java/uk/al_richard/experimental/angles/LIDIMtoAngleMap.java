@@ -156,6 +156,18 @@ public class LIDIMtoAngleMap extends CommonBase {
         return calculateMargin( stored_angles.angle, stored_angles.std_dev, threshold, factor );
     }
 
+    /**
+     *
+     * @param p - a point for which we are getting an estimated angle
+     * @return the angle and std dev estimated for the point p.
+     * @throws Exception if something breaks
+     */
+    public Angles getEstimatedAngle( CartesianPoint p ) throws Exception {
+        List<Double> dists = getDists( pivots, p.getPoint() );
+        double lidim = LIDimLevinaBickel(dists);
+        return findClosest(lidim, map);
+    }
+
 
     /**
      *
@@ -175,11 +187,13 @@ public class LIDIMtoAngleMap extends CommonBase {
         return dists;
     }
 
+
     /**
      * Populates a angle_map mapping from LIDIm to Angles uses points within query_radius to calculate the angles.
-     * @param map - the angle_map to be populated
+     *
+     * @param map               - the angle_map to be populated
      * @param diagonal_distance - the distance up the diagonal
-     * @param query_radius - the query radius used to calculate angles
+     * @param query_radius      - the query radius used to calculate angles
      * @throws Exception if there are no points found within the query_radius
      */
     private void populateMap(TreeMap<Double, Angles> map, double diagonal_distance, double query_radius ) throws Exception {

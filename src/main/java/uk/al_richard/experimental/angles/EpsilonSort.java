@@ -25,12 +25,10 @@ public class EpsilonSort extends CommonBase {
     private final Map<Integer,OrderedList<Integer,Double>> ro_map;
     private final int dim;
 
-    private static double theta_euc_20 = 1.3172;            // TODO HARD CODED theta_low for EUC20
-    private static double std_dev_angle_euc_20 = 0.2141519; // TODO HARD CODED std dev for EUC20
-    private final double theta;
-
-    private HashSet<Integer> exclude; // HACK putting this here!
-    private HashSet<Integer> include; // HACK putting this here!
+//    private static double theta_euc_20 = 1.3172;            // TODO HARD CODED theta_low for EUC20
+//    private static double std_dev_angle_euc_20 = 0.2141519; // TODO HARD CODED std dev for EUC20
+//    private final double theta;
+    private final LIDIMtoAngleMap ldim_to_angle_map;
 
     public EpsilonSort(String dataset_name, int number_data_points, int noOfRefPoints, int num_queries ) throws Exception {
 
@@ -40,7 +38,9 @@ public class EpsilonSort extends CommonBase {
 
         System.out.println( "thresh = " + thresh );
 
-        this.theta = theta_euc_20 + (2 * std_dev_angle_euc_20);  // Making this bigger gets more exclusions (but more errors)
+//        this.theta = theta_euc_20 + (4 * std_dev_angle_euc_20);  // Making this bigger gets more exclusions (but more errors)
+
+        ldim_to_angle_map = new LIDIMtoAngleMap(dataset_name, number_data_points, noOfRefPoints );
 
         this.data_points = getData();
         this.data_size = data_points.size();
@@ -87,7 +87,7 @@ public class EpsilonSort extends CommonBase {
         return dists;
     }
 
-    private void experiment() {
+    private void experiment() throws Exception {
         for( int i = 0; i < queries.size(); i++ ) {
             CartesianPoint query_point = queries.get(i);
             query( query_point );
@@ -95,74 +95,71 @@ public class EpsilonSort extends CommonBase {
 
     }
 
-    private void query(CartesianPoint query_point) {
+    private void query(CartesianPoint query_point) throws Exception {
 
-        exclude = new HashSet<>();
-        include = new HashSet<>();
+        HashSet<Integer> exclude = new HashSet<>();
+        HashSet<Integer> include = new HashSet<>();
         for( int i = 0; i < ro_map.size(); i++ ) {
-            CartesianPoint ro_object = ref_points.get(i);
-            queryROExclude(query_point, ro_map.get(i), ro_object);
-            queryROInclude(query_point, ro_map.get(i), ro_object);
+
+            Angles angles = ldim_to_angle_map.getEstimatedAngle( query_point );
+
+            HashSet<Integer> ro_exclude = new HashSet<>();
+            HashSet<Integer> ro_include = new HashSet<>();
+
+            CartesianPoint ref_object = ref_points.get(i);
+
+            System.out.println( "RO " + i + " d: " + metric.distance(query_point,ref_object) + " angle: " + angles.angle + " std.dev: " + angles.std_dev );
+            queryROExclude(query_point, angles, ro_map.get(i), ref_object, ro_exclude, exclude );
+            queryROInclude(query_point, angles, ro_map.get(i), ref_object, ro_include, include );
+            check(query_point,include,exclude);
+
         }
-        check(query_point);
+        System.out.println( "*** " );
+        check(query_point,include,exclude);
     }
 
-    private void check(CartesianPoint query_point) {
-        checkInclusions(query_point);
-        checkExclusions(query_point);
-    }
+    private void check(CartesianPoint query_point, HashSet<Integer> include, HashSet<Integer> exclude) {
 
-    private void checkInclusions(CartesianPoint query_point) {
-
-        int true_positive = 0;
-        int inclusion_count = 0;
-        int solution_count = 0;
-
-        HashSet<Integer> not_exclusions = new HashSet<>();
+        int include_true_positive = 0;
+        int include_false_positive = 0;
+        int exclude_true_positive = 0;
+        int exclude_false_positive = 0;
+        int true_inclusions = 0;
 
         for( int i = 0; i < data_points.size(); i++ ) {
 
             double d_q_s = metric.distance( data_points.get(i), query_point);
 
             if( d_q_s < thresh ) {
-                solution_count++;
-            }
-
-            if( ! exclude.contains(i) ) { // these ones are candidate solutions
-                not_exclusions.add(i);
-                if( d_q_s < thresh ) {
-                    true_positive++;
-                }
+                true_inclusions++;
             }
         }
-        System.out.println( "Not exclusions size = " + not_exclusions.size() + " correct = " + true_positive + " / " + solution_count );
 
-        System.out.println( "Inclusions before adding not exclusions = " + include.size() );
-
-        include.addAll( not_exclusions );
-
-        true_positive = 0;
-        for( int i : include) {
-            double d_q_s = metric.distance( data_points.get(i), query_point);
-            if( d_q_s < thresh ) {
-                true_positive++;
-            }
-        }
-        System.out.println( "All inclusions = " + include.size() + " correct = " + true_positive + " / " + solution_count );
-    }
-
-    private void checkExclusions(CartesianPoint query_point) {
-        int true_positive = 0;
         for( int i : exclude) {
             double d_q_s = metric.distance( data_points.get(i), query_point);
             if( d_q_s > thresh ) {
-                true_positive++;
+                exclude_true_positive++;
+            }  else {
+                exclude_false_positive++;
             }
         }
-        System.out.println( "Eliminated points size = " + exclude.size() + " correct = " + true_positive );
+
+        for( int i : include) {
+            double d_q_s = metric.distance( data_points.get(i), query_point);
+            if( d_q_s < thresh ) {
+                include_true_positive++;
+            } else {
+                include_false_positive++;
+            }
+
+        }
+
+        System.out.println( "Exclusions TP = " + exclude_true_positive + " Exclusions FP = " + exclude_false_positive + " True exclusions = " + ( data_points.size() - true_inclusions ) );
+        System.out.println( "Inclusions TP = " + include_true_positive + " Inclusions FP = " + include_false_positive + " True inclusions = " + true_inclusions);
+        System.out.println( "---");
     }
 
-    private void queryROExclude(CartesianPoint query_point, OrderedList<Integer, Double> data_dists, CartesianPoint ro_object) {
+    private void queryROExclude(CartesianPoint query_point, Angles angles, OrderedList<Integer, Double> data_dists, CartesianPoint ro_object, HashSet<Integer> ro_exclude, HashSet<Integer> exclude) {
 
         double d_ro_q = metric.distance(ro_object, query_point);
 
@@ -173,9 +170,10 @@ public class EpsilonSort extends CommonBase {
 
             Double d_ro_s = dists.get(i);
 
-            boolean gt_thresh = estimateGTThreshold( d_ro_q, d_ro_s, theta);
+            boolean gt_thresh = estimateGTThreshold( d_ro_q, d_ro_s, angles.angle  -  (2 * angles.std_dev));
             if( gt_thresh ) {
                 exclude.add( indices.get(i) );
+                ro_exclude.add( indices.get(i) );
             }
 
             if( ! gt_thresh ) {
@@ -184,7 +182,7 @@ public class EpsilonSort extends CommonBase {
         }
     }
 
-    private void queryROInclude(CartesianPoint query_point, OrderedList<Integer, Double> data_dists, CartesianPoint ro_object) {
+    private void queryROInclude(CartesianPoint query_point, Angles angles, OrderedList<Integer, Double> data_dists, CartesianPoint ro_object, HashSet<Integer> ro_include, HashSet<Integer> include) {
 
         double d_ro_q = metric.distance(ro_object, query_point);
 
@@ -195,9 +193,10 @@ public class EpsilonSort extends CommonBase {
 
             Double d_ro_s = dists.get( i );
 
-            boolean lt_thresh = estimateLTThreshold( d_ro_q, d_ro_s, theta - (3 * std_dev_angle_euc_20));
+            boolean lt_thresh = estimateLTThreshold( d_ro_q, d_ro_s, angles.angle + (2 * angles.std_dev));
             if( lt_thresh ) {
                 include.add( indices.get(i) );
+                ro_include.add( indices.get(i) );
             }
 
             if( ! lt_thresh ) {
