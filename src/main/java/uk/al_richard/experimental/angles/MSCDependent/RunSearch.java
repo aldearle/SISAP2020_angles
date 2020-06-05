@@ -22,13 +22,13 @@ public class RunSearch {
 
 		final SiftMetricSpace sift = new SiftMetricSpace("/Volumes/Data/SIFT_mu/");
 		final DecafMetricSpace decaf = new DecafMetricSpace("/Volumes/Data/profiset/");
-		final MfAlexMetricSpace mf = new MfAlexMetricSpace("/Volumes/Data/mf_fc6/");
+		final MfAlexMetricSpace mfAlex = new MfAlexMetricSpace("/Volumes/Data/mf_fc6/");
 		MetricSpaceResource<Integer, float[]> gist = new GistMetricSpace("/Volumes/Data/mf_gist/");
 
-		testLaesa("decaf", decaf);
+		testLaesa("mfAlex", mfAlex);
 //		testLaesa("decaf", decaf);
-//		testLaesa("sift", sift);
-//		testLaesa("sift", sift);
+//		testLaesa("gist", gist);
+//		testLaesa("decaf", decaf);
 //		recreateVladResults(gist);
 	}
 
@@ -73,11 +73,6 @@ public class RunSearch {
 	}
 
 	private static double getAngle(String name, double threshold) {
-		// -0.0005x + 1.519 mf_alex equation... 1.519 - 0.0005 * threshold, sigma about
-		// 0.2
-		// -0.0013x + 1.602 sift equation, sigma about 0.2
-		// decaf equation... 1.6865 - 0.0103 * threshold, sigma about 0.13
-		// gist equation: = -2.3503x + 1.5518, sigma about 0.16
 		double siftAngle = 1.602 - 0.0013 * threshold;
 		double decafAngle = 1.6865 - 0.0103 * threshold;
 		double mfAngle = 1.519 - 0.0005 * threshold;
@@ -90,7 +85,7 @@ public class RunSearch {
 			return gistAngle;
 		case "decaf":
 			return decafAngle;
-		case "mf":
+		case "mfAlex":
 			return mfAngle;
 		default:
 			throw new RuntimeException("no such space: " + name);
@@ -99,13 +94,16 @@ public class RunSearch {
 
 	@SuppressWarnings("boxing")
 	private static Function<Double, Double> getLidimAngle(String name) {
-
+		// equations of best fit quadratic taken from Excel(!)
 		switch (name) {
 		case "sift":
-			return (x) -> -0.0349 * x + 1.4716;
+			return (x) -> 0.0155 * x * x - 0.1613 * x + 1.7228;
 		case "decaf":
-			// 0.0467x2 - 0.4077x + 1.8161
 			return (x) -> 0.0467 * x * x - 0.4077 * x + 1.8161;
+		case "mfAlex":
+			return (x) -> 0.0235 * x * x - 0.2234 * x + 1.5008;
+		case "gist":
+			return (x) -> 0.0626 * x * x - 0.3921 * x + 1.6445;
 		default:
 			throw new RuntimeException("space: " + name + " doesn't have lidim function defined");
 		}

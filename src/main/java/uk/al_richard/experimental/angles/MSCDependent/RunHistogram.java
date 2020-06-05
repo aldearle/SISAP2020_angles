@@ -14,7 +14,7 @@ public class RunHistogram {
 		final DecafMetricSpace decaf = new DecafMetricSpace("/Volumes/Data/profiset/");
 		final MfAlexMetricSpace mfa = new MfAlexMetricSpace("/Volumes/Data/mf_fc6/");
 
-		createHistogramInfo(mfa);
+		createHistogramInfo(gist);
 
 	}
 
