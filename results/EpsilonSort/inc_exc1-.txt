@@ -1,0 +1,241 @@
+queryROExclude -1
+queryROInclude +1:
+
+Exclusions size = 99976/99985 TP = 99961 FP = 15
+Inclusions size = 99938/15 TP = 15 FP = 99923
+---
+*** 
+Exclusions size = 100000/99830 TP = 99830 FP = 170
+Inclusions size = 99930/170 TP = 170 FP = 99760
+---
+*** 
+Exclusions size = 99977/99996 TP = 99973 FP = 4
+Inclusions size = 99464/4 TP = 4 FP = 99460
+---
+*** 
+Exclusions size = 98283/100000 TP = 98283 FP = 0
+Inclusions size = 88407/0 TP = 0 FP = 88407
+---
+*** 
+Exclusions size = 99943/99998 TP = 99941 FP = 2
+Inclusions size = 98769/2 TP = 2 FP = 98767
+---
+*** 
+Exclusions size = 100000/99967 TP = 99967 FP = 33
+Inclusions size = 99930/33 TP = 33 FP = 99897
+---
+*** 
+Exclusions size = 99949/99993 TP = 99942 FP = 7
+Inclusions size = 99865/7 TP = 7 FP = 99858
+---
+*** 
+Exclusions size = 99999/99985 TP = 99984 FP = 15
+Inclusions size = 99617/15 TP = 15 FP = 99602
+---
+*** 
+Exclusions size = 99977/100000 TP = 99977 FP = 0
+Inclusions size = 99083/0 TP = 0 FP = 99083
+---
+*** 
+Exclusions size = 99972/99998 TP = 99970 FP = 2
+Inclusions size = 91943/2 TP = 2 FP = 91941
+---
+*** 
+Exclusions size = 99986/99993 TP = 99980 FP = 6
+Inclusions size = 99304/7 TP = 7 FP = 99297
+---
+*** 
+Exclusions size = 99971/99998 TP = 99969 FP = 2
+Inclusions size = 67824/2 TP = 2 FP = 67822
+---
+*** 
+Exclusions size = 99491/100000 TP = 99491 FP = 0
+Inclusions size = 98184/0 TP = 0 FP = 98184
+---
+*** 
+Exclusions size = 99160/100000 TP = 99160 FP = 0
+Inclusions size = 76640/0 TP = 0 FP = 76640
+---
+*** 
+Exclusions size = 99724/99999 TP = 99724 FP = 0
+Inclusions size = 98041/1 TP = 1 FP = 98040
+---
+*** 
+Exclusions size = 99788/99999 TP = 99787 FP = 1
+Inclusions size = 97612/1 TP = 1 FP = 97611
+---
+*** 
+Exclusions size = 99978/99987 TP = 99965 FP = 13
+Inclusions size = 99656/13 TP = 13 FP = 99643
+---
+*** 
+Exclusions size = 99992/99993 TP = 99985 FP = 7
+Inclusions size = 99741/7 TP = 7 FP = 99734
+---
+*** 
+Exclusions size = 98861/100000 TP = 98861 FP = 0
+Inclusions size = 98872/0 TP = 0 FP = 98872
+---
+*** 
+Exclusions size = 99995/99997 TP = 99992 FP = 3
+Inclusions size = 99823/3 TP = 3 FP = 99820
+---
+*** 
+Exclusions size = 99889/99996 TP = 99886 FP = 3
+Inclusions size = 94770/4 TP = 4 FP = 94766
+---
+*** 
+Exclusions size = 99409/100000 TP = 99409 FP = 0
+Inclusions size = 74583/0 TP = 0 FP = 74583
+---
+*** 
+Exclusions size = 99739/99999 TP = 99738 FP = 1
+Inclusions size = 91017/1 TP = 1 FP = 91016
+---
+*** 
+Exclusions size = 99780/99996 TP = 99776 FP = 4
+Inclusions size = 99564/4 TP = 4 FP = 99560
+---
+*** 
+Exclusions size = 99848/99999 TP = 99847 FP = 1
+Inclusions size = 99354/1 TP = 1 FP = 99353
+---
+*** 
+Exclusions size = 99970/99996 TP = 99967 FP = 3
+Inclusions size = 99486/4 TP = 4 FP = 99482
+---
+*** 
+Exclusions size = 100000/99950 TP = 99950 FP = 50
+Inclusions size = 99897/50 TP = 50 FP = 99847
+---
+*** 
+Exclusions size = 99983/99997 TP = 99981 FP = 2
+Inclusions size = 99308/3 TP = 3 FP = 99305
+---
+*** 
+Exclusions size = 98799/100000 TP = 98799 FP = 0
+Inclusions size = 40584/0 TP = 0 FP = 40584
+---
+*** 
+Exclusions size = 99989/99995 TP = 99984 FP = 5
+Inclusions size = 99902/5 TP = 5 FP = 99897
+---
+*** 
+Exclusions size = 99977/99982 TP = 99960 FP = 17
+Inclusions size = 99752/18 TP = 18 FP = 99734
+---
+*** 
+Exclusions size = 99997/99992 TP = 99989 FP = 8
+Inclusions size = 99597/8 TP = 8 FP = 99589
+---
+*** 
+Exclusions size = 98572/100000 TP = 98572 FP = 0
+Inclusions size = 98455/0 TP = 0 FP = 98455
+---
+*** 
+Exclusions size = 99984/99997 TP = 99981 FP = 3
+Inclusions size = 99704/3 TP = 3 FP = 99701
+---
+*** 
+Exclusions size = 99997/99979 TP = 99977 FP = 20
+Inclusions size = 99785/21 TP = 21 FP = 99764
+---
+*** 
+Exclusions size = 99470/100000 TP = 99470 FP = 0
+Inclusions size = 90781/0 TP = 0 FP = 90781
+---
+*** 
+Exclusions size = 99995/99995 TP = 99990 FP = 5
+Inclusions size = 98998/5 TP = 5 FP = 98993
+---
+*** 
+Exclusions size = 99984/99991 TP = 99976 FP = 8
+Inclusions size = 98554/9 TP = 9 FP = 98545
+---
+*** 
+Exclusions size = 99995/99993 TP = 99989 FP = 6
+Inclusions size = 99410/7 TP = 7 FP = 99403
+---
+*** 
+Exclusions size = 100000/100000 TP = 100000 FP = 0
+Inclusions size = 31754/0 TP = 0 FP = 31754
+---
+*** 
+Exclusions size = 100000/99998 TP = 99998 FP = 2
+Inclusions size = 18050/2 TP = 2 FP = 18048
+---
+*** 
+Exclusions size = 99985/99994 TP = 99979 FP = 6
+Inclusions size = 99484/6 TP = 6 FP = 99478
+---
+*** 
+Exclusions size = 100000/99981 TP = 99981 FP = 19
+Inclusions size = 99859/19 TP = 19 FP = 99840
+---
+*** 
+Exclusions size = 99962/99999 TP = 99961 FP = 1
+Inclusions size = 98679/1 TP = 1 FP = 98678
+---
+*** 
+Exclusions size = 100000/99998 TP = 99998 FP = 2
+Inclusions size = 46810/2 TP = 2 FP = 46808
+---
+*** 
+Exclusions size = 99814/99999 TP = 99814 FP = 0
+Inclusions size = 96099/1 TP = 1 FP = 96098
+---
+*** 
+Exclusions size = 100000/100000 TP = 100000 FP = 0
+Inclusions size = 31279/0 TP = 0 FP = 31279
+---
+*** 
+Exclusions size = 100000/99999 TP = 99999 FP = 1
+Inclusions size = 84387/1 TP = 1 FP = 84386
+---
+*** 
+Exclusions size = 99946/99995 TP = 99942 FP = 4
+Inclusions size = 99285/5 TP = 5 FP = 99280
+---
+*** 
+Exclusions size = 100000/99900 TP = 99900 FP = 100
+Inclusions size = 99954/100 TP = 100 FP = 99854
+---
+*** 
+Exclusions size = 100000/99995 TP = 99995 FP = 5
+Inclusions size = 93509/5 TP = 5 FP = 93504
+---
+*** 
+Exclusions size = 100000/99924 TP = 99924 FP = 76
+Inclusions size = 99874/76 TP = 76 FP = 99798
+---
+*** 
+Exclusions size = 99842/99999 TP = 99841 FP = 1
+Inclusions size = 74011/1 TP = 1 FP = 74010
+---
+*** 
+Exclusions size = 99944/99997 TP = 99941 FP = 3
+Inclusions size = 99703/3 TP = 3 FP = 99700
+---
+*** 
+Exclusions size = 100000/99994 TP = 99994 FP = 6
+Inclusions size = 0/6 TP = 0 FP = 0
+---
+*** 
+Exclusions size = 100000/99962 TP = 99962 FP = 38
+Inclusions size = 99320/38 TP = 38 FP = 99282
+---
+*** 
+Exclusions size = 100000/99976 TP = 99976 FP = 24
+Inclusions size = 99787/24 TP = 24 FP = 99763
+---
+*** 
+Exclusions size = 99975/99993 TP = 99968 FP = 7
+Inclusions size = 99971/7 TP = 7 FP = 99964
+---
+*** 
+Exclusions size = 99998/99983 TP = 99982 FP = 16
+Inclusions size = 99863/17 TP = 17 FP = 99846
+---
+*** 
+Exclusions size = 99985/99976 TP = 99963 FP = 22
+Inclusions size = 99889/24 TP = 24 FP = 99865
