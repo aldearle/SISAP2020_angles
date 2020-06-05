@@ -51,12 +51,8 @@ public class Laesa<T> {
 
 	protected static boolean cosThetaOutOfRange(double aA, double bB, double cC, double maxCosTheta,
 			double minCosTheta) {
-		try {
-			double cosTheta = (aA * aA + cC * cC - bB * bB) / (2 * aA * cC);
-			return cosTheta > maxCosTheta || cosTheta < minCosTheta || cosTheta < 0 || cosTheta > 1;
-		} catch (RuntimeException e) {
-			return false;
-		}
+		double cosTheta = (aA * aA + cC * cC - bB * bB) / (2 * aA * cC);
+		return cosTheta > maxCosTheta || cosTheta < minCosTheta || cosTheta < -1 || cosTheta > 1;
 	}
 
 	protected static boolean canExclude(double[] qDists, double[] rDists, double t, double maxCosTheta,
