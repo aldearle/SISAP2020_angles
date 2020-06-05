@@ -25,14 +25,11 @@ public class EpsilonSort extends CommonBase {
     private final Map<Integer,OrderedList<Integer,Double>> ro_map;
     private final int dim;
 
-//    private static double theta_euc_20 = 1.3172;            // TODO HARD CODED theta_low for EUC20
-//    private static double std_dev_angle_euc_20 = 0.2141519; // TODO HARD CODED std dev for EUC20
-//    private final double theta;
     private final LIDIMtoAngleMap ldim_to_angle_map;
 
     public EpsilonSort(String dataset_name, int number_data_points, int noOfRefPoints, int num_queries ) throws Exception {
 
-        super( dataset_name, number_data_points, noOfRefPoints,num_queries  );
+        super( dataset_name, number_data_points, noOfRefPoints, num_queries  );
 
         this.thresh = super.getThreshold();
 
@@ -108,10 +105,10 @@ public class EpsilonSort extends CommonBase {
 
             CartesianPoint ref_object = ref_points.get(i);
 
-            System.out.println( "RO " + i + " d: " + metric.distance(query_point,ref_object) + " angle: " + angles.angle + " std.dev: " + angles.std_dev );
+//            System.out.println( "RO " + i + " d: " + metric.distance(query_point,ref_object) + " angle: " + angles.angle + " std.dev: " + angles.std_dev );
             queryROExclude(query_point, angles, ro_map.get(i), ref_object, ro_exclude, exclude );
             queryROInclude(query_point, angles, ro_map.get(i), ref_object, ro_include, include );
-            check(query_point,include,exclude);
+            // check(query_point,include,exclude); // Uncomment this to see intermediates.
 
         }
         System.out.println( "*** " );
@@ -154,8 +151,8 @@ public class EpsilonSort extends CommonBase {
 
         }
 
-        System.out.println( "Exclusions TP = " + exclude_true_positive + " Exclusions FP = " + exclude_false_positive + " True exclusions = " + ( data_points.size() - true_inclusions ) );
-        System.out.println( "Inclusions TP = " + include_true_positive + " Inclusions FP = " + include_false_positive + " True inclusions = " + true_inclusions);
+        System.out.println( "Exclusions size = " + exclude.size() + "/" + ( data_points.size() - true_inclusions ) + " TP = " + exclude_true_positive + " FP = " + exclude_false_positive );
+        System.out.println( "Inclusions size = " + include.size() + "/" + true_inclusions + " TP = " + include_true_positive + " FP = " + include_false_positive);
         System.out.println( "---");
     }
 
@@ -170,7 +167,7 @@ public class EpsilonSort extends CommonBase {
 
             Double d_ro_s = dists.get(i);
 
-            boolean gt_thresh = estimateGTThreshold( d_ro_q, d_ro_s, angles.angle  -  (2 * angles.std_dev));
+            boolean gt_thresh = estimateGTThreshold( d_ro_q, d_ro_s, angles.angle - (3 * angles.std_dev));
             if( gt_thresh ) {
                 exclude.add( indices.get(i) );
                 ro_exclude.add( indices.get(i) );
@@ -193,7 +190,7 @@ public class EpsilonSort extends CommonBase {
 
             Double d_ro_s = dists.get( i );
 
-            boolean lt_thresh = estimateLTThreshold( d_ro_q, d_ro_s, angles.angle + (2 * angles.std_dev));
+            boolean lt_thresh = estimateLTThreshold( d_ro_q, d_ro_s, angles.angle + (3 * angles.std_dev));
             if( lt_thresh ) {
                 include.add( indices.get(i) );
                 ro_include.add( indices.get(i) );
@@ -234,7 +231,7 @@ public class EpsilonSort extends CommonBase {
 
     public static void main( String[] args ) throws Exception {
 
-        EpsilonSort pp = new EpsilonSort( EUC20,10000, 60, 20  );
+        EpsilonSort pp = new EpsilonSort( EUC20,100000, 40, 60  );
         pp.experiment();
     }
 
