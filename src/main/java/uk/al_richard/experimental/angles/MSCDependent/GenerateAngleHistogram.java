@@ -88,7 +88,7 @@ public class GenerateAngleHistogram {
 						IdDatumPair nnp = new IdDatumPair(i, nn);
 						double ps = this.metric.distance(nnp, reference);
 						double qs = this.metric.distance(nnp, query);
-						if (pq != 0 && ps != 0) {
+						if (ps != 0 && qs != 0) {
 							double angle = AngleInfo.getAngle(pq, ps, qs);
 							solutionAngleAcc += angle;
 						}
@@ -146,7 +146,7 @@ public class GenerateAngleHistogram {
 						IdDatumPair nnp = this.listData.get(this.rand.nextInt(this.listData.size()));
 						double ps = this.metric.distance(nnp, reference);
 						double qs = this.metric.distance(nnp, query);
-						if (pq != 0 && ps != 0) {
+						if (ps != 0 && qs != 0) {
 							double angle = AngleInfo.getAngle(pq, ps, qs);
 							solutionAngleAcc += angle;
 							count++;

@@ -21,8 +21,8 @@ public class RunHistogram {
 	private static void createHistogramInfo(MetricSpaceResource<Integer, float[]> space) throws Exception {
 
 		GenerateAngleHistogram h = new GenerateAngleHistogram(space, 500, 500);
-		h.generateQuerySolutionAngles();
-//		h.generateQueryNonSolutionAngles();
+//		h.generateQuerySolutionAngles();
+		h.generateQueryNonSolutionAngles();
 	}
 
 }
