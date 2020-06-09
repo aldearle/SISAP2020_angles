@@ -14,14 +14,15 @@ public class RunHistogram {
 		final DecafMetricSpace decaf = new DecafMetricSpace("/Volumes/Data/profiset/");
 		final MfAlexMetricSpace mfa = new MfAlexMetricSpace("/Volumes/Data/mf_fc6/");
 
-		createHistogramInfo(gist);
+		createHistogramInfo(decaf);
 
 	}
 
 	private static void createHistogramInfo(MetricSpaceResource<Integer, float[]> space) throws Exception {
 
 		GenerateAngleHistogram h = new GenerateAngleHistogram(space, 500, 500);
-		h.generateAngles();
+		h.generateQuerySolutionAngles();
+//		h.generateQueryNonSolutionAngles();
 	}
 
 }

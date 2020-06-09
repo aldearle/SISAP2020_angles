@@ -63,7 +63,7 @@ public class RunSearch {
 		}
 	}
 
-	static <T> List<T> removeRandom(List<T> data, int i) {
+	public static <T> List<T> removeRandom(List<T> data, int i) {
 		Random rand = new Random();
 		List<T> res = new ArrayList<>();
 		while (res.size() < i) {
