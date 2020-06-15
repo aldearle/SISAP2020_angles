@@ -47,12 +47,17 @@ public class AngleInfo {
 	}
 
 	public static double getAngle(double aA, double bB, double cC) {
-		final double cosine = (square(aA) + square(cC) - square(bB)) / (2 * aA * cC);
-		double theta = Math.acos(cosine);
-		if (!Double.isNaN(theta)) {
-			return theta;
-		} else {
-			throw new RuntimeException("angle was NaN in AngleInfo (A was " + aA + ", C was" + cC + ")");
+		try {
+			final double cosine = (square(aA) + square(cC) - square(bB)) / (2 * aA * cC);
+			double theta = Math.acos(cosine);
+			if (!Double.isNaN(theta)) {
+				return theta;
+			} else {
+				throw new RuntimeException("angle was NaN in AngleInfo (A was " + aA + ", C was" + cC + ")");
+			}
+		} catch (Throwable e) {
+			System.out.println("oh fuck there is an arithmetic exception in getAngle");
+			return 0;
 		}
 	}
 }

@@ -12,7 +12,7 @@ import eu.similarity.msc.data.DataListView.IdDatumPair;
 import eu.similarity.msc.data.DecafMetricSpace;
 import eu.similarity.msc.data.GistMetricSpace;
 import eu.similarity.msc.data.MetricSpaceResource;
-import eu.similarity.msc.data.MfAlexMetricSpace;
+import eu.similarity.msc.data.MfAlexMetricSpace_old;
 import eu.similarity.msc.data.SiftMetricSpace;
 
 public class RunSearch {
@@ -22,7 +22,7 @@ public class RunSearch {
 
 		final SiftMetricSpace sift = new SiftMetricSpace("/Volumes/Data/SIFT_mu/");
 		final DecafMetricSpace decaf = new DecafMetricSpace("/Volumes/Data/profiset/");
-		final MfAlexMetricSpace mfAlex = new MfAlexMetricSpace("/Volumes/Data/mf_fc6/");
+		final MfAlexMetricSpace_old mfAlex = new MfAlexMetricSpace_old("/Volumes/Data/mf_fc6/");
 		MetricSpaceResource<Integer, float[]> gist = new GistMetricSpace("/Volumes/Data/mf_gist/");
 
 		testLaesa("mfAlex", mfAlex);
@@ -36,7 +36,7 @@ public class RunSearch {
 		System.out.println("testing " + space.getClass().getName());
 
 		List<IdDatumPair> data = DataListView.convert(space.getData());
-		List<IdDatumPair> refs = removeRandom(data, 256);
+		List<IdDatumPair> refs = DataListView.removeRandom(data, 256);
 
 		Map<Integer, double[]> qThreshes = space.getThresholds();
 		Map<Integer, Integer[]> nnids = space.getNNIds();
@@ -61,15 +61,6 @@ public class RunSearch {
 			}
 			System.out.println();
 		}
-	}
-
-	public static <T> List<T> removeRandom(List<T> data, int i) {
-		Random rand = new Random();
-		List<T> res = new ArrayList<>();
-		while (res.size() < i) {
-			res.add(data.remove(rand.nextInt(data.size())));
-		}
-		return res;
 	}
 
 	private static double getAngle(String name, double threshold) {

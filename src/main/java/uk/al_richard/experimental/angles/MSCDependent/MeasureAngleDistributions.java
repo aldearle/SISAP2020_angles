@@ -11,7 +11,7 @@ import java.util.Random;
 import eu.similarity.msc.core_concepts.Metric;
 import eu.similarity.msc.data.DataListView;
 import eu.similarity.msc.data.DecafMetricSpace;
-import eu.similarity.msc.data.MfAlexMetricSpace;
+import eu.similarity.msc.data.MfAlexMetricSpace_old;
 import eu.similarity.msc.data.DataListView.IdDatumPair;
 import eu.similarity.msc.data.SiftMetricSpace;
 
