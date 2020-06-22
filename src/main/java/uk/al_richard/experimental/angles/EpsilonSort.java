@@ -4,10 +4,7 @@ import coreConcepts.Metric;
 import dataPoints.cartesian.CartesianPoint;
 import util.OrderedList;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static uk.al_richard.experimental.angles.Util.square;
 
@@ -96,6 +93,9 @@ public class EpsilonSort extends CommonBase {
 
         HashSet<Integer> exclude = new HashSet<>();
         HashSet<Integer> include = new HashSet<>();
+
+        List<HashSet<Integer>> excludes = new ArrayList<>();
+
         for( int i = 0; i < ro_map.size(); i++ ) {
 
             Angles angles = ldim_to_angle_map.getEstimatedAngle( query_point );
@@ -108,14 +108,26 @@ public class EpsilonSort extends CommonBase {
 //            System.out.println( "RO " + i + " d: " + metric.distance(query_point,ref_object) + " angle: " + angles.angle + " std.dev: " + angles.std_dev );
             queryROExclude(query_point, angles, ro_map.get(i), ref_object, ro_exclude, exclude );
             queryROInclude(query_point, angles, ro_map.get(i), ref_object, ro_include, include );
+            excludes.add( ro_exclude );
             // check(query_point,include,exclude); // Uncomment this to see intermediates.
 
         }
         System.out.println( "*** " );
-        check(query_point,include,exclude);
+        int[] counts = examine(excludes);
+        check( query_point,include,exclude, counts );
     }
 
-    private void check(CartesianPoint query_point, HashSet<Integer> include, HashSet<Integer> exclude) {
+    private int[] examine(List<HashSet<Integer>> excludes) {
+        int[] counts = new int[data_size];
+        for( HashSet<Integer> exclude_ro : excludes ) {
+            for( int i : exclude_ro ) {
+                counts[i]++;
+            }
+        }
+        return counts;
+    }
+
+    private void check(CartesianPoint query_point, HashSet<Integer> include, HashSet<Integer> exclude, int counts[] ) {
 
         int include_true_positive = 0;
         int include_false_positive = 0;
@@ -128,9 +140,25 @@ public class EpsilonSort extends CommonBase {
             double d_q_s = metric.distance( data_points.get(i), query_point);
 
             if( d_q_s < thresh ) {
+                System.out.println( "confirmed: " + i + " count: " + counts[i] );
                 true_inclusions++;
             }
         }
+
+        System.out.println( "TP = " + true_inclusions );
+
+        int inc_counter = 0;
+
+        for( int i = 0; i < data_size; i++ ) {
+            if( counts[i] < num_ros  ) {
+                inc_counter++;
+                double d_q_s = metric.distance( data_points.get(i), query_point);
+                boolean tp = d_q_s < thresh;
+                System.out.println( "counts[i] < num_ros : " + i + " count: " + counts[i] + " tp: " + tp );
+            }
+        }
+
+        System.out.println( "counts[i] >= num_ros - 1 = " + inc_counter );
 
         for( int i : exclude) {
             double d_q_s = metric.distance( data_points.get(i), query_point);
@@ -150,9 +178,9 @@ public class EpsilonSort extends CommonBase {
             }
 
         }
-
-        System.out.println( "Exclusions size = " + exclude.size() + "/" + ( data_points.size() - true_inclusions ) + " TP = " + exclude_true_positive + " FP = " + exclude_false_positive );
-        System.out.println( "Inclusions size = " + include.size() + "/" + true_inclusions + " TP = " + include_true_positive + " FP = " + include_false_positive);
+        System.out.println( "---\t" + "size" + "\t" + "GT" + "\t" + "TP" + "\t" + "FP" );
+        System.out.println( "Exc\t" + exclude.size() + "\t" + ( data_points.size() - true_inclusions ) + "\t" + exclude_true_positive + "\t" + exclude_false_positive );
+        System.out.println( "Inc\t" + include.size() + "\t" + true_inclusions + "\t" + include_true_positive + "\t" + include_false_positive );
         System.out.println( "---");
     }
 
@@ -231,7 +259,7 @@ public class EpsilonSort extends CommonBase {
 
     public static void main( String[] args ) throws Exception {
 
-        EpsilonSort pp = new EpsilonSort( EUC20,100000, 40, 60  );
+        EpsilonSort pp = new EpsilonSort( EUC20,100000, 100, 60  );
         pp.experiment();
     }
 
