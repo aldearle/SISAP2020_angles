@@ -15,13 +15,13 @@ public class GenerateAngleHistogram {
 
 	private Map<Integer, float[]> allData;
 	private Map<Integer, float[]> allQueries;
-	private List<IdDatumPair> listData;
-	private List<IdDatumPair> listQueries;
-	private Metric<IdDatumPair> metric;
+	private List<IdDatumPair<float[]>> listData;
+	private List<IdDatumPair<float[]>> listQueries;
+	private Metric<IdDatumPair<float[]>> metric;
 	private Map<Integer, Integer[]> nnIds;
 
-	private List<IdDatumPair> references;
-	private List<IdDatumPair> witnesses;
+	private List<IdDatumPair<float[]>> references;
+	private List<IdDatumPair<float[]>> witnesses;
 
 	private int noOfQueries;
 	private Random rand;
@@ -67,7 +67,7 @@ public class GenerateAngleHistogram {
 		System.out.println();
 
 		// for each query...
-		for (IdDatumPair query : this.listQueries.subList(0, this.noOfQueries)) {
+		for (IdDatumPair<float[]> query : this.listQueries.subList(0, this.noOfQueries)) {
 			double[] queryWitnessDists = new double[this.witnesses.size()];
 			for (int i = 0; i < this.witnesses.size(); i++) {
 				queryWitnessDists[i] = this.metric.distance(query, this.witnesses.get(i));
@@ -75,7 +75,7 @@ public class GenerateAngleHistogram {
 			double queryLidim = Util.LIDimLevinaBickel(queryWitnessDists);
 			System.out.print(query.id + "\t" + queryLidim);
 
-			for (IdDatumPair reference : this.references) {
+			for (IdDatumPair<float[]> reference : this.references) {
 				double pq = this.metric.distance(query, reference);
 
 				if (pq != 0) {
@@ -85,7 +85,7 @@ public class GenerateAngleHistogram {
 						count++;
 
 						float[] nn = this.allData.get(i);
-						IdDatumPair nnp = new IdDatumPair(i, nn);
+						IdDatumPair<float[]> nnp = new IdDatumPair<>(i, nn);
 						double ps = this.metric.distance(nnp, reference);
 						double qs = this.metric.distance(nnp, query);
 						if (ps != 0 && qs != 0) {
@@ -126,7 +126,7 @@ public class GenerateAngleHistogram {
 		pw.println();
 
 		// for each query...
-		for (IdDatumPair query : this.listQueries.subList(0, this.noOfQueries)) {
+		for (IdDatumPair<float[]> query : this.listQueries.subList(0, this.noOfQueries)) {
 			System.out.print("<" + query.id + ">");
 			double[] queryWitnessDists = new double[this.witnesses.size()];
 			for (int i = 0; i < this.witnesses.size(); i++) {
@@ -135,9 +135,7 @@ public class GenerateAngleHistogram {
 			double queryLidim = Util.LIDimLevinaBickel(queryWitnessDists);
 			pw.print(query.id + "\t" + queryLidim);
 
-			for (IdDatumPair reference : this.references) {
-				System.out.print("<" + reference.id + ">");
-
+			for (IdDatumPair<float[]> reference : this.references) {
 				double pq = this.metric.distance(query, reference);
 
 				if (pq != 0) {
@@ -150,13 +148,8 @@ public class GenerateAngleHistogram {
 						System.out.println();
 					}
 					final Integer[] nnids = this.nnIds.get(query.id);
-					for (int i : nnids) {
-						if (count % 20 == 0) {
-							System.out.print(".");
-						}
-						// in this loop, the program is quitting...?!
-
-						IdDatumPair nnp = this.listData.get(this.rand.nextInt(this.listData.size()));
+					for (int i = 0; i < nnids.length; i++) {
+						IdDatumPair<float[]> nnp = this.listData.get(this.rand.nextInt(this.listData.size()));
 						double ps = this.metric.distance(nnp, reference);
 						double qs = this.metric.distance(nnp, query);
 						if (ps != 0 && qs != 0) {
@@ -170,7 +163,6 @@ public class GenerateAngleHistogram {
 				} else {
 					pw.print("\t" + "-");
 				}
-				System.out.print("</" + reference.id + ">");
 			}
 			pw.println();
 			pw.flush();

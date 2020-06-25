@@ -1,9 +1,7 @@
 package uk.al_richard.experimental.angles.MSCDependent;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.function.Function;
 
 import eu.similarity.msc.core_concepts.Metric;
@@ -12,17 +10,18 @@ import eu.similarity.msc.data.DataListView.IdDatumPair;
 import eu.similarity.msc.data.DecafMetricSpace;
 import eu.similarity.msc.data.GistMetricSpace;
 import eu.similarity.msc.data.MetricSpaceResource;
-import eu.similarity.msc.data.MfAlexMetricSpace_old;
+import eu.similarity.msc.data.MfAlexMetricSpace;
 import eu.similarity.msc.data.SiftMetricSpace;
 
 public class RunSearch {
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) throws Exception {
-//		recreateVladResults();
+//		recreateVladaResults();
 
 		final SiftMetricSpace sift = new SiftMetricSpace("/Volumes/Data/SIFT_mu/");
 		final DecafMetricSpace decaf = new DecafMetricSpace("/Volumes/Data/profiset/");
-		final MfAlexMetricSpace_old mfAlex = new MfAlexMetricSpace_old("/Volumes/Data/mf_fc6/");
+		final MfAlexMetricSpace mfAlex = new MfAlexMetricSpace("/Volumes/Data/mf_fc6/");
 		MetricSpaceResource<Integer, float[]> gist = new GistMetricSpace("/Volumes/Data/mf_gist/");
 
 		testLaesa("mfAlex", mfAlex);
@@ -35,34 +34,36 @@ public class RunSearch {
 	private static void testLaesa(String name, MetricSpaceResource<Integer, float[]> space) throws Exception {
 		System.out.println("testing " + space.getClass().getName());
 
-		List<IdDatumPair> data = DataListView.convert(space.getData());
-		List<IdDatumPair> refs = DataListView.removeRandom(data, 256);
+		List<IdDatumPair<float[]>> data = DataListView.convert(space.getData());
+		List<IdDatumPair<float[]>> refs = DataListView.removeRandom(data, 256);
 
 		Map<Integer, double[]> qThreshes = space.getThresholds();
 		Map<Integer, Integer[]> nnids = space.getNNIds();
 
-		Metric<IdDatumPair> convertMetric = DataListView.convert(space.getMetric());
+		Metric<IdDatumPair<float[]>> convertMetric = DataListView.convert(space.getMetric());
 
 //		LaesaWithCheatSheet index = new LaesaWithCheatSheet(data, refs, convertMetric, nnids);
 		LaesaLidimCheatSheet index = new LaesaLidimCheatSheet(data, refs, convertMetric, nnids);
 
-		List<IdDatumPair> queries = DataListView.convert(space.getQueries());
-		for (IdDatumPair query : queries.subList(500, queries.size())) {
+		List<IdDatumPair<float[]>> queries = DataListView.convert(space.getQueries());
+		for (IdDatumPair<float[]> query : queries.subList(500, queries.size())) {
 			@SuppressWarnings("boxing")
 
 			double threshold = qThreshes.get(query.id)[99];
 			System.out.print(query.id + "\t" + threshold);
 
-			List<IdDatumPair> res1 = index.search(query, threshold, Math.PI / 2, Math.PI / 2);
+			List<IdDatumPair<float[]>> res1 = index.search(query, threshold, Math.PI / 2, Math.PI / 2);
 			System.out.print("\t" + res1.size() + "\t" + index.getDistances());
 			for (int gap = 30; gap < 70; gap += 5) {
-				List<IdDatumPair> res3 = index.search(query, threshold, getLidimAngle(name), (float) gap / 100);
+				List<IdDatumPair<float[]>> res3 = index.search(query, threshold, getLidimAngle(name),
+						(float) gap / 100);
 				System.out.print("\t" + res3.size() + "\t" + index.getDistances());
 			}
 			System.out.println();
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private static double getAngle(String name, double threshold) {
 		double siftAngle = 1.602 - 0.0013 * threshold;
 		double decafAngle = 1.6865 - 0.0103 * threshold;
@@ -100,44 +101,29 @@ public class RunSearch {
 		}
 	}
 
-	private static double get3Sigma(String name, double threshold) {
+	@SuppressWarnings("unused")
+	private static void recreateVladaResults(MetricSpaceResource<Integer, float[]> space) throws Exception {
 
-		switch (name) {
-		case "sift":
-			return 0.6;
-		case "gist":
-			return 0.45;
-		case "decaf":
-			return 0.4;
-		case "mf":
-			return 0.6;
-		default:
-			throw new RuntimeException("no such space: " + name);
-		}
-	}
-
-	private static void recreateVladResults(MetricSpaceResource<Integer, float[]> space) throws Exception {
-
-		List<IdDatumPair> idps = DataListView.convert(space.getData());
-		List<IdDatumPair> refs = idps.subList(0, 256);
-		List<IdDatumPair> data = idps.subList(1000, 101000);
+		List<IdDatumPair<float[]>> idps = DataListView.convert(space.getData());
+		List<IdDatumPair<float[]>> refs = idps.subList(0, 256);
+		List<IdDatumPair<float[]>> data = idps.subList(1000, 101000);
 		Map<Integer, double[]> qThreshes = space.getThresholds();
 		Map<Integer, Integer[]> nnids = space.getNNIds();
 
-		Metric<IdDatumPair> convertMetric = DataListView.convert(space.getMetric());
+		Metric<IdDatumPair<float[]>> convertMetric = DataListView.convert(space.getMetric());
 
 		LaesaWithCheatSheetPowered index = new LaesaWithCheatSheetPowered(data, refs, convertMetric, nnids);
 
-		List<IdDatumPair> queries = DataListView.convert(space.getQueries());
-		for (IdDatumPair query : queries) {
+		List<IdDatumPair<float[]>> queries = DataListView.convert(space.getQueries());
+		for (IdDatumPair<float[]> query : queries) {
 			@SuppressWarnings("boxing")
 			double threshold = qThreshes.get(query.id)[99];
 			System.out.print(query.id + "\t" + threshold);
 
-			List<IdDatumPair> res1 = index.search(query, threshold, 1);
+			List<IdDatumPair<float[]>> res1 = index.search(query, threshold, 1);
 			System.out.print("\t" + res1.size() + "\t" + index.getDistances());
 			for (int power = 10; power < 25; power += 2) {
-				List<IdDatumPair> res3 = index.search(query, threshold, (float) power / 10);
+				List<IdDatumPair<float[]>> res3 = index.search(query, threshold, (float) power / 10);
 				System.out.print("\t" + res3.size() + "\t" + index.getDistances());
 			}
 			System.out.println();

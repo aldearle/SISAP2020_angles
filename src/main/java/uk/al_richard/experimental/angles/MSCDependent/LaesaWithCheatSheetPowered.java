@@ -9,24 +9,24 @@ import java.util.Set;
 import eu.similarity.msc.core_concepts.Metric;
 import eu.similarity.msc.data.DataListView.IdDatumPair;
 
-public class LaesaWithCheatSheetPowered extends Laesa<IdDatumPair> {
+public class LaesaWithCheatSheetPowered extends Laesa<IdDatumPair<float[]>> {
 
 	private Map<Integer, Integer[]> nnids;
 	private int distancesCalculatedForLastSearch = 0;
 
-	public LaesaWithCheatSheetPowered(List<IdDatumPair> data, List<IdDatumPair> refPoints, Metric<IdDatumPair> metric,
+	public LaesaWithCheatSheetPowered(List<IdDatumPair<float[]>> data, List<IdDatumPair<float[]>> refPoints, Metric<IdDatumPair<float[]>> metric,
 			Map<Integer, Integer[]> nnids) {
 		super(data, refPoints, metric);
 		this.nnids = nnids;
 	}
 
 	@SuppressWarnings("boxing")
-	public List<IdDatumPair> search(IdDatumPair query, double t, double power) {
-		List<IdDatumPair> res = new ArrayList<>();
+	public List<IdDatumPair<float[]>> search(IdDatumPair<float[]> query, double t, double power) {
+		List<IdDatumPair<float[]>> res = new ArrayList<>();
 		double[] qDists = new double[this.refPoints.size()];
 		int refPtr = 0;
 		this.distancesCalculatedForLastSearch = this.refPoints.size();
-		for (IdDatumPair rPoint : this.refPoints) {
+		for (IdDatumPair<float[]> rPoint : this.refPoints) {
 			qDists[refPtr++] = this.metric.distance(rPoint, query);
 		}
 		int dPtr = 0;
@@ -37,7 +37,7 @@ public class LaesaWithCheatSheetPowered extends Laesa<IdDatumPair> {
 		}
 
 		double raisedT = Math.pow(t, power);
-		for (IdDatumPair datum : this.data) {
+		for (IdDatumPair<float[]> datum : this.data) {
 			if (!canExclude(qDists, this.refDists[dPtr++], raisedT, power)) {
 				if (sols.contains(datum.id)) {
 					res.add(datum);

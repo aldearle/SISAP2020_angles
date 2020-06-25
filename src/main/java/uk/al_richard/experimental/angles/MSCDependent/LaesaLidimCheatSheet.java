@@ -13,21 +13,21 @@ import uk.al_richard.experimental.angles.Util;
 
 public class LaesaLidimCheatSheet extends LaesaWithCheatSheet {
 
-	public LaesaLidimCheatSheet(List<IdDatumPair> data, List<IdDatumPair> refPoints, Metric<IdDatumPair> metric,
+	public LaesaLidimCheatSheet(List<IdDatumPair<float[]>> data, List<IdDatumPair<float[]>> refPoints, Metric<IdDatumPair<float[]>> metric,
 			Map<Integer, Integer[]> nnids) {
 		super(data, refPoints, metric, nnids);
 	}
 
 	@SuppressWarnings("boxing")
-	public List<IdDatumPair> search(IdDatumPair query, double t, Function<Double, Double> lidimToAngle,
+	public List<IdDatumPair<float[]>> search(IdDatumPair<float[]> query, double t, Function<Double, Double> lidimToAngle,
 			double plusOrMinus) throws Exception {
 
-		List<IdDatumPair> res = new ArrayList<>();
+		List<IdDatumPair<float[]>> res = new ArrayList<>();
 
 		// calculate query to pivot distances
 		double[] qDists = new double[this.refPoints.size()];
 		int refPtr = 0;
-		for (IdDatumPair rPoint : this.refPoints) {
+		for (IdDatumPair<float[]> rPoint : this.refPoints) {
 			qDists[refPtr++] = this.metric.distance(rPoint, query);
 		}
 		// Calculate the LIDIM of the query and get the angle
@@ -44,7 +44,7 @@ public class LaesaLidimCheatSheet extends LaesaWithCheatSheet {
 			sols.add(solutions[i]);
 		}
 
-		for (IdDatumPair datum : this.data) {
+		for (IdDatumPair<float[]> datum : this.data) {
 			if (!canExclude(qDists, this.refDists[dPtr++], t, maxCosTheta, minCosTheta)) {
 				if (sols.contains(datum.id)) {
 					res.add(datum);
