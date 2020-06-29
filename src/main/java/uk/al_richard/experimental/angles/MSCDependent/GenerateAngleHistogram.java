@@ -11,22 +11,22 @@ import eu.similarity.msc.data.DataListView.IdDatumPair;
 import eu.similarity.msc.data.MetricSpaceResource;
 import uk.al_richard.experimental.angles.Util;
 
-public class GenerateAngleHistogram {
+public class GenerateAngleHistogram<K, T> {
 
-	private Map<Integer, float[]> allData;
-	private Map<Integer, float[]> allQueries;
-	private List<IdDatumPair<float[]>> listData;
-	private List<IdDatumPair<float[]>> listQueries;
-	private Metric<IdDatumPair<float[]>> metric;
-	private Map<Integer, Integer[]> nnIds;
+	private Map<K, T> allData;
+	private Map<K, T> allQueries;
+	private List<IdDatumPair<K, T>> listData;
+	private List<IdDatumPair<K, T>> listQueries;
+	private Metric<IdDatumPair<K, T>> metric;
+	private Map<K, List<K>> nnIds;
 
-	private List<IdDatumPair<float[]>> references;
-	private List<IdDatumPair<float[]>> witnesses;
+	private List<IdDatumPair<K, T>> references;
+	private List<IdDatumPair<K, T>> witnesses;
 
 	private int noOfQueries;
 	private Random rand;
 
-	public GenerateAngleHistogram(MetricSpaceResource<Integer, float[]> space, int noOfQueries, int noOfWitnesses)
+	public GenerateAngleHistogram(MetricSpaceResource<K, T> space, int noOfQueries, int noOfWitnesses)
 			throws Exception {
 
 		this.allData = space.getData();
@@ -51,7 +51,6 @@ public class GenerateAngleHistogram {
 	 * @throws Exception
 	 *
 	 **/
-	@SuppressWarnings("boxing")
 	public void generateQuerySolutionAngles() throws Exception {
 		// for each query, calculate the distribution of angles pqs
 
@@ -67,7 +66,7 @@ public class GenerateAngleHistogram {
 		System.out.println();
 
 		// for each query...
-		for (IdDatumPair<float[]> query : this.listQueries.subList(0, this.noOfQueries)) {
+		for (IdDatumPair<K, T> query : this.listQueries.subList(0, this.noOfQueries)) {
 			double[] queryWitnessDists = new double[this.witnesses.size()];
 			for (int i = 0; i < this.witnesses.size(); i++) {
 				queryWitnessDists[i] = this.metric.distance(query, this.witnesses.get(i));
@@ -75,17 +74,17 @@ public class GenerateAngleHistogram {
 			double queryLidim = Util.LIDimLevinaBickel(queryWitnessDists);
 			System.out.print(query.id + "\t" + queryLidim);
 
-			for (IdDatumPair<float[]> reference : this.references) {
+			for (IdDatumPair<K, T> reference : this.references) {
 				double pq = this.metric.distance(query, reference);
 
 				if (pq != 0) {
 					double solutionAngleAcc = 0;
 					int count = 0;
-					for (int i : this.nnIds.get(query.id)) {
+					for (K i : this.nnIds.get(query.id)) {
 						count++;
 
-						float[] nn = this.allData.get(i);
-						IdDatumPair<float[]> nnp = new IdDatumPair<>(i, nn);
+						T nn = this.allData.get(i);
+						IdDatumPair<K, T> nnp = new IdDatumPair<>(i, nn);
 						double ps = this.metric.distance(nnp, reference);
 						double qs = this.metric.distance(nnp, query);
 						if (ps != 0 && qs != 0) {
@@ -110,7 +109,6 @@ public class GenerateAngleHistogram {
 	 * @throws Exception
 	 *
 	 **/
-	@SuppressWarnings("boxing")
 	public void generateQueryNonSolutionAngles(PrintWriter pw) throws Exception {
 		// for each query, calculate the distribution of angles pqw
 
@@ -126,7 +124,7 @@ public class GenerateAngleHistogram {
 		pw.println();
 
 		// for each query...
-		for (IdDatumPair<float[]> query : this.listQueries.subList(0, this.noOfQueries)) {
+		for (IdDatumPair<K, T> query : this.listQueries.subList(0, this.noOfQueries)) {
 			System.out.print("<" + query.id + ">");
 			double[] queryWitnessDists = new double[this.witnesses.size()];
 			for (int i = 0; i < this.witnesses.size(); i++) {
@@ -135,21 +133,16 @@ public class GenerateAngleHistogram {
 			double queryLidim = Util.LIDimLevinaBickel(queryWitnessDists);
 			pw.print(query.id + "\t" + queryLidim);
 
-			for (IdDatumPair<float[]> reference : this.references) {
+			for (IdDatumPair<K, T> reference : this.references) {
 				double pq = this.metric.distance(query, reference);
 
 				if (pq != 0) {
 					double solutionAngleAcc = 0;
 					int count = 0;
 
-					if (query.id == 761609 && reference.id == 1678590) {
-						System.out.println();
-						System.out.println("about to fail!!!");
-						System.out.println();
-					}
-					final Integer[] nnids = this.nnIds.get(query.id);
-					for (int i = 0; i < nnids.length; i++) {
-						IdDatumPair<float[]> nnp = this.listData.get(this.rand.nextInt(this.listData.size()));
+					final List<K> nnids = this.nnIds.get(query.id);
+					for (int i = 0; i < nnids.size(); i++) {
+						IdDatumPair<K, T> nnp = this.listData.get(this.rand.nextInt(this.listData.size()));
 						double ps = this.metric.distance(nnp, reference);
 						double qs = this.metric.distance(nnp, query);
 						if (ps != 0 && qs != 0) {

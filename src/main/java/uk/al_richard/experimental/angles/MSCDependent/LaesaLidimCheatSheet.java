@@ -11,23 +11,23 @@ import eu.similarity.msc.core_concepts.Metric;
 import eu.similarity.msc.data.DataListView.IdDatumPair;
 import uk.al_richard.experimental.angles.Util;
 
-public class LaesaLidimCheatSheet extends LaesaWithCheatSheet {
+public class LaesaLidimCheatSheet<K, T> extends LaesaWithCheatSheet<K, T> {
 
-	public LaesaLidimCheatSheet(List<IdDatumPair<float[]>> data, List<IdDatumPair<float[]>> refPoints, Metric<IdDatumPair<float[]>> metric,
-			Map<Integer, Integer[]> nnids) {
+	public LaesaLidimCheatSheet(List<IdDatumPair<K, T>> data, List<IdDatumPair<K, T>> refPoints,
+			Metric<IdDatumPair<K, T>> metric, Map<K, List<K>> nnids) {
 		super(data, refPoints, metric, nnids);
 	}
 
 	@SuppressWarnings("boxing")
-	public List<IdDatumPair<float[]>> search(IdDatumPair<float[]> query, double t, Function<Double, Double> lidimToAngle,
+	public List<IdDatumPair<K, T>> search(IdDatumPair<K, T> query, double t, Function<Double, Double> lidimToAngle,
 			double plusOrMinus) throws Exception {
 
-		List<IdDatumPair<float[]>> res = new ArrayList<>();
+		List<IdDatumPair<K, T>> res = new ArrayList<>();
 
 		// calculate query to pivot distances
 		double[] qDists = new double[this.refPoints.size()];
 		int refPtr = 0;
-		for (IdDatumPair<float[]> rPoint : this.refPoints) {
+		for (IdDatumPair<K, T> rPoint : this.refPoints) {
 			qDists[refPtr++] = this.metric.distance(rPoint, query);
 		}
 		// Calculate the LIDIM of the query and get the angle
@@ -38,15 +38,11 @@ public class LaesaLidimCheatSheet extends LaesaWithCheatSheet {
 
 		this.distancesCalculatedForLastSearch = this.refPoints.size();
 		int dPtr = 0;
-		Integer[] solutions = this.nnids.get(query.id);
-		Set<Integer> sols = new HashSet<>();
-		for (int i = 0; i < 100; i++) {
-			sols.add(solutions[i]);
-		}
+		List<K> solutions = this.nnids.get(query.id);
 
-		for (IdDatumPair<float[]> datum : this.data) {
+		for (IdDatumPair<K, T> datum : this.data) {
 			if (!canExclude(qDists, this.refDists[dPtr++], t, maxCosTheta, minCosTheta)) {
-				if (sols.contains(datum.id)) {
+				if (solutions.contains(datum.id)) {
 					res.add(datum);
 				}
 				this.distancesCalculatedForLastSearch++;

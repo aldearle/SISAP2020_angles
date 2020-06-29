@@ -31,32 +31,31 @@ public class RunSearch {
 //		recreateVladResults(gist);
 	}
 
-	private static void testLaesa(String name, MetricSpaceResource<Integer, float[]> space) throws Exception {
+	private static <K, T> void testLaesa(String name, MetricSpaceResource<K, T> space) throws Exception {
 		System.out.println("testing " + space.getClass().getName());
 
-		List<IdDatumPair<float[]>> data = DataListView.convert(space.getData());
-		List<IdDatumPair<float[]>> refs = DataListView.removeRandom(data, 256);
+		List<IdDatumPair<K, T>> data = DataListView.convert(space.getData());
+		List<IdDatumPair<K, T>> refs = DataListView.removeRandom(data, 256);
 
-		Map<Integer, double[]> qThreshes = space.getThresholds();
-		Map<Integer, Integer[]> nnids = space.getNNIds();
+		Map<K, double[]> qThreshes = space.getThresholds();
+		Map<K, List<K>> nnids = space.getNNIds();
 
-		Metric<IdDatumPair<float[]>> convertMetric = DataListView.convert(space.getMetric());
+		Metric<IdDatumPair<K, T>> convertMetric = DataListView.convert(space.getMetric());
 
 //		LaesaWithCheatSheet index = new LaesaWithCheatSheet(data, refs, convertMetric, nnids);
-		LaesaLidimCheatSheet index = new LaesaLidimCheatSheet(data, refs, convertMetric, nnids);
+		LaesaLidimCheatSheet<K, T> index = new LaesaLidimCheatSheet<>(data, refs, convertMetric, nnids);
 
-		List<IdDatumPair<float[]>> queries = DataListView.convert(space.getQueries());
-		for (IdDatumPair<float[]> query : queries.subList(500, queries.size())) {
+		List<IdDatumPair<K, T>> queries = DataListView.convert(space.getQueries());
+		for (IdDatumPair<K, T> query : queries.subList(500, queries.size())) {
 			@SuppressWarnings("boxing")
 
 			double threshold = qThreshes.get(query.id)[99];
 			System.out.print(query.id + "\t" + threshold);
 
-			List<IdDatumPair<float[]>> res1 = index.search(query, threshold, Math.PI / 2, Math.PI / 2);
+			List<IdDatumPair<K, T>> res1 = index.search(query, threshold, Math.PI / 2, Math.PI / 2);
 			System.out.print("\t" + res1.size() + "\t" + index.getDistances());
 			for (int gap = 30; gap < 70; gap += 5) {
-				List<IdDatumPair<float[]>> res3 = index.search(query, threshold, getLidimAngle(name),
-						(float) gap / 100);
+				List<IdDatumPair<K, T>> res3 = index.search(query, threshold, getLidimAngle(name), (float) gap / 100);
 				System.out.print("\t" + res3.size() + "\t" + index.getDistances());
 			}
 			System.out.println();
@@ -102,28 +101,28 @@ public class RunSearch {
 	}
 
 	@SuppressWarnings("unused")
-	private static void recreateVladaResults(MetricSpaceResource<Integer, float[]> space) throws Exception {
+	private static <K, T> void recreateVladaResults(MetricSpaceResource<K, T> space) throws Exception {
 
-		List<IdDatumPair<float[]>> idps = DataListView.convert(space.getData());
-		List<IdDatumPair<float[]>> refs = idps.subList(0, 256);
-		List<IdDatumPair<float[]>> data = idps.subList(1000, 101000);
-		Map<Integer, double[]> qThreshes = space.getThresholds();
-		Map<Integer, Integer[]> nnids = space.getNNIds();
+		List<IdDatumPair<K, T>> idps = DataListView.convert(space.getData());
+		List<IdDatumPair<K, T>> refs = idps.subList(0, 256);
+		List<IdDatumPair<K, T>> data = idps.subList(1000, 101000);
+		Map<K, double[]> qThreshes = space.getThresholds();
+		Map<K, List<K>> nnids = space.getNNIds();
 
-		Metric<IdDatumPair<float[]>> convertMetric = DataListView.convert(space.getMetric());
+		Metric<IdDatumPair<K, T>> convertMetric = DataListView.convert(space.getMetric());
 
-		LaesaWithCheatSheetPowered index = new LaesaWithCheatSheetPowered(data, refs, convertMetric, nnids);
+		LaesaWithCheatSheetPowered<K, T> index = new LaesaWithCheatSheetPowered<>(data, refs, convertMetric, nnids);
 
-		List<IdDatumPair<float[]>> queries = DataListView.convert(space.getQueries());
-		for (IdDatumPair<float[]> query : queries) {
+		List<IdDatumPair<K, T>> queries = DataListView.convert(space.getQueries());
+		for (IdDatumPair<K, T> query : queries) {
 			@SuppressWarnings("boxing")
 			double threshold = qThreshes.get(query.id)[99];
 			System.out.print(query.id + "\t" + threshold);
 
-			List<IdDatumPair<float[]>> res1 = index.search(query, threshold, 1);
+			List<IdDatumPair<K, T>> res1 = index.search(query, threshold, 1);
 			System.out.print("\t" + res1.size() + "\t" + index.getDistances());
 			for (int power = 10; power < 25; power += 2) {
-				List<IdDatumPair<float[]>> res3 = index.search(query, threshold, (float) power / 10);
+				List<IdDatumPair<K, T>> res3 = index.search(query, threshold, (float) power / 10);
 				System.out.print("\t" + res3.size() + "\t" + index.getDistances());
 			}
 			System.out.println();

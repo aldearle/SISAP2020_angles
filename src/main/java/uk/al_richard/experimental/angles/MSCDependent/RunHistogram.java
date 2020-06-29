@@ -6,7 +6,6 @@ import eu.similarity.msc.data.DecafMetricSpace;
 import eu.similarity.msc.data.GistMetricSpace;
 import eu.similarity.msc.data.MetricSpaceResource;
 import eu.similarity.msc.data.MfAlexMetricSpace;
-import eu.similarity.msc.data.MfAlexMetricSpace_old;
 import eu.similarity.msc.data.SiftMetricSpace;
 
 public class RunHistogram {
@@ -20,9 +19,9 @@ public class RunHistogram {
 		createHistogramInfo(mfa);
 	}
 
-	private static void createHistogramInfo(MetricSpaceResource<Integer, float[]> space) throws Exception {
+	private static void createHistogramInfo(MetricSpaceResource<?, ?> space) throws Exception {
 
-		GenerateAngleHistogram h = new GenerateAngleHistogram(space, 500, 500);
+		GenerateAngleHistogram<?, ?> h = new GenerateAngleHistogram<>(space, 500, 500);
 //		h.generateQuerySolutionAngles();
 		final PrintWriter pw = new PrintWriter("/Volumes/Data/temp/mfAlexQueryNonSolutions.txt");
 		try {

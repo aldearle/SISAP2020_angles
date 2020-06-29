@@ -10,39 +10,47 @@ import eu.similarity.msc.core_concepts.Metric;
 import eu.similarity.msc.data.DataListView;
 import eu.similarity.msc.data.DataListView.IdDatumPair;
 import eu.similarity.msc.data.DecafMetricSpace;
-import eu.similarity.msc.data.SiftMetricSpace;
+import eu.similarity.msc.data.MetricSpaceResource;
 
 public class MeasureAngleDistributions {
 
-	@SuppressWarnings("boxing")
 	public static void main(String[] args) throws ClassNotFoundException, IOException {
 
 		System.out.println("testing sift");
 //		final SiftMetricSpace sift = new SiftMetricSpace("/Volumes/Data/SIFT_mu/");
 		final DecafMetricSpace space = new DecafMetricSpace("/Volumes/Data/profiset/");
 //		final MfAlexMetricSpace sift = new MfAlexMetricSpace("/Volumes/Data/mf_fc6/");
-		
-		
-		Map<Integer, float[]> data = space.getData();
-		List<IdDatumPair<float[]>> l = DataListView.convert(data);
-		final Map<Integer, float[]> queries2 = space.getQueries();
-		List<IdDatumPair<float[]>> queries = DataListView.convert(queries2);
-		Metric<IdDatumPair<float[]>> metric = DataListView.convert(space.getMetric());
 
-		Map<Integer, Integer[]> nnids = space.getNNIds();
-		List<IdDatumPair<float[]>> refPoints = getRandom(l, 100);
+		measure(space);
 
-		IdDatumPair<float[]> query = queries.get(10);
-		float[] query2 = queries2.get(query.id);
-		Integer[] queryNns = nnids.get(query.id);
-		System.out.println(queryNns.length + " query solutions");
+		// get angles from refPoint to other refPoints (pseudo random points) and to
+		// query nn
+//		querySolutionVsRandom(sift, data, metric, refPoints, query, query2, queryNns, refPoint, pqDist);
 
-		for (IdDatumPair<float[]> pI : refPoints) {
+	}
+
+	private static <K, T> void measure(MetricSpaceResource<K, T> space) throws ClassNotFoundException, IOException {
+
+		Map<K, T> data = space.getData();
+		List<IdDatumPair<K, T>> l = DataListView.convert(data);
+		final Map<K, T> queries2 = space.getQueries();
+		List<IdDatumPair<K, T>> queries = DataListView.convert(queries2);
+		Metric<IdDatumPair<K, T>> metric = DataListView.convert(space.getMetric());
+
+		Map<K, List<K>> nnids = space.getNNIds();
+		List<IdDatumPair<K, T>> refPoints = getRandom(l, 100);
+
+		IdDatumPair<K, T> query = queries.get(10);
+		T query2 = queries2.get(query.id);
+		List<K> queryNns = nnids.get(query.id);
+		System.out.println(queryNns.size() + " query solutions");
+
+		for (IdDatumPair<K, T> pI : refPoints) {
 			double[] angs = new double[refPoints.size() - 1];
 			double acc = 0;
 			double pqDist = metric.distance(query, pI);
 			int ptr = 0;
-			for (IdDatumPair<float[]> pJ : refPoints) {
+			for (IdDatumPair<K, T> pJ : refPoints) {
 				if (pJ != pI) {
 					double pipj = metric.distance(pI, pJ);
 					double qpj = metric.distance(query, pJ);
@@ -53,11 +61,11 @@ public class MeasureAngleDistributions {
 			}
 			AngleInfo ai1 = new AngleInfo(acc / angs.length, angs);
 
-			double[] nnAngs = new double[queryNns.length];
+			double[] nnAngs = new double[queryNns.size()];
 			double nnAcc = 0;
 			int nnPtr = 0;
-			for (int nnJ : queryNns) {
-				final float[] nnJval = data.get(nnJ);
+			for (K nnJ : queryNns) {
+				final T nnJval = data.get(nnJ);
 				double pinnj = space.getMetric().distance(data.get(pI.id), nnJval);
 				double qpj = space.getMetric().distance(query2, nnJval);
 				double angle = AngleInfo.getAngle(pqDist, pinnj, qpj);
@@ -70,24 +78,19 @@ public class MeasureAngleDistributions {
 			System.out.println(
 					ai1.getMean() + "\t" + ai1.getStd() + "\t" + ai2.getMean() + "\t" + ai2.getStd() + "\t" + pqDist);
 		}
-
-		// get angles from refPoint to other refPoints (pseudo random points) and to
-		// query nn
-//		querySolutionVsRandom(sift, data, metric, refPoints, query, query2, queryNns, refPoint, pqDist);
-
 	}
 
-	@SuppressWarnings({ "unused", "boxing" })
-	private static void querySolutionVsRandom(final SiftMetricSpace sift, Map<Integer, float[]> data,
-			Metric<IdDatumPair<float[]>> metric, List<IdDatumPair<float[]>> refPoints, IdDatumPair<float[]> query, float[] query2,
-			Integer[] queryNns, IdDatumPair<float[]> refPoint, double pqDist) {
+	@SuppressWarnings("unused")
+	private static <K, T> void querySolutionVsRandom(final MetricSpaceResource<K, T> sift, Map<K, T> data,
+			Metric<IdDatumPair<K, T>> metric, List<IdDatumPair<K, T>> refPoints, IdDatumPair<K, T> query, T query2,
+			List<Integer> queryNns, IdDatumPair<K, T> refPoint, double pqDist) {
 		int ptr = 0;
-		for (IdDatumPair<float[]> o : refPoints.subList(0, queryNns.length)) {
+		for (IdDatumPair<K, T> o : refPoints.subList(0, queryNns.size())) {
 			if (o != refPoint) {
 				double pTopDist = metric.distance(refPoint, o);
 				double d1 = metric.distance(query, o);
 
-				final float[] nextNN = data.get(queryNns[ptr++]);
+				final T nextNN = data.get(queryNns.get(ptr++));
 				double d2 = sift.getMetric().distance(query2, nextNN);
 				double d3 = sift.getMetric().distance(data.get(refPoint.id), nextNN);
 
