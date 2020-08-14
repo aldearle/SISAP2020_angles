@@ -3,6 +3,9 @@ package uk.al_richard.experimental.angles;
 
 import coreConcepts.Metric;
 import dataPoints.cartesian.CartesianPoint;
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math3.fitting.PolynomialCurveFitter;
+import org.apache.commons.math3.fitting.WeightedObservedPoints;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -22,7 +25,7 @@ import static uk.al_richard.experimental.angles.Util.LIDimLevinaBickel;
  * The table is created from the diagonal points (which we wouldn’t have in a real dataset)
  * and calculates angles to points within some radius (using the volume points)
  * (but which we could do in a real dataset).
- * The table maps from local iDIMChavez (using the points within the radius) to the angle and std dev.
+ * The table maps from local iDIM (using the points within the radius) to the angle and std dev.
  *
  */
 public class LIDIMtoAngleMap extends CommonBase {
@@ -41,12 +44,14 @@ public class LIDIMtoAngleMap extends CommonBase {
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     private static DecimalFormat df4 = new DecimalFormat("#.####");
 
-
     double[] centre;
     double[] origin;
     CartesianPoint centre_cartesian;
     CartesianPoint origin_cartesian;
-    TreeMap<Double, Angles> map;
+
+    private TreeMap<Double, Angles> map;
+    private PolynomialFunction fit_func;
+    private double[] coefficients;
 
     public LIDIMtoAngleMap( String dataset_name, int number_samples, int noOfRefPoints ) throws Exception {
 
@@ -64,6 +69,7 @@ public class LIDIMtoAngleMap extends CommonBase {
         this.origin_cartesian = new CartesianPoint(origin);
 
         map = createMap();
+        fit(map);
     }
 
     /**
@@ -72,7 +78,7 @@ public class LIDIMtoAngleMap extends CommonBase {
      */
     public TreeMap<Double,Angles> createMap() throws Exception {
 
-        TreeMap<Double,Angles> map = new TreeMap<>();
+        map = new TreeMap<Double,Angles>();
 
         for( int diagonal_distance = 1; ( diagonal_distance / 100 ) < Math.sqrt( dim ); diagonal_distance++ ) {
             populateMap( map, round( ((double) diagonal_distance ) / 100,2 ), query_radius );
@@ -106,16 +112,22 @@ public class LIDIMtoAngleMap extends CommonBase {
                 double mean_rad = Util.mean(real_angles);
                 double std_dev = Util.stddev(real_angles, mean_rad);
 
-                Angles stored_angles = findClosest(lidim, map);
+                Angles fitted_angles = getFitted(lidim);
+                Angles mapped_angles = findClosest(lidim,map);
 
                 double margin = calculateMargin( mean_rad, std_dev, query_radius, 3.0 );
 
                 double mean_degrees = Math.toDegrees(mean_rad);
                 double std_dev_degrees = Math.toDegrees(std_dev);
 
-                System.out.println( i + ": real angle = " + df4.format(mean_degrees) + " real std dev = " +  df4.format(std_dev_degrees) +
-                        " stored angle = " + df4.format( Math.toDegrees(stored_angles.angle)) + " stored std dev = " + df4.format( Math.toDegrees(stored_angles.std_dev)) +
-                        " angle error = " + showError(mean_rad,stored_angles.angle) + " std dev error = " + showError(std_dev,stored_angles.std_dev) );
+                System.out.println( i + ": real angle = " + df4.format(mean_degrees) +
+                        " fitted angle = " + df4.format( Math.toDegrees(fitted_angles.angle ) ) +
+                        " mapped angle = " + df4.format( Math.toDegrees( mapped_angles.angle ) ) );
+
+
+//                System.out.println( i + ": real angle = " + df4.format(mean_degrees) + " real std dev = " +  df4.format(std_dev_degrees) +
+//                        " stored angle = " + df4.format( Math.toDegrees(fitted_angles.angle)) + " stored std dev = " + df4.format( Math.toDegrees(fitted_angles.std_dev)) +
+//                        " angle error = " + showError(mean_rad,fitted_angles.angle) + " std dev error = " + showError(std_dev,fitted_angles.std_dev) );
             }
         }
     }
@@ -200,11 +212,11 @@ public class LIDIMtoAngleMap extends CommonBase {
 
         double[] diagonal_point = getDiagonalPoint( diagonal_distance );
 
-        List<Double> list = getAngles( query_radius, diagonal_point );  // <<<<<<<<<<<<<<<< PROBLEM ....
+        List<Double> list = getAngles( query_radius, diagonal_point );  // <<<<<<<<<<<<<<<< PROBLEM for general non Euclidian spaces
 
         int num_angles = list.size();
 
-        // Calculate the local iDIMChavez based on reference points.
+        // Calculate the local iDIM based on reference points.
 
         List<Double> dists = getDists(pivots, diagonal_point);
         // double chav_idim = round( Util.iDIMChavez(dists), 2 );
@@ -301,16 +313,63 @@ public class LIDIMtoAngleMap extends CommonBase {
         printTestPoints();
     }
 
+    /**
+     * Fit a polynomial to the observed angles
+     * Creates the polynomial coefficients - y = nx2 + mx + c in coefficients [n=2,m=1,c=0]
+     * @param map - a map from Lidim to angle (in radians)
+     */
+    private void fit(TreeMap<Double, Angles> map) {
+        final WeightedObservedPoints obs = new WeightedObservedPoints();
+
+        for( double key : map .keySet()) {
+
+            double x = key;
+            Angles angles = map.get(key);
+            double y = angles.angle;
+            //double y1 = y + angles.std_dev;
+            //double y2 = y - angles.std_dev;
+
+            obs.add(x, y);
+            //obs.add(x, y1);
+            //obs.add(x, y2);
+        }
+
+        PolynomialCurveFitter fitter = PolynomialCurveFitter.create(1);
+        // fitter creates an array of the form: { 12.9, -3.4, 2.1 } which represents the polynomial 12.9 - 3.4 x + 2.1 x^2
+        coefficients = fitter.fit(obs.toList());
+        fit_func = new PolynomialFunction(coefficients);
+
+        StringBuilder res = new StringBuilder();
+
+         for (int i = coefficients.length - 1; i >= 0; i--) {
+            res.append(coefficients[i]).append(":");
+        }
+        System.out.println(res.substring(0, res.length() - 1));
+    }
+
+    /**
+     * @param lidim
+     * @return the calculated angle based on idim and the calculated coefficients of fit.
+     */
+    private Angles getFitted(double lidim) {
+
+        double result = fit_func.value(lidim);
+        // this does this (for arbitrary coeff): result = coefficients[0] + ( lidim * coefficients[1] ) + ( lidim * lidim * coefficients[2] );
+
+        return new Angles( result,0, 0 ); // don't know std dev or number - probably should return a double but like this for compatibility.
+    }
+
+
     //********************************* Main *********************************
 
-    public static void main1(String[] args) throws Exception {
-        int number_samples = 998000; // 1M less 200
-        int noOfRefPoints = 200;
+    public static void main(String[] args) throws Exception {
+        int number_samples = 5000; // 998000; // 1M less 200
+        int noOfRefPoints = 10; // 200;
         LIDIMtoAngleMap lam = new LIDIMtoAngleMap(EUC20, number_samples, noOfRefPoints);
         lam.testMap();
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main1(String[] args) throws Exception {
         int number_samples =  10000; // 999800; // 1M less 200
         int noOfRefPoints = 400;
 

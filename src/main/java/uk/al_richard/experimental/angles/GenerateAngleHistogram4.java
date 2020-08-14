@@ -3,8 +3,6 @@ package uk.al_richard.experimental.angles;
 import coreConcepts.Metric;
 import dataPoints.cartesian.CartesianPoint;
 
-import static uk.al_richard.experimental.angles.Util.square;
-
 /**
  * This is the fourth version of GenerateAngleHistogram
  * @author al@st-andrews.ac.uk

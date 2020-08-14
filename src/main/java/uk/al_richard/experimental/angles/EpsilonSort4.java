@@ -6,7 +6,6 @@ import util.OrderedList;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class EpsilonSort4 extends CommonBase {
 
@@ -49,7 +48,6 @@ public class EpsilonSort4 extends CommonBase {
             CartesianPoint pivot = ref_points.get(i);
 
             OrderedList<Integer, Double> dists = getDists(pivot);
-            ro_map.put( i,dists );
         }
     }
 
@@ -87,11 +85,11 @@ public class EpsilonSort4 extends CommonBase {
 
         for( int i = 0; i < ro_map.size(); i++ ) {
 
-            Angles theta = ldim_to_angle_map.getEstimatedAngle( query_point );
-
-            CartesianPoint ref_object = ref_points.get(i);
-
-            checkAngles( query_point, ref_object, ro_map.get(i), theta);
+//            Angles theta = ldim_to_angle_map.getEstimatedAngle( query_point );
+//
+//            CartesianPoint ref_object = ref_points.get(i);
+//
+//            checkAngles( query_point, ref_object, ro_map.get(i), theta);
 
         }
     }

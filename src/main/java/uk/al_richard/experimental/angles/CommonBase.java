@@ -232,7 +232,7 @@ public abstract class CommonBase {
         return sb.toString();
     }
 
-    private static double square( double x ) { return x * x; }
+    static double square(double x) { return x * x; }
 
     ///--------------------------- Getters ---------------------------
 
